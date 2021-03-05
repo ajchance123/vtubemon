@@ -1,4 +1,5 @@
 ﻿using DSharpPlus;
+using DSharpPlus.CommandsNext;
 using System;
 using System.IO;
 
@@ -23,10 +24,17 @@ namespace VTubeMon.Core
             var token = File.ReadAllLines(TokenFile)[0];
 
             Client = new DiscordClient(new DiscordConfiguration()
-            { 
+            {
                 Token = token,
                 TokenType = TokenType.Bot
             });
+
+            var commands = Client.UseCommandsNext(new CommandsNextConfiguration()
+            {
+                StringPrefix = "!v-"
+            });
+
+            commands.RegisterCommands<VTubeMonCommands>();
 
             return Client;
         }
