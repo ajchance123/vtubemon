@@ -15,14 +15,11 @@ namespace VTubeMon.UApp
         public MainPageViewModel()
         {
             //TODO move this logic out of the view model
-
-            _client = new DiscordClient(new DiscordConfiguration()
-            {
-                Token = "ODE3MTQ3NTIwNzM1NjQxNjQw.YEFR7g.7xdD_sWWLUoD3EmlLzhdFX61KSQ",
-                TokenType = TokenType.Bot
-            });
-
+            
             MessageCollection = new ObservableCollection<string>();
+
+            _vTubeMonDiscord = new VTubeMonDiscord();
+            _client = _vTubeMonDiscord.CreateNewClient();
 
             _client.MessageCreated += Client_MessageCreated;
             _uiTimer = new DispatcherTimer();
@@ -35,6 +32,7 @@ namespace VTubeMon.UApp
             Ping = _client.Ping;
         }
 
+        private VTubeMonDiscord _vTubeMonDiscord;
         private DiscordClient _client;
         private DispatcherTimer _uiTimer;
 
