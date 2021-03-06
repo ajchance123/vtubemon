@@ -50,5 +50,25 @@ namespace VTubeMon.Data
 
             return vtubers;
         }
+
+        public IList<Agency> ReadAgencies()
+        {
+            IList<Agency> agencies = new List<Agency>();
+
+            MySqlCommand command = new MySqlCommand("SELECT * FROM agencies", _connection);
+            using (MySqlDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var agency = new Agency();
+                    agency.InitializeFromReader(reader);
+                    agencies.Add(agency);
+                }
+            }
+
+            return agencies;
+        }
+
+
     }
 }

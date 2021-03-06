@@ -17,9 +17,14 @@
 
         <Grid
             Margin="5">
-            <TextBlock
-                Text="Discord Bot"
-                FontSize="20"/>
+            <StackPanel>
+
+                <TextBlock
+                    Text="Discord Bot"
+                    FontSize="20"/>
+                <TextBlock
+                    Text="{Binding Ping}"/>
+            </StackPanel>
         </Grid>
 
         <Grid

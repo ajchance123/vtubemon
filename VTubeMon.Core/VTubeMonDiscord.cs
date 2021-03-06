@@ -2,17 +2,21 @@
 using DSharpPlus.CommandsNext;
 using System;
 using System.IO;
+using VTubeMon.Data;
 
 namespace VTubeMon.Core
 {
     public class VTubeMonDiscord
     {
+        public VTubeMonDiscord(DataCache dataCache)
+        {
+            _dataCache = dataCache;
+        }
+
         public DiscordClient Client { get; private set; }
 
         private const string TokenFile = "DiscordToken.txt";
-        public VTubeMonDiscord()
-        {
-        }
+        private DataCache _dataCache;
 
         public DiscordClient CreateNewClient()
         {
@@ -29,12 +33,16 @@ namespace VTubeMon.Core
                 TokenType = TokenType.Bot
             });
 
-            var commands = Client.UseCommandsNext(new CommandsNextConfiguration()
+            var dependencyCollectionBuilder = new DependencyCollectionBuilder();
+            dependencyCollectionBuilder.AddInstance(_dataCache);
+            var commandModule = Client.UseCommandsNext(new CommandsNextConfiguration()
             {
-                StringPrefix = "!v-"
+                StringPrefix = "!v-",
+                Dependencies = dependencyCollectionBuilder.Build()
+                    
             });
 
-            commands.RegisterCommands<VTubeMonCommands>();
+            commandModule.RegisterCommands<VTubeMonCommands>();
 
             return Client;
         }

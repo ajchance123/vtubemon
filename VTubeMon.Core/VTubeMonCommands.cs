@@ -1,18 +1,29 @@
 ﻿using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using VTubeMon.Data;
 
 namespace VTubeMon.Core
 {
     public class VTubeMonCommands
     {
-        [Command("Greet")]
-        public async Task GreetCommand(CommandContext commandContext)
+        [Command("ListVTubers")]
+        public async Task ListVTubersCommand(CommandContext commandContext)
         {
-            await commandContext.RespondAsync("yeah");
+            var dataCache = commandContext.Dependencies.GetDependency<DataCache>();
+            foreach(var vtuber in dataCache.VtuberCache.CachedList)
+            {
+                await commandContext.RespondAsync(vtuber.EnName);
+            }
+        }
+
+        //Admin Commands
+        [Command("RefrehData")]
+        public async Task RefreshDataCommand(CommandContext commandContext)
+        {
+            var dataCache = commandContext.Dependencies.GetDependency<DataCache>();
+            dataCache.RefreshAll();
+            await commandContext.RespondAsync("Data Refreshed!");
         }
     }
 }
