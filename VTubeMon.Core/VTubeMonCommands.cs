@@ -1,5 +1,6 @@
 ﻿using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.Entities;
 using System.Threading.Tasks;
 using VTubeMon.Data;
 
@@ -25,5 +26,11 @@ namespace VTubeMon.Core
             dataCache.RefreshAll();
             await commandContext.RespondAsync("Data Refreshed!");
         }
+
+        [Command("ping")]
+        public async Task DailyCommand(CommandContext commandContext, DiscordMember member)
+        {
+            await commandContext.RespondAsync($"{member.Mention}! Someone wants you!");
+        } 
     }
 }
