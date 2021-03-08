@@ -8,4 +8,8 @@
     <PackageReference Include="MySql.Data" Version="8.0.23" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VTubeMon.API\VTubeMon.API.csproj" />
+  </ItemGroup>
+
 </Project>

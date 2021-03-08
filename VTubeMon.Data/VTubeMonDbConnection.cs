@@ -33,6 +33,7 @@ namespace VTubeMon.Data
             _connection = null;
         }
 
+
         public IList<VTuber> ReadVTubers()
         {
             IList<VTuber> vtubers = new List<VTuber>();

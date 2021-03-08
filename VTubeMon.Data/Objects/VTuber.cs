@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Data.Common;
+using VTubeMon.API;
 
 namespace VTubeMon.Data.Objects
 {
@@ -15,7 +16,7 @@ namespace VTubeMon.Data.Objects
         public bool IsIndependent{ get; private set; }
         public int Generation{ get; private set; }
 
-        public void InitializeFromReader(MySqlDataReader reader)
+        public void InitializeFromReader(INamedDataReader reader)
         {
             IdVtubers = reader.GetInt32("id_vtubers");
             EnName = reader.GetString("en_name");

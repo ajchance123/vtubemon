@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using VTubeMon.API;
 
 namespace VTubeMon.Data.Objects
 {
@@ -10,7 +11,7 @@ namespace VTubeMon.Data.Objects
         public int IdAgency { get; private set; }
         public string Name { get; private set; }
 
-        public void InitializeFromReader(MySqlDataReader reader)
+        public void InitializeFromReader(INamedDataReader reader)
         {
             IdAgency = reader.GetInt32("id_agency");
             Name = reader.GetString("name");

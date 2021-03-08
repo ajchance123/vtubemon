@@ -35,6 +35,7 @@ namespace VTubeMon.Core
 
             var dependencyCollectionBuilder = new DependencyCollectionBuilder();
             dependencyCollectionBuilder.AddInstance(_dataCache);
+
             var commandModule = Client.UseCommandsNext(new CommandsNextConfiguration()
             {
                 StringPrefix = "v!",
@@ -43,6 +44,7 @@ namespace VTubeMon.Core
             });
 
             commandModule.RegisterCommands<VTubeMonCommands>();
+            commandModule.RegisterCommands<VTubeMonAdminCommands>();
 
             return Client;
         }
