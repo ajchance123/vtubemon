@@ -7,7 +7,7 @@ using VTubeMon.API;
 using VTubeMon.Data;
 using VTubeMon.Data.Commands;
 
-namespace VTubeMon.Core
+namespace VTubeMon.Discord
 {
     public class VTubeMonAdminCommands
     {

@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VTubeMon.API", "VTubeMon.AP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VTubeMon.MySql", "VTubeMon.MySql\VTubeMon.MySql.csproj", "{E189A799-28E6-4FC5-9759-8BC29028DA44}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VTubeMon.Discord", "VTubeMon.Discord\VTubeMon.Discord.csproj", "{014A5905-4D38-4378-8B2B-6837E0ED1BF7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +129,26 @@ Global
 		{E189A799-28E6-4FC5-9759-8BC29028DA44}.Release|x64.Build.0 = Release|Any CPU
 		{E189A799-28E6-4FC5-9759-8BC29028DA44}.Release|x86.ActiveCfg = Release|Any CPU
 		{E189A799-28E6-4FC5-9759-8BC29028DA44}.Release|x86.Build.0 = Release|Any CPU
+		{014A5905-4D38-4378-8B2B-6837E0ED1BF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{014A5905-4D38-4378-8B2B-6837E0ED1BF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{014A5905-4D38-4378-8B2B-6837E0ED1BF7}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{014A5905-4D38-4378-8B2B-6837E0ED1BF7}.Debug|ARM.Build.0 = Debug|Any CPU
+		{014A5905-4D38-4378-8B2B-6837E0ED1BF7}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{014A5905-4D38-4378-8B2B-6837E0ED1BF7}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{014A5905-4D38-4378-8B2B-6837E0ED1BF7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{014A5905-4D38-4378-8B2B-6837E0ED1BF7}.Debug|x64.Build.0 = Debug|Any CPU
+		{014A5905-4D38-4378-8B2B-6837E0ED1BF7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{014A5905-4D38-4378-8B2B-6837E0ED1BF7}.Debug|x86.Build.0 = Debug|Any CPU
+		{014A5905-4D38-4378-8B2B-6837E0ED1BF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{014A5905-4D38-4378-8B2B-6837E0ED1BF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{014A5905-4D38-4378-8B2B-6837E0ED1BF7}.Release|ARM.ActiveCfg = Release|Any CPU
+		{014A5905-4D38-4378-8B2B-6837E0ED1BF7}.Release|ARM.Build.0 = Release|Any CPU
+		{014A5905-4D38-4378-8B2B-6837E0ED1BF7}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{014A5905-4D38-4378-8B2B-6837E0ED1BF7}.Release|ARM64.Build.0 = Release|Any CPU
+		{014A5905-4D38-4378-8B2B-6837E0ED1BF7}.Release|x64.ActiveCfg = Release|Any CPU
+		{014A5905-4D38-4378-8B2B-6837E0ED1BF7}.Release|x64.Build.0 = Release|Any CPU
+		{014A5905-4D38-4378-8B2B-6837E0ED1BF7}.Release|x86.ActiveCfg = Release|Any CPU
+		{014A5905-4D38-4378-8B2B-6837E0ED1BF7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

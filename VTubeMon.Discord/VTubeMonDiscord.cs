@@ -5,7 +5,7 @@ using System.IO;
 using VTubeMon.API;
 using VTubeMon.Data;
 
-namespace VTubeMon.Core
+namespace VTubeMon.Discord
 {
     public class VTubeMonDiscord
     {

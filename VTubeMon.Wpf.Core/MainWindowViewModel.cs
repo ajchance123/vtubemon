@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Threading;
-using VTubeMon.Core;
 using VTubeMon.Data;
 using VTubeMon.Data.Objects;
+using VTubeMon.Discord;
 using VTubeMon.MySql;
 
 namespace VTubeMon.Wpf.Core
