@@ -1,20 +1,24 @@
-﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using VTubeMon.API;
 
 namespace VTubeMon.Data.Objects
 {
-    public class Agency : IDataObject
+    public class Agency : DataObjectBase
     {
-        public int IdAgency { get; private set; }
-        public string Name { get; private set; }
-
-        public void InitializeFromReader(INamedDataReader reader)
+        public Agency()
         {
-            IdAgency = reader.GetInt32("id_agency");
-            Name = reader.GetString("name");
+            IdAgency = new DataProperty<int>("id_agency", (r) => r.GetInt32);
+            Name = new StringDataProperty("name");
+
+            DataPropertyList = new List<IDataProperty>()
+            {
+                IdAgency, Name
+            };
         }
+
+        public DataProperty<int> IdAgency { get; private set; }
+        public DataProperty<string> Name { get; private set; }
+
+        public override IList<IDataProperty> DataPropertyList { get; }
     }
 }

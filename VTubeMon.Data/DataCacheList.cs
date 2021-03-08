@@ -1,24 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace VTubeMon.Data
 {
     public class DataCacheList<T> 
     {
-        public DataCacheList(Func<IList<T>> listFactory)
+        public DataCacheList(Func<IEnumerable<T>> listFactory)
         {
             _listFactory = listFactory;
         }
 
-        private Func<IList<T>> _listFactory;
+        private Func<IEnumerable<T>> _listFactory;
 
         public IReadOnlyList<T> CachedList { get; private set; }
         public event EventHandler<IReadOnlyList<T>> OnDataRefreshed;
         public void RefreshData()
         {
             CachedList = new List<T>(_listFactory());
-            OnDataRefreshed?.Invoke(this, CachedList);
+            Task.Run(() =>
+            {
+                OnDataRefreshed?.Invoke(this, CachedList);
+            });
         }
     }
 }

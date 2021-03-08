@@ -2,21 +2,24 @@
 using DSharpPlus.CommandsNext;
 using System;
 using System.IO;
+using VTubeMon.API;
 using VTubeMon.Data;
 
 namespace VTubeMon.Core
 {
     public class VTubeMonDiscord
     {
-        public VTubeMonDiscord(DataCache dataCache)
+        public VTubeMonDiscord(DataCache dataCache, IVTubeMonDbConnection vTubeMonDbConnection)
         {
             _dataCache = dataCache;
+            _vTubeMonDbConnection = vTubeMonDbConnection;
         }
 
         public DiscordClient Client { get; private set; }
 
         private const string TokenFile = "DiscordToken.txt";
         private DataCache _dataCache;
+        private IVTubeMonDbConnection _vTubeMonDbConnection;
 
         public DiscordClient CreateNewClient()
         {
@@ -35,6 +38,7 @@ namespace VTubeMon.Core
 
             var dependencyCollectionBuilder = new DependencyCollectionBuilder();
             dependencyCollectionBuilder.AddInstance(_dataCache);
+            dependencyCollectionBuilder.AddInstance(_vTubeMonDbConnection);
 
             var commandModule = Client.UseCommandsNext(new CommandsNextConfiguration()
             {

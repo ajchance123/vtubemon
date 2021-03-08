@@ -1,31 +1,38 @@
-﻿using MySql.Data.MySqlClient;
-using System;
-using System.Data.Common;
+﻿using System;
+using System.Collections.Generic;
 using VTubeMon.API;
 
 namespace VTubeMon.Data.Objects
 {
-    public class VTuber : IDataObject
+    public class VTuber : DataObjectBase
     {
-        public int IdVtubers{ get; private set; }
-        public string EnName{ get; private set; }
-        public string JpName{ get; private set; }
-        public string ChannelLink{ get; private set; }
-        public DateTime DebutDatetimeUtc{ get; private set; }
-        public int Affiliation { get; private set; }
-        public bool IsIndependent{ get; private set; }
-        public int Generation{ get; private set; }
-
-        public void InitializeFromReader(INamedDataReader reader)
+        public VTuber()
         {
-            IdVtubers = reader.GetInt32("id_vtubers");
-            EnName = reader.GetString("en_name");
-            JpName = reader.GetString("jp_name");
-            ChannelLink = reader.GetString("channel_link");
-            DebutDatetimeUtc = reader.GetDateTime("debut_datetime_utc");
-            Affiliation = reader.GetInt32("affiliation");
-            IsIndependent = reader.GetBoolean("is_independent");
-            Generation = reader.GetInt32("generation");
+            IdVtubers = new DataProperty<int>("id_vtubers", (r) => r.GetInt32);
+            EnName = new StringDataProperty("en_name");
+            JpName = new StringDataProperty("jp_name");
+            ChannelLink = new StringDataProperty("channel_link");
+            DebutDatetimeUtc = new DateTimeDataProperty("debut_datetime_utc");
+            Affiliation = new DataProperty<int>("affiliation", (r) => r.GetInt32);
+            IsIndependent = new DataProperty<bool>("is_independent", (r) => r.GetBoolean);
+            Generation = new DataProperty<int>("generation", (r) => r.GetInt32);
+
+            DataPropertyList = new List<IDataProperty>()
+            {
+                IdVtubers, EnName, JpName, ChannelLink, DebutDatetimeUtc, Affiliation, IsIndependent, Generation
+            };
         }
+
+        public DataProperty<int> IdVtubers{ get; private set; }
+        public DataProperty<string> EnName { get; private set; }
+        public DataProperty<string> JpName { get; private set; }
+        public DataProperty<string> ChannelLink{ get; private set; }
+        public DataProperty<DateTime> DebutDatetimeUtc{ get; private set; }
+        public DataProperty<int> Affiliation { get; private set; }
+        public DataProperty<bool> IsIndependent{ get; private set; }
+        public DataProperty<int> Generation{ get; private set; }
+
+        public override IList<IDataProperty> DataPropertyList { get; }
+
     }
 }

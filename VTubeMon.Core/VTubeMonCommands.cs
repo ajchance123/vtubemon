@@ -14,7 +14,7 @@ namespace VTubeMon.Core
             var dataCache = commandContext.Dependencies.GetDependency<DataCache>();
             foreach(var vtuber in dataCache.VtuberCache.CachedList)
             {
-                await commandContext.RespondAsync(vtuber.EnName);
+                await commandContext.RespondAsync(vtuber.EnName.Value);
             }
         }
  

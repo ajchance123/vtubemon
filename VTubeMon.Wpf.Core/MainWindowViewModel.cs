@@ -7,6 +7,7 @@ using System.Windows.Threading;
 using VTubeMon.Core;
 using VTubeMon.Data;
 using VTubeMon.Data.Objects;
+using VTubeMon.MySql;
 
 namespace VTubeMon.Wpf.Core
 {
@@ -24,7 +25,7 @@ namespace VTubeMon.Wpf.Core
             VTuberCollection = new ObservableCollection<VTuberViewModel>();
             UpdateVtuberCollection();
 
-            _vTubeMonDiscord = new VTubeMonDiscord(_dataCache);
+            _vTubeMonDiscord = new VTubeMonDiscord(_dataCache, _vTubeMonDbConnection);
             _vTubeMonDiscord.CreateNewClient();
             ConnectClient();
 
@@ -47,7 +48,7 @@ namespace VTubeMon.Wpf.Core
         private void UpdateVtuberCollection()
         {
             VTuberCollection.Clear();
-            foreach (var vtuber in _dataCache.VtuberCache.CachedList.Select(v => new VTuberViewModel(v, AgencyCollection.Single(a => a.IdAgency == v.Affiliation).Name)))
+            foreach (var vtuber in _dataCache.VtuberCache.CachedList.Select(v => new VTuberViewModel(v, AgencyCollection.Single(a => a.IdAgency.Value == v.Affiliation.Value).Name.Value)))
             {
                 VTuberCollection.Add(vtuber);
             }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace VTubeMon.API
 {
-    public interface INamedDataReader
+    public interface INamedDataReader : IDisposable
     {
         //
         // Summary:

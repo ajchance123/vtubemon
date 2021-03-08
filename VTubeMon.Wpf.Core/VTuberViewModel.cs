@@ -9,14 +9,14 @@ namespace VTubeMon.Wpf.Core
     {
         public VTuberViewModel(VTuber vTuber, string affiliation)
         {
-            IdVtubers = vTuber.IdVtubers;
-            EnName = vTuber.EnName;
-            JpName = vTuber.JpName;
-            ChannelLink = vTuber.ChannelLink;
-            DebutDatetimeUtc = vTuber.DebutDatetimeUtc;
+            IdVtubers = vTuber.IdVtubers.Value;
+            EnName = vTuber.EnName.Value;
+            JpName = vTuber.JpName.Value;
+            ChannelLink = vTuber.ChannelLink.Value;
+            DebutDatetimeUtc = vTuber.DebutDatetimeUtc.Value;
             Affiliation = affiliation;
-            IsIndependent = vTuber.IsIndependent;
-            Generation = vTuber.Generation;
+            IsIndependent = vTuber.IsIndependent.Value;
+            Generation = vTuber.Generation.Value;
         }
 
         public int IdVtubers { get; private set; }
