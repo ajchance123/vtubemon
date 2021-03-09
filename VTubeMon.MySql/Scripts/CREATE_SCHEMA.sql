@@ -1,0 +1,1 @@
+﻿CREATE SCHEMA vtube_mon_db;

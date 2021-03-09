@@ -5,6 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Scripts\INSERT_AGENCIES.sql" />
+    <None Remove="Scripts\INSERT_VTUBERS.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Scripts\INSERT_AGENCIES.sql" />
+    <Compile Include="Scripts\INSERT_VTUBERS.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MySql.Data" Version="8.0.23" />
   </ItemGroup>
 
