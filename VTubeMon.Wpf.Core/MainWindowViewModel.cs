@@ -4,27 +4,29 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Threading;
-using VTubeMon.Core;
+using VTubeMon.API;
 using VTubeMon.Data;
 using VTubeMon.Data.Objects;
+using VTubeMon.Discord;
 
 namespace VTubeMon.Wpf.Core
 {
     public class MainWindowViewModel : BindableBase
     {
-        public MainWindowViewModel()
+        public MainWindowViewModel(IVTubeMonDbConnection vTubeMonDbConnection, DataCache dataCache, VTubeMonDiscord vTubeMonDiscord)
         {
-            _vTubeMonDbConnection = new VTubeMonDbConnection();
+            _vTubeMonDbConnection = vTubeMonDbConnection;
             _vTubeMonDbConnection.OpenConnection();
 
-            _dataCache = new DataCache(_vTubeMonDbConnection);
+            _dataCache = dataCache;
+            _dataCache.RefreshAll();
             _dataCache.VtuberCache.OnDataRefreshed += VtuberCache_OnDataRefreshed;
 
             AgencyCollection = new ObservableCollection<Agency>(_dataCache.AgencyCache.CachedList);
             VTuberCollection = new ObservableCollection<VTuberViewModel>();
             UpdateVtuberCollection();
 
-            _vTubeMonDiscord = new VTubeMonDiscord(_dataCache);
+            _vTubeMonDiscord = vTubeMonDiscord;
             _vTubeMonDiscord.CreateNewClient();
             ConnectClient();
 
@@ -47,7 +49,7 @@ namespace VTubeMon.Wpf.Core
         private void UpdateVtuberCollection()
         {
             VTuberCollection.Clear();
-            foreach (var vtuber in _dataCache.VtuberCache.CachedList.Select(v => new VTuberViewModel(v, AgencyCollection.Single(a => a.IdAgency == v.Affiliation).Name)))
+            foreach (var vtuber in _dataCache.VtuberCache.CachedList.Select(v => new VTuberViewModel(v, AgencyCollection.Single(a => a.IdAgency.Value == v.Affiliation.Value).Name.Value)))
             {
                 VTuberCollection.Add(vtuber);
             }
@@ -67,7 +69,7 @@ namespace VTubeMon.Wpf.Core
 
         private DataCache _dataCache;
         private VTubeMonDiscord _vTubeMonDiscord;
-        private VTubeMonDbConnection _vTubeMonDbConnection;
+        private IVTubeMonDbConnection _vTubeMonDbConnection;
 
         private ICollection<Agency> AgencyCollection { get; }
         public ICollection<VTuberViewModel> VTuberCollection { get; }

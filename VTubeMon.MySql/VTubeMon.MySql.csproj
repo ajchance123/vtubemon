@@ -1,12 +1,15 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MySql.Data" Version="8.0.23" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\VTubeMon.API\VTubeMon.API.csproj" />
-    <ProjectReference Include="..\VTubeMon.Core\VTubeMon.Core.csproj" />
   </ItemGroup>
 
 </Project>

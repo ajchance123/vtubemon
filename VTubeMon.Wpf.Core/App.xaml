@@ -1,9 +1,15 @@
-﻿<Application x:Class="VTubeMon.Wpf.Core.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:VTubeMon.Wpf.Core"
-             StartupUri="MainWindow.xaml">
+﻿<Application 
+    x:Class="VTubeMon.Wpf.Core.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:VTubeMon.Wpf.Core"
+    xmlns:ioc="clr-namespace:VTubeMon.Wpf.Core.IOC"
+    Startup="Application_Startup">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ioc:ViewModelLocator
+                x:Key="Locator"
+                Container="{Binding Container, Source={x:Static Application.Current}}" />
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

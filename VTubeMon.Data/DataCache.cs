@@ -1,18 +1,19 @@
-﻿using VTubeMon.Data.Objects;
+﻿using VTubeMon.API;
+using VTubeMon.Data.Commands;
+using VTubeMon.Data.Objects;
 
 namespace VTubeMon.Data
 {
     public class DataCache
     {
-        public DataCache(VTubeMonDbConnection vTubeMonDbConnection)
+        public DataCache(IVTubeMonDbConnection vTubeMonDbConnection)
         {
             _vTubeMonDbConnection = vTubeMonDbConnection;
-            VtuberCache = new DataCacheList<VTuber>(_vTubeMonDbConnection.ReadVTubers);
-            AgencyCache = new DataCacheList<Agency>(_vTubeMonDbConnection.ReadAgencies);
-            RefreshAll();
+            VtuberCache = new DataCacheList<VTuber>(() => _vTubeMonDbConnection.ExecuteDbSelectCommand(new SelectVTubersCommand()));
+            AgencyCache = new DataCacheList<Agency>(() => _vTubeMonDbConnection.ExecuteDbSelectCommand(new SelectAgenciesCommand()));
         }
 
-        private VTubeMonDbConnection _vTubeMonDbConnection;
+        private IVTubeMonDbConnection _vTubeMonDbConnection;
 
         public void RefreshAll()
         {
