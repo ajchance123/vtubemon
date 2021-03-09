@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VTubeMon.Data\VTubeMon.Data.csproj" />
+    <ProjectReference Include="..\VTubeMon.API\VTubeMon.API.csproj" />
   </ItemGroup>
 
 </Project>

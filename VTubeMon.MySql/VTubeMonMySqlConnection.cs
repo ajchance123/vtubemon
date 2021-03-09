@@ -5,15 +5,17 @@ using VTubeMon.API;
 
 namespace VTubeMon.MySql
 {
-    public class VTubeMonDbConnection : IVTubeMonDbConnection
+    public class VTubeMonMySqlConnection : IVTubeMonDbConnection
     {
         private const string CONNECTION_STRING = "server=127.0.0.1;uid=VTubeAdmin;" +
                 "pwd=vtuber123#W33B;database=vtube_mon_db";
 
         private MySqlConnection _connection;
-        public VTubeMonDbConnection()
-        {
+        private ILogger _logger;
 
+        public VTubeMonMySqlConnection(ILogger logger = null)
+        {
+            _logger = logger;
         }
 
         public void OpenConnection()
@@ -23,6 +25,7 @@ namespace VTubeMon.MySql
             _connection = new MySqlConnection();
             _connection.ConnectionString = CONNECTION_STRING;
             _connection.Open();
+            _logger?.Log("DB Connection Opened");
         }
 
         public void CloseConnection()
@@ -30,10 +33,12 @@ namespace VTubeMon.MySql
             _connection.Close();
             _connection.Dispose();
             _connection = null;
+            _logger?.Log("DB Connection Closed");
         }
 
         public IEnumerable<T> ExecuteDbSelectCommand<T>(IDbSelectCommand<T> dbSelectCommand)
         {
+            _logger?.Log(dbSelectCommand.Statement);
             MySqlCommand mySqlCommand = new MySqlCommand(dbSelectCommand.Statement, _connection);
             var mySqlReader = mySqlCommand.ExecuteReader();
             MySqlDataReaderWrapper reader = new MySqlDataReaderWrapper(mySqlReader);
@@ -48,7 +53,7 @@ namespace VTubeMon.MySql
             var first = dataObjects.First();
 
             string statement = $"INSERT INTO {table}{first.ColumnNames} VALUES {string.Join(",", dataObjects.Select(d => d.Values))}";
-
+            _logger?.Log(statement);
             MySqlCommand mySqlCommand = new MySqlCommand(statement, _connection);
             return mySqlCommand.ExecuteNonQuery();
         }

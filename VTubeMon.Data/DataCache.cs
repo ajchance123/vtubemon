@@ -11,7 +11,6 @@ namespace VTubeMon.Data
             _vTubeMonDbConnection = vTubeMonDbConnection;
             VtuberCache = new DataCacheList<VTuber>(() => _vTubeMonDbConnection.ExecuteDbSelectCommand(new SelectVTubersCommand()));
             AgencyCache = new DataCacheList<Agency>(() => _vTubeMonDbConnection.ExecuteDbSelectCommand(new SelectAgenciesCommand()));
-            RefreshAll();
         }
 
         private IVTubeMonDbConnection _vTubeMonDbConnection;

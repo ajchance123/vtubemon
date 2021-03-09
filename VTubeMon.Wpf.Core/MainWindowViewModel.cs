@@ -4,28 +4,29 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Threading;
+using VTubeMon.API;
 using VTubeMon.Data;
 using VTubeMon.Data.Objects;
 using VTubeMon.Discord;
-using VTubeMon.MySql;
 
 namespace VTubeMon.Wpf.Core
 {
     public class MainWindowViewModel : BindableBase
     {
-        public MainWindowViewModel()
+        public MainWindowViewModel(IVTubeMonDbConnection vTubeMonDbConnection, DataCache dataCache, VTubeMonDiscord vTubeMonDiscord)
         {
-            _vTubeMonDbConnection = new VTubeMonDbConnection();
+            _vTubeMonDbConnection = vTubeMonDbConnection;
             _vTubeMonDbConnection.OpenConnection();
 
-            _dataCache = new DataCache(_vTubeMonDbConnection);
+            _dataCache = dataCache;
+            _dataCache.RefreshAll();
             _dataCache.VtuberCache.OnDataRefreshed += VtuberCache_OnDataRefreshed;
 
             AgencyCollection = new ObservableCollection<Agency>(_dataCache.AgencyCache.CachedList);
             VTuberCollection = new ObservableCollection<VTuberViewModel>();
             UpdateVtuberCollection();
 
-            _vTubeMonDiscord = new VTubeMonDiscord(_dataCache, _vTubeMonDbConnection);
+            _vTubeMonDiscord = vTubeMonDiscord;
             _vTubeMonDiscord.CreateNewClient();
             ConnectClient();
 
@@ -68,7 +69,7 @@ namespace VTubeMon.Wpf.Core
 
         private DataCache _dataCache;
         private VTubeMonDiscord _vTubeMonDiscord;
-        private VTubeMonDbConnection _vTubeMonDbConnection;
+        private IVTubeMonDbConnection _vTubeMonDbConnection;
 
         private ICollection<Agency> AgencyCollection { get; }
         public ICollection<VTuberViewModel> VTuberCollection { get; }

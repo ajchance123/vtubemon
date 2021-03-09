@@ -4,21 +4,8 @@ using VTubeMon.Data.Objects;
 
 namespace VTubeMon.Data.Commands
 {
-    public class SelectVTubersCommand : IDbSelectCommand<VTuber>
+    public class SelectVTubersCommand : SelectCommandBase<VTuber>
     {
-        public string Statement => "SELECT * FROM vtubers";
-
-        public IEnumerable<VTuber> ReadData(INamedDataReader namedDataReader)
-        {
-            using (namedDataReader)
-            {
-                while (namedDataReader.Read())
-                {
-                    var vtuber = new VTuber();
-                    vtuber.InitializeFromReader(namedDataReader);
-                    yield return vtuber;
-                }
-            }
-        }
+        protected override string Table => "vtubers";
     }
 }
