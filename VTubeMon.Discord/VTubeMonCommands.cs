@@ -8,7 +8,7 @@ namespace VTubeMon.Discord
     public class VTubeMonCommands
     {
         [Command("list")]
-        public async Task ListCommand(CommandContext commandContext, string agency, int generation)
+        public async Task ListCommand(CommandContext commandContext)
         {
             var dataCache = commandContext.Dependencies.GetDependency<DataCache>();
             foreach(var vtuber in dataCache.VtuberCache.CachedList)
