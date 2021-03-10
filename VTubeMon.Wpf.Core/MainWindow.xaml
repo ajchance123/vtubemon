@@ -23,8 +23,15 @@
                 <TextBlock
                     Text="Discord Bot"
                     FontSize="20" />
-                <TextBlock
-                    Text="{Binding Ping}" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                    Margin="2" Width="25" Text="Ping: "/>
+                    <TextBlock
+                    Margin="2" Width="50" Text="{Binding Ping}"/>
+                </StackPanel>
+                <Button
+                    Command="{Binding ConnectCommand}" 
+                    Content ="Connect"/>
             </StackPanel>
         </Grid>
 

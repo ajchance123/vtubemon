@@ -1,8 +1,10 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Commands;
+using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 using System.Windows.Threading;
 using VTubeMon.API;
 using VTubeMon.Data;
@@ -28,7 +30,8 @@ namespace VTubeMon.Wpf.Core
 
             _vTubeMonDiscord = vTubeMonDiscord;
             _vTubeMonDiscord.CreateNewClient();
-            ConnectClient();
+
+            ConnectCommand = new DelegateCommand(ConnectClient);
 
             DispatcherTimer dt = new DispatcherTimer();
             dt.Tick += Dt_Tick;
@@ -73,6 +76,6 @@ namespace VTubeMon.Wpf.Core
 
         private ICollection<Agency> AgencyCollection { get; }
         public ICollection<VTuberViewModel> VTuberCollection { get; }
-
+        public ICommand ConnectCommand { get; }
     }
 }
