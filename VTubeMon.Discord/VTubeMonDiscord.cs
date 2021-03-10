@@ -1,5 +1,6 @@
 ﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
+using DSharpPlus.Interactivity;
 using System;
 using System.IO;
 using VTubeMon.API;
@@ -40,6 +41,9 @@ namespace VTubeMon.Discord
             dependencyCollectionBuilder.AddInstance(_dataCache);
             dependencyCollectionBuilder.AddInstance(_vTubeMonDbConnection);
 
+            var interactivity = Client.UseInteractivity(new InteractivityConfiguration());
+            dependencyCollectionBuilder.AddInstance(interactivity);
+
             var commandModule = Client.UseCommandsNext(new CommandsNextConfiguration()
             {
                 StringPrefix = "v!",
@@ -48,7 +52,6 @@ namespace VTubeMon.Discord
             });
 
             commandModule.RegisterCommands<VTubeMonCommands>();
-            commandModule.RegisterCommands<VTubeMonAdminCommands>();
 
             return Client;
         }

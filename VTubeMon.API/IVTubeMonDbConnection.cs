@@ -10,6 +10,7 @@ namespace VTubeMon.API
         int InsertDbCommand<T>(string table, params T[] dataObjects)
             where T : IDataObject;
 
+        int ExecuteNonQuery(string statement);
         void OpenConnection();
     }
 }

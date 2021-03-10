@@ -5,10 +5,21 @@ CREATE TABLE vtube_mon_db.agencies (
 	name VARCHAR(45) NULL,
 	PRIMARY KEY (id_agency));
 
-INSERT INTO vtube_mon_db.agencies
-	(name)
-	VALUES
-	('hololive');
+	
+CREATE TABLE `vtube_mon_db`.`users` (
+  `id_user` BIGINT UNSIGNED NOT NULL,
+  `id_guild` BIGINT UNSIGNED NOT NULL,
+  PRIMARY KEY (`id_user`, `id_guild`));
+
+CREATE TABLE `vtube_mon_db`.`daylies` (
+  `id_user` BIGINT UNSIGNED NOT NULL,
+  `id_guild` BIGINT UNSIGNED NOT NULL,
+  `vtuber_cash` INT NULL,
+  PRIMARY KEY (`id_user`, `id_guild`),
+  CONSTRAINT `fk_daylies_id_users`
+    FOREIGN KEY (id_user, id_guild)
+    REFERENCES `vtube_mon_db`.`users` (id_user, id_guild))
+    
 
 CREATE TABLE vtube_mon_db.vtubers (
 	id_vtubers INT NOT NULL AUTO_INCREMENT,
@@ -20,10 +31,14 @@ CREATE TABLE vtube_mon_db.vtubers (
 	is_independent BIT(1) NULL,
 	generation INT NULL,
 	PRIMARY KEY (id_vtubers),
-	UNIQUE INDEX id_vtubers_UNIQUE (id_vtubers ASC) VISIBLE);
+	UNIQUE INDEX id_vtubers_UNIQUE (id_vtubers ASC) VISIBLE),
+	CONSTRAINT fk_vtubers_affiliation_name FOREIGN KEY (affiliation) REFERENCES agencies(id_agency);
 
-USE vtube_mon_db;
-	ALTER TABLE vtubers ADD CONSTRAINT fk_vtubers_affiliation_name FOREIGN KEY (affiliation) REFERENCES agencies(id_agency);
+INSERT INTO vtube_mon_db.agencies
+	(name)
+	VALUES
+	('hololive'),
+	('nijisanji');
 
 INSERT INTO vtube_mon_db.vtubers
 	(en_name, jp_name, channel_link, debut_datetime_utc, affiliation, is_independent, generation)
@@ -40,5 +55,5 @@ VALUES
 	('Shirakami Fubuki',	'白上フブキ',	'https://www.youtube.com/channel/UCdn5BQ06XqgXoAxIhbqw5Rg', '2018-06-01', 1, 0, 1),
 	('Natsuiro Matsuri',	'夏色まつり',	'https://www.youtube.com/channel/UCQ0UDLQCjY0rmuxCDE38FGg', '2018-06-01', 1, 0, 1),
 	('Aki Rosenthal','アキ・ローゼンタール',	'https://www.youtube.com/channel/UCFTLzh12_nrtzqBPsTCqenA', '2018-06-07', 1, 0, 1),
-	('Akai Haato',			'赤井はあと',	'https://www.youtube.com/channel/UC1CfXB_kRs3C-zaeTG3oGyg', '2018-06-02', 1, 0, 1),
+	('Akai Haato',			'赤井はあと',	'https://www.youtube.com/channel/UC1CfXB_kRs3C-zaeTG3oGyg', '2018-06-02', 1, 0, 1);
 

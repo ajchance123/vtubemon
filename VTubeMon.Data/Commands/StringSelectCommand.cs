@@ -21,7 +21,38 @@ namespace VTubeMon.Data.Commands
         {
             using (namedDataReader)
             {
-                yield return namedDataReader.GetString(_column);
+                while(namedDataReader.Read())
+                {
+                    yield return namedDataReader.GetString(_column);
+                }
+            }
+        }
+    }
+
+    public class MultiStringSelectCommand : IDbSelectCommand<IList<string>>
+    {
+        public MultiStringSelectCommand(string statement)
+        {
+            Statement = statement;
+        }
+        public string Statement { get; }
+
+        public IEnumerable<IList<string>> ReadData(INamedDataReader namedDataReader)
+        {
+            int columns = namedDataReader.FieldCount;
+
+            using (namedDataReader)
+            {
+                while (namedDataReader.Read())
+                {
+                    IList<string> row = new List<string>();
+
+                    for(int i = 0; i < columns; i++)
+                    {
+                        row.Add(namedDataReader.GetFieldValue<object>(i).ToString());
+                    }
+                    yield return row;
+                }
             }
         }
     }

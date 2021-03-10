@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MySql.Data.MySqlClient;
 using VTubeMon.API;
@@ -39,23 +40,54 @@ namespace VTubeMon.MySql
         public IEnumerable<T> ExecuteDbSelectCommand<T>(IDbSelectCommand<T> dbSelectCommand)
         {
             _logger?.Log(dbSelectCommand.Statement);
-            MySqlCommand mySqlCommand = new MySqlCommand(dbSelectCommand.Statement, _connection);
-            var mySqlReader = mySqlCommand.ExecuteReader();
-            MySqlDataReaderWrapper reader = new MySqlDataReaderWrapper(mySqlReader);
-            return dbSelectCommand.ReadData(reader);
+            try
+            {
+                MySqlCommand mySqlCommand = new MySqlCommand(dbSelectCommand.Statement, _connection);
+                var mySqlReader = mySqlCommand.ExecuteReader();
+                MySqlDataReaderWrapper reader = new MySqlDataReaderWrapper(mySqlReader);
+                return dbSelectCommand.ReadData(reader);
+            }
+            catch(Exception ex)
+            {
+                _logger?.Log(ex.Message);
+                throw ex;
+            }
         }
 
         public int InsertDbCommand<T>(string table, params T[] dataObjects)
             where T : IDataObject
         {
-            if (dataObjects == null || dataObjects.Length == 0) return 0;
+            try
+            { 
+                if (dataObjects == null || dataObjects.Length == 0) return 0;
 
-            var first = dataObjects.First();
+                var first = dataObjects.First();
 
-            string statement = $"INSERT INTO {table}{first.ColumnNames} VALUES {string.Join(",", dataObjects.Select(d => d.Values))}";
+                string statement = $"INSERT INTO {table}{first.ColumnNames} VALUES {string.Join(",", dataObjects.Select(d => d.Values))}";
+                _logger?.Log(statement);
+                MySqlCommand mySqlCommand = new MySqlCommand(statement, _connection);
+                return mySqlCommand.ExecuteNonQuery();
+            }
+            catch(Exception ex)
+            {
+                _logger?.Log(ex.Message);
+                throw ex;
+            }
+}
+
+        public int ExecuteNonQuery(string statement)
+        {
             _logger?.Log(statement);
-            MySqlCommand mySqlCommand = new MySqlCommand(statement, _connection);
-            return mySqlCommand.ExecuteNonQuery();
+            try
+            {
+                var mySqlCommand = new MySqlCommand(statement, _connection);
+                return mySqlCommand.ExecuteNonQuery();
+            }
+            catch(Exception ex)
+            {
+                _logger?.Log(ex.Message);
+                throw ex;
+            }
         }
     }
 }
