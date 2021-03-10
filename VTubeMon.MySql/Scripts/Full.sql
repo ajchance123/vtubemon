@@ -1,11 +1,15 @@
 ﻿CREATE SCHEMA vtube_mon_db;
 
+DROP TABLE `vtube_mon_db`.`daylies`;
+DROP TABLE `vtube_mon_db`.`vtubers`;
+DROP TABLE `vtube_mon_db`.`users`;
+DROP TABLE `vtube_mon_db`.`agencies`;
+
 CREATE TABLE vtube_mon_db.agencies (
 	id_agency INT NOT NULL AUTO_INCREMENT,
-	name VARCHAR(45) NULL,
+	agency_name VARCHAR(45) NULL,
 	PRIMARY KEY (id_agency));
 
-	
 CREATE TABLE `vtube_mon_db`.`users` (
   `id_user` BIGINT UNSIGNED NOT NULL,
   `id_guild` BIGINT UNSIGNED NOT NULL,
@@ -18,8 +22,7 @@ CREATE TABLE `vtube_mon_db`.`daylies` (
   PRIMARY KEY (`id_user`, `id_guild`),
   CONSTRAINT `fk_daylies_id_users`
     FOREIGN KEY (id_user, id_guild)
-    REFERENCES `vtube_mon_db`.`users` (id_user, id_guild))
-    
+    REFERENCES `vtube_mon_db`.`users` (id_user, id_guild));
 
 CREATE TABLE vtube_mon_db.vtubers (
 	id_vtubers INT NOT NULL AUTO_INCREMENT,
@@ -27,21 +30,21 @@ CREATE TABLE vtube_mon_db.vtubers (
 	jp_name VARCHAR(45) NULL,
 	channel_link VARCHAR(120) NULL,
 	debut_datetime_utc DATETIME NULL,
-	affiliation INT NULL,
+	id_agency INT NULL,
 	is_independent BIT(1) NULL,
 	generation INT NULL,
 	PRIMARY KEY (id_vtubers),
-	UNIQUE INDEX id_vtubers_UNIQUE (id_vtubers ASC) VISIBLE),
-	CONSTRAINT fk_vtubers_affiliation_name FOREIGN KEY (affiliation) REFERENCES agencies(id_agency);
+	UNIQUE INDEX id_vtubers_UNIQUE (id_vtubers ASC) VISIBLE,
+	CONSTRAINT fk_vtubers_id_agency FOREIGN KEY (id_agency) REFERENCES agencies(id_agency));
 
 INSERT INTO vtube_mon_db.agencies
-	(name)
-	VALUES
+	(agency_name)
+VALUES
 	('hololive'),
 	('nijisanji');
 
 INSERT INTO vtube_mon_db.vtubers
-	(en_name, jp_name, channel_link, debut_datetime_utc, affiliation, is_independent, generation)
+	(en_name, jp_name, channel_link, debut_datetime_utc, id_agency, is_independent, generation)
 
 VALUES
 

@@ -49,7 +49,7 @@ namespace VTubeMon.Wpf.Core
         private void UpdateVtuberCollection()
         {
             VTuberCollection.Clear();
-            foreach (var vtuber in _dataCache.VtuberCache.CachedList.Select(v => new VTuberViewModel(v, AgencyCollection.Single(a => a.IdAgency.Value == v.Affiliation.Value).Name.Value)))
+            foreach (var vtuber in _dataCache.VtuberCache.CachedList.Select(v => new VTuberViewModel(v, AgencyCollection.Single(a => a.IdAgency.Value == v.IdAgency.Value).AgencyName.Value)))
             {
                 VTuberCollection.Add(vtuber);
             }

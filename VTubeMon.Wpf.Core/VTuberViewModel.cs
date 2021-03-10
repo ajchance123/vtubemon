@@ -7,14 +7,14 @@ namespace VTubeMon.Wpf.Core
 {
     public class VTuberViewModel
     {
-        public VTuberViewModel(VTuber vTuber, string affiliation)
+        public VTuberViewModel(VTuber vTuber, string agency)
         {
             IdVtubers = vTuber.IdVtubers.Value;
             EnName = vTuber.EnName.Value;
             JpName = vTuber.JpName.Value;
             ChannelLink = vTuber.ChannelLink.Value;
             DebutDatetimeUtc = vTuber.DebutDatetimeUtc.Value;
-            Affiliation = affiliation;
+            Agency = agency;
             IsIndependent = vTuber.IsIndependent.Value;
             Generation = vTuber.Generation.Value;
         }
@@ -24,7 +24,7 @@ namespace VTubeMon.Wpf.Core
         public string JpName { get; private set; }
         public string ChannelLink { get; private set; }
         public DateTime DebutDatetimeUtc { get; private set; }
-        public string Affiliation { get; private set; }
+        public string Agency { get; private set; }
         public bool IsIndependent { get; private set; }
         public int Generation { get; private set; }
 
