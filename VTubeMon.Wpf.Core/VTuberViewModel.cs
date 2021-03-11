@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using VTubeMon.Data.Objects;
 
 namespace VTubeMon.Wpf.Core

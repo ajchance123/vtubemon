@@ -1,20 +1,28 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Commands;
+using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 using System.Windows.Threading;
 using VTubeMon.API;
 using VTubeMon.Data;
 using VTubeMon.Data.Objects;
 using VTubeMon.Discord;
+using VTubeMon.Wpf.Core.Components;
 
 namespace VTubeMon.Wpf.Core
 {
     public class MainWindowViewModel : BindableBase
     {
-        public MainWindowViewModel(IVTubeMonDbConnection vTubeMonDbConnection, DataCache dataCache, VTubeMonDiscord vTubeMonDiscord)
+        public MainWindowViewModel(ILogger logger, IVTubeMonDbConnection vTubeMonDbConnection, DataCache dataCache, IVTubeMonServerConnection vTubeMonServerConnection, DatabaseWorkspace databaseWorkspace)
         {
+            LogCollection = new ObservableCollection<string>();
+            _logger = logger;
+            _logger.OnLog += Logger_OnLog;
             _vTubeMonDbConnection = vTubeMonDbConnection;
             _vTubeMonDbConnection.OpenConnection();
 
@@ -26,19 +34,41 @@ namespace VTubeMon.Wpf.Core
             VTuberCollection = new ObservableCollection<VTuberViewModel>();
             UpdateVtuberCollection();
 
-            _vTubeMonDiscord = vTubeMonDiscord;
-            _vTubeMonDiscord.CreateNewClient();
-            ConnectClient();
+            _vTubeMonServerConnection = vTubeMonServerConnection;
+            vTubeMonServerConnection.OnConnect += VTubeMonServerConnection_OnConnect;
+            vTubeMonServerConnection.OnDisconnect += VTubeMonServerConnection_OnDisconnect;
+            _vTubeMonServerConnection.CreateNewClient();
 
-            DispatcherTimer dt = new DispatcherTimer();
-            dt.Tick += Dt_Tick;
-            dt.Interval = TimeSpan.FromSeconds(1);
-            dt.Start();
+            _databaseWorkspace = databaseWorkspace;
         }
 
-        private async void ConnectClient()
+        private void VTubeMonServerConnection_OnDisconnect(object sender, bool e)
         {
-            await _vTubeMonDiscord.Client.ConnectAsync();
+            CanConnectDiscord = e;
+            CanDisconnectDiscord = !e;
+        }
+
+        private void VTubeMonServerConnection_OnConnect(object sender, bool e)
+        {
+            CanDisconnectDiscord = e;
+            CanConnectDiscord = !e;
+        }
+
+        private void Logger_OnLog(object sender, string e)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                LogCollection.Add(e);
+            });
+        }
+
+        public ICollection<string> LogCollection { get; }
+
+        private bool _showLogOutputWindow;
+        public bool ShowLogOutputWindow
+        {
+            get => _showLogOutputWindow;
+            set => SetProperty(ref _showLogOutputWindow, value);
         }
 
         private void VtuberCache_OnDataRefreshed(object sender, IReadOnlyList<VTuber> e)
@@ -57,7 +87,7 @@ namespace VTubeMon.Wpf.Core
 
         private void Dt_Tick(object sender, System.EventArgs e)
         {
-            Ping = _vTubeMonDiscord.Client.Ping.ToString();
+            Ping = _vTubeMonServerConnection.Ping.ToString();
         }
 
         private string _ping;
@@ -67,12 +97,83 @@ namespace VTubeMon.Wpf.Core
             set => SetProperty(ref _ping, value);
         }
 
+        private ILogger _logger;
         private DataCache _dataCache;
-        private VTubeMonDiscord _vTubeMonDiscord;
+        private IVTubeMonServerConnection _vTubeMonServerConnection;
         private IVTubeMonDbConnection _vTubeMonDbConnection;
-
         private ICollection<Agency> AgencyCollection { get; }
-        public ICollection<VTuberViewModel> VTuberCollection { get; }
+        private DatabaseWorkspace _databaseWorkspace;
 
+        public ICollection<VTuberViewModel> VTuberCollection { get; }
+        public ICommand ConnectDiscordCommand => new DelegateCommand(async () =>
+        {
+            CanConnectDiscord = false;
+            try
+            {
+                await _vTubeMonServerConnection.ConnectAsync();
+                CanDisconnectDiscord = true;
+            }
+            catch(Exception ex)
+            {
+                _logger.Log(ex);
+                CanConnectDiscord = true;
+            }
+        });
+
+        private bool _canConnectDiscord = true;
+        public bool CanConnectDiscord
+        {
+            get => _canConnectDiscord;
+            set => SetProperty(ref _canConnectDiscord, value);
+        }
+
+        public ICommand DisconnectDiscordCommand => new DelegateCommand(async () =>
+        {
+            CanDisconnectDiscord = false;
+            try
+            {
+                await _vTubeMonServerConnection.DisconnectAsync();
+                CanConnectDiscord = true;
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex);
+                CanDisconnectDiscord = true;
+            }
+        });
+
+        private bool _canDisconnectDiscord = false;
+        public bool CanDisconnectDiscord
+        {
+            get => _canDisconnectDiscord;
+            set => SetProperty(ref _canDisconnectDiscord, value);
+        }
+
+
+        private bool _showDatabaseView = false;
+        public bool ShowDatabaseView
+        {
+            get => _showDatabaseView;
+            set
+            {
+                _showDiscordView = false;
+                RaisePropertyChanged(nameof(ShowDiscordView));
+
+                SetProperty(ref _showDatabaseView, value);
+            }
+        }
+
+        private bool _showDiscordView = true;
+        public bool ShowDiscordView
+        {
+            get => _showDiscordView;
+            set
+            {
+                _showDatabaseView = false;
+                RaisePropertyChanged(nameof(ShowDatabaseView));
+
+                SetProperty(ref _showDiscordView, value);
+            }
+        }
     }
 }

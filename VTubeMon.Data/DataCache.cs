@@ -9,8 +9,8 @@ namespace VTubeMon.Data
         public DataCache(IVTubeMonDbConnection vTubeMonDbConnection)
         {
             _vTubeMonDbConnection = vTubeMonDbConnection;
-            VtuberCache = new DataCacheList<VTuber>(() => _vTubeMonDbConnection.ExecuteDbSelectCommand(new SelectVTubersCommand()));
-            AgencyCache = new DataCacheList<Agency>(() => _vTubeMonDbConnection.ExecuteDbSelectCommand(new SelectAgenciesCommand()));
+            VtuberCache = new DataCacheList<VTuber>(() => _vTubeMonDbConnection.ExecuteDbQueryCommand(new SelectVTubersCommand()));
+            AgencyCache = new DataCacheList<Agency>(() => _vTubeMonDbConnection.ExecuteDbQueryCommand(new SelectAgenciesCommand()));
         }
 
         private IVTubeMonDbConnection _vTubeMonDbConnection;
@@ -23,6 +23,5 @@ namespace VTubeMon.Data
 
         public DataCacheList<VTuber> VtuberCache { get; }
         public DataCacheList<Agency> AgencyCache { get; }
-
     }
 }

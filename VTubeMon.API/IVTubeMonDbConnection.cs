@@ -5,12 +5,10 @@ namespace VTubeMon.API
     public interface IVTubeMonDbConnection
     {
         void CloseConnection();
-        IEnumerable<T> ExecuteDbSelectCommand<T>(IDbSelectCommand<T> dbSelectCommand);
+        IEnumerable<T> ExecuteDbQueryCommand<T>(IDbQueryCommand<T> dbSelectCommand);
 
-        int InsertDbCommand<T>(string table, params T[] dataObjects)
-            where T : IDataObject;
+        int ExecuteDbNonQueryCommand(IDbNonQueryCommand idbNonQueryCommand);
 
-        int ExecuteNonQuery(string statement);
         void OpenConnection();
     }
 }

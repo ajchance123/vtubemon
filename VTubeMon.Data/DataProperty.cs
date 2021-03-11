@@ -11,8 +11,13 @@ namespace VTubeMon.Data
         public abstract void SetValue(INamedDataReader dataReader);
     }
 
-    public class DataProperty<T> : DataProperty
+    public class DataProperty<T> : IDataProperty<T>
     {
+        public DataProperty(string columnName, Func<INamedDataReader, Func<string, T>> dataReaderToValueFactory, T defaultValue) : this(columnName, dataReaderToValueFactory)
+        {
+            Value = defaultValue;
+        }
+
         public DataProperty(string columnName, Func<INamedDataReader, Func<string, T>> dataReaderToValueFactory)
         {
             _dataReaderToValueFactory = dataReaderToValueFactory;
@@ -23,13 +28,13 @@ namespace VTubeMon.Data
 
         public T Value { get; private set; }
 
-        public override void SetValue(INamedDataReader dataReader)
+        public void SetValue(INamedDataReader dataReader)
         {
             Value = _dataReaderToValueFactory(dataReader)(ColumnName);
         }
 
-        public override string ColumnName { get; }
-        public override string ValueString => Value.ToString();
+        public string ColumnName { get; }
+        public virtual string ValueString => Value.ToString();
     }
 
     public class StringDataProperty : DataProperty<string>
@@ -44,6 +49,11 @@ namespace VTubeMon.Data
     public class DateTimeDataProperty : DataProperty<DateTime>
     {
         public DateTimeDataProperty(string columnName) : base(columnName, (r) => r.GetDateTime)
+        {
+
+        }
+
+        public DateTimeDataProperty(string columnName, DateTime value) : base(columnName, (r) => r.GetDateTime, value)
         {
 
         }

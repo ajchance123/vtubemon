@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using System.Windows;
+using VTubeMon.Wpf.Core.Components.Database;
+using VTubeMon.Wpf.Core.Components.Discord;
 
 namespace VTubeMon.Wpf.Core.IOC
 {
@@ -22,5 +24,7 @@ namespace VTubeMon.Wpf.Core.IOC
         #endregion
 
         public MainWindowViewModel MainWindowViewModel { get { return Container.Resolve<MainWindowViewModel>(); } }
+        public DatabaseViewModel DatabaseViewModel { get { return Container.Resolve<DatabaseViewModel>(); } }
+        public DiscordViewModel DiscordViewModel { get { return Container.Resolve<DiscordViewModel>(); } }
     }
 }

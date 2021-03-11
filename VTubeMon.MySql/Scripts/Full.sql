@@ -1,6 +1,6 @@
 ﻿CREATE SCHEMA vtube_mon_db;
 
-DROP TABLE `vtube_mon_db`.`daylies`;
+DROP TABLE `vtube_mon_db`.`dailies`;
 DROP TABLE `vtube_mon_db`.`vtubers`;
 DROP TABLE `vtube_mon_db`.`users`;
 DROP TABLE `vtube_mon_db`.`agencies`;
@@ -13,14 +13,15 @@ CREATE TABLE vtube_mon_db.agencies (
 CREATE TABLE `vtube_mon_db`.`users` (
   `id_user` BIGINT UNSIGNED NOT NULL,
   `id_guild` BIGINT UNSIGNED NOT NULL,
+  `vtuber_cash` INT NULL,
   PRIMARY KEY (`id_user`, `id_guild`));
 
-CREATE TABLE `vtube_mon_db`.`daylies` (
+CREATE TABLE `vtube_mon_db`.`dailies` (
   `id_user` BIGINT UNSIGNED NOT NULL,
   `id_guild` BIGINT UNSIGNED NOT NULL,
-  `vtuber_cash` INT NULL,
+  `check_in_date` DATETIME NOT NULL,
   PRIMARY KEY (`id_user`, `id_guild`),
-  CONSTRAINT `fk_daylies_id_users`
+  CONSTRAINT `fk_dailies_id_users`
     FOREIGN KEY (id_user, id_guild)
     REFERENCES `vtube_mon_db`.`users` (id_user, id_guild));
 

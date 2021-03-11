@@ -46,6 +46,7 @@ namespace VTubeMon.Wpf.Core
             cb.RegisterModule<DatabaseModule>();
             cb.RegisterModule<DiscordModule>();
             cb.RegisterModule<ViewModelModule>();
+            cb.RegisterModule<CoreModule>();
 
             Container = cb.Build();
 

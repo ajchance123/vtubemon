@@ -37,11 +37,13 @@ namespace VTubeMon.MySql
             _logger?.Log("DB Connection Closed");
         }
 
-        public IEnumerable<T> ExecuteDbSelectCommand<T>(IDbSelectCommand<T> dbSelectCommand)
+        public IEnumerable<T> ExecuteDbQueryCommand<T>(IDbQueryCommand<T> dbSelectCommand)
         {
             _logger?.Log(dbSelectCommand.Statement);
             try
             {
+                if (dbSelectCommand.Statement == null) return null; //maybe throw ?
+
                 MySqlCommand mySqlCommand = new MySqlCommand(dbSelectCommand.Statement, _connection);
                 var mySqlReader = mySqlCommand.ExecuteReader();
                 MySqlDataReaderWrapper reader = new MySqlDataReaderWrapper(mySqlReader);
@@ -54,18 +56,15 @@ namespace VTubeMon.MySql
             }
         }
 
-        public int InsertDbCommand<T>(string table, params T[] dataObjects)
+        public int ExecuteDbNonQueryCommand<T>(IDbNonQueryCommand<T> dbNonQueryCommand)
             where T : IDataObject
         {
             try
-            { 
-                if (dataObjects == null || dataObjects.Length == 0) return 0;
+            {
+                if (dbNonQueryCommand.DataObjects == null || dbNonQueryCommand.DataObjects.Count() == 0) return 0; //maybe throw ?
 
-                var first = dataObjects.First();
-
-                string statement = $"INSERT INTO {table}{first.ColumnNames} VALUES {string.Join(",", dataObjects.Select(d => d.Values))}";
-                _logger?.Log(statement);
-                MySqlCommand mySqlCommand = new MySqlCommand(statement, _connection);
+                _logger?.Log(dbNonQueryCommand.Statement);
+                MySqlCommand mySqlCommand = new MySqlCommand(dbNonQueryCommand.Statement, _connection);
                 return mySqlCommand.ExecuteNonQuery();
             }
             catch(Exception ex)
@@ -73,17 +72,21 @@ namespace VTubeMon.MySql
                 _logger?.Log(ex.Message);
                 throw ex;
             }
-}
+        }
 
-        public int ExecuteNonQuery(string statement)
+
+        public int ExecuteDbNonQueryCommand(IDbNonQueryCommand dbNonQueryCommand)
         {
-            _logger?.Log(statement);
             try
             {
-                var mySqlCommand = new MySqlCommand(statement, _connection);
+                _logger?.Log(dbNonQueryCommand.Statement);
+
+                if (dbNonQueryCommand.Statement == null) return 0; //maybe throw ?
+
+                MySqlCommand mySqlCommand = new MySqlCommand(dbNonQueryCommand.Statement, _connection);
                 return mySqlCommand.ExecuteNonQuery();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger?.Log(ex.Message);
                 throw ex;

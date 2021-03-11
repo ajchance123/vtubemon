@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using VTubeMon.API;
 using VTubeMon.Discord;
 
 namespace VTubeMon.Wpf.Core.IOC
@@ -7,7 +8,7 @@ namespace VTubeMon.Wpf.Core.IOC
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<VTubeMonDiscord>().SingleInstance();
+            builder.RegisterType<VTubeMonDiscord>().As<IVTubeMonServerConnection>().SingleInstance();
         }
     }
 }

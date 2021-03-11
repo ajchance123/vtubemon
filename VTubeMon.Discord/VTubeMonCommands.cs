@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using VTubeMon.API;
+using VTubeMon.API.Core;
 using VTubeMon.Data;
 using VTubeMon.Data.Commands;
 
@@ -24,6 +25,55 @@ namespace VTubeMon.Discord
                 await commandContext.RespondAsync(vtuber.EnName.Value);
             }
         }
+
+        [Command("register")]
+        public async Task RegisterCommand(CommandContext commandContext)
+        {
+            try
+            {
+                var coreGame = commandContext.Dependencies.GetDependency<IVTubeMonCoreGame>();
+                var logger = commandContext.Dependencies.GetDependency<ILogger>();
+
+                logger?.Log($"discord.RegisterCommand({commandContext.User.Id}{commandContext.Guild.Id} - start");
+                var result = coreGame.Register(commandContext.User.Id, commandContext.Guild.Id);
+
+                if (result)
+                {
+                    await commandContext.RespondAsync($"Registration complete! You now have {coreGame.RegistrationValue} vtuber cash!");
+                    logger?.Log($"discord.RegisterCommand({commandContext.User.Id}{commandContext.Guild.Id} - true");
+                } 
+                else
+                {
+                    logger?.Log($"discord.RegisterCommand({commandContext.User.Id}{commandContext.Guild.Id} - false");
+                }
+            }
+            catch (Exception ex)
+            {
+                await commandContext.RespondAsync(ex.Message);
+            }
+        }
+
+        [Command("daily")]
+        public async Task DailyCommand(CommandContext commandContext)
+        {
+            try
+            {
+                var coreGame = commandContext.Dependencies.GetDependency<IVTubeMonCoreGame>();
+                var logger = commandContext.Dependencies.GetDependency<ILogger>();
+
+                var dailyCheckinResult = coreGame.DailyCheckIn(commandContext.User.Id, commandContext.Guild.Id);
+
+                if (dailyCheckinResult.CheckInSuccessfull)
+                {
+                    await commandContext.RespondAsync($"Daily check-in complete! You have gained {coreGame.DailyCheckinValue} vtuber cash!");
+                }
+            }
+            catch (Exception ex)
+            {
+                await commandContext.RespondAsync(ex.Message);
+            }
+        }
+
 
         #endregion
 
@@ -56,11 +106,7 @@ namespace VTubeMon.Discord
 
                 var command = new MultiStringSelectCommand($"SELECT {commandContext.RawArgumentString}");
 
-                var discordMessage = await commandContext.RespondAsync(string.Join(Environment.NewLine, dbConnection.ExecuteDbSelectCommand(command).Select((s) => string.Join("\t", s))));
-
-                var reaction = await interactivity.WaitForMessageReactionAsync(discordMessage);
-
-                var emoji = reaction.Emoji;
+                var discordMessage = await commandContext.RespondAsync(string.Join(Environment.NewLine, dbConnection.ExecuteDbQueryCommand(command).Select((s) => string.Join("\t", s))));
             }
             catch(Exception ex)
             {
@@ -75,15 +121,16 @@ namespace VTubeMon.Discord
             {
                 var dbConnection = commandContext.Dependencies.GetDependency<IVTubeMonDbConnection>();
 
-                var rows = dbConnection.ExecuteNonQuery(commandContext.RawArgumentString);
+                //var rows = dbConnection.ExecuteDbNonQueryCommand(new )
 
-                await commandContext.RespondAsync($"{rows} row(s) affected");
+                //await commandContext.RespondAsync($"{rows} row(s) affected");
             }
             catch (Exception ex)
             {
                 await commandContext.RespondAsync(ex.Message);
             }
         }
+
 
         #endregion
     }

@@ -5,7 +5,7 @@ using VTubeMon.API;
 
 namespace VTubeMon.Data.Commands
 {
-    public abstract class SelectCommandBase<T> : IDbSelectCommand<T>
+    public abstract class SelectCommandBase<T> : IDbQueryCommand<T>
         where T : IDataObject, new()
     {
         protected abstract string Table { get; }

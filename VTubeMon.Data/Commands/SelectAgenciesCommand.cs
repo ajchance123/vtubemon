@@ -4,7 +4,7 @@ using VTubeMon.Data.Objects;
 
 namespace VTubeMon.Data.Commands
 {
-    public class SelectAgenciesCommand : IDbSelectCommand<Agency>
+    public class SelectAgenciesCommand : IDbQueryCommand<Agency>
     {
         public string Statement => "SELECT * FROM agencies";
 

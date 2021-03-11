@@ -2,6 +2,7 @@
 using VTubeMon.API;
 using VTubeMon.Data;
 using VTubeMon.MySql;
+using VTubeMon.Wpf.Core.Components;
 
 namespace VTubeMon.Wpf.Core.IOC
 {
@@ -11,6 +12,7 @@ namespace VTubeMon.Wpf.Core.IOC
         {
             builder.RegisterType<VTubeMonMySqlConnection>().As<IVTubeMonDbConnection>().SingleInstance();
             builder.RegisterType<DataCache>().SingleInstance();
+            builder.RegisterType<DatabaseWorkspace>().SingleInstance();
         }
     }
 }

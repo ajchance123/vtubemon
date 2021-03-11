@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using VTubeMon.Wpf.Core.Components.Database;
+using VTubeMon.Wpf.Core.Components.Discord;
 
 namespace VTubeMon.Wpf.Core.IOC
 {
@@ -7,6 +9,8 @@ namespace VTubeMon.Wpf.Core.IOC
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<MainWindowViewModel>().SingleInstance();
+            builder.RegisterType<DatabaseViewModel>().SingleInstance();
+            builder.RegisterType<DiscordViewModel>().SingleInstance();
         }
     }
 }
