@@ -81,6 +81,7 @@ namespace VTubeMon.Discord
         #region SUPER COOL ADMIN COMMANDS - NO COMMON FOLK ALLOWED
 
         //these commands should check the user id before we actually exeute them
+        //(TODO btw)
 
         [Command("refresh")]
         public async Task RefreshCommand(CommandContext commandContext)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using VTubeMon.API;
 using VTubeMon.API.Core;
 using VTubeMon.API.Data.Objects;
@@ -50,6 +49,9 @@ namespace VTubeMon.Core
         }
     }
 
+    /// <summary>
+    /// lets re think this
+    /// </summary>
     public class VTubeMonCoreGameFactories
     {
         public VTubeMonCoreGameFactories(
