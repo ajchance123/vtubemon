@@ -59,5 +59,10 @@ VALUES
 	('Shirakami Fubuki',	'白上フブキ',	'https://www.youtube.com/channel/UCdn5BQ06XqgXoAxIhbqw5Rg', '2018-06-01', 1, 0, 1),
 	('Natsuiro Matsuri',	'夏色まつり',	'https://www.youtube.com/channel/UCQ0UDLQCjY0rmuxCDE38FGg', '2018-06-01', 1, 0, 1),
 	('Aki Rosenthal','アキ・ローゼンタール',	'https://www.youtube.com/channel/UCFTLzh12_nrtzqBPsTCqenA', '2018-06-07', 1, 0, 1),
-	('Akai Haato',			'赤井はあと',	'https://www.youtube.com/channel/UC1CfXB_kRs3C-zaeTG3oGyg', '2018-06-02', 1, 0, 1);
-
+	('Akai Haato',			'赤井はあと',	'https://www.youtube.com/channel/UC1CfXB_kRs3C-zaeTG3oGyg', '2018-06-02', 1, 0, 1),
+	('Minato Aqua', '湊あくあ(みなとあくあ)',  'https://www.youtube.com/channel/UC1opHUrw8rvnsadT-iGp7Cg', '2018-08-08', 1, 0, 2),
+    ('Murasaki Shion',     '紫咲シオン',   'https://www.youtube.com/channel/UCXTpFs_3PqI41qX2d9tL2Rw', '2018-08-17', 1, 0, 2),
+    ('Nakiri Ayame',      '百鬼あやめ',   'https://www.youtube.com/channel/UC7fk0CB07ly8oSl0aqKkqFg', '2018-09-03', 1, 0, 2),
+    ('Yuzuki Choco',       '癒月ちょこ',   'https://www.youtube.com/channel/UC1suqwovbL1kzsoaZgFZLKg', '2018-09-05', 1, 0, 2),
+    ('Oozora Subaru',     '大空スバル',   'https://www.youtube.com/channel/UCvzGlP9oQwU--Y0r9id_jnA', '2018-09-16', 1, 0, 2);
+	;
