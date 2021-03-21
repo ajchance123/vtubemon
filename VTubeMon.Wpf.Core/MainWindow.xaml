@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="clr-namespace:VTubeMon.Wpf.Core.Converters"
     xmlns:database="clr-namespace:VTubeMon.Wpf.Core.Components.Database"
-    xmlns:discord="clr-namespace:VTubeMon.Wpf.Core.Components.Discord" xmlns:game="clr-namespace:VTubeMon.Wpf.Core.Components.Game"
+    xmlns:discord="clr-namespace:VTubeMon.Wpf.Core.Components.Discord" xmlns:game="clr-namespace:VTubeMon.Wpf.Core.Components.Game" xmlns:settings="clr-namespace:VTubeMon.Wpf.Core.Components.Settings"
     mc:Ignorable="d"
     Title="MainWindow"
     d:Height="1080"
@@ -69,7 +69,7 @@
             <Grid
                 Grid.Row="0"
                 Height="30"
-                Background="#F999">
+                Style="{DynamicResource HeaderGrid}">
                 <StackPanel
                     Orientation="Horizontal"
                     HorizontalAlignment="Left"
@@ -102,6 +102,10 @@
                         <MenuItem
                             WindowChrome.IsHitTestVisibleInChrome="True"
                             Header="Views">
+                            <MenuItem
+                                Header="Settings"
+                                IsCheckable="True"
+                                IsChecked="{Binding ShowSettingsView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <MenuItem
                                 Header="Logs"
                                 IsCheckable="True"
@@ -349,6 +353,10 @@
                 <Grid
                     Visibility="{Binding ShowGameView, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <game:GameView/>
+                </Grid>
+                <Grid
+                    Visibility="{Binding ShowSettingsView, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <settings:SettingsView/>
                 </Grid>
                 <GridSplitter
                     Grid.Column="1"

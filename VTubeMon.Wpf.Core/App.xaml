@@ -12,9 +12,9 @@
                 Container="{Binding Container, Source={x:Static Application.Current}}" />
             <ResourceDictionary.MergedDictionaries>
                 <local:SkinResourceDictionary
+                ContrastSource="Themes/ContrastMode.xaml"
                 DarkSource="Themes/DarkMode.xaml"
-                LightSource="Themes/LightMode.xaml"
-                ContrastSource="Themes/ContrastMode.xaml"/>
+                LightSource="Themes/LightMode.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

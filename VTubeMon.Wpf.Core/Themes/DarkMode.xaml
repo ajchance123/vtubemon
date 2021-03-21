@@ -1,6 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <!--<Style TargetType="ContentPage" x:Key="PageStyle">
-        <Setter Property="BackgroundColor" Value="#5d3263" />
-    </Style>-->
+    <Style TargetType="Grid">
+        <Setter Property="Background" Value="#5d3263" />
+    </Style>
+    <Style TargetType="Grid" x:Key="HeaderGrid">
+        <Setter Property="Background" Value="Gray" />
+    </Style>
 </ResourceDictionary>

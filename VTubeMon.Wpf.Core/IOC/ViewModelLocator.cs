@@ -2,6 +2,7 @@
 using System.Windows;
 using VTubeMon.Wpf.Core.Components.Database;
 using VTubeMon.Wpf.Core.Components.Discord;
+using VTubeMon.Wpf.Core.Components.Settings;
 
 namespace VTubeMon.Wpf.Core.IOC
 {
@@ -26,5 +27,6 @@ namespace VTubeMon.Wpf.Core.IOC
         public MainWindowViewModel MainWindowViewModel { get { return Container.Resolve<MainWindowViewModel>(); } }
         public DatabaseViewModel DatabaseViewModel { get { return Container.Resolve<DatabaseViewModel>(); } }
         public DiscordViewModel DiscordViewModel { get { return Container.Resolve<DiscordViewModel>(); } }
+        public SettingsViewModel SettingsViewModel { get { return Container.Resolve<SettingsViewModel>(); } }
     }
 }

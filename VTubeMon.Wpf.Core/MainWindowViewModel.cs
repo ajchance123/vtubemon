@@ -154,7 +154,7 @@ namespace VTubeMon.Wpf.Core
             get => _showDatabaseView;
             set
             {
-                SetBoolGroup(ref _showDatabaseView);
+                SetViewBoolGroup(ref _showDatabaseView);
             }
         }
 
@@ -164,7 +164,7 @@ namespace VTubeMon.Wpf.Core
             get => _showDiscordView;
             set
             {
-                SetBoolGroup(ref _showDiscordView);
+                SetViewBoolGroup(ref _showDiscordView);
             }
         }
 
@@ -174,11 +174,21 @@ namespace VTubeMon.Wpf.Core
             get => _showGameView;
             set
             {
-                SetBoolGroup(ref _showGameView);
+                SetViewBoolGroup(ref _showGameView);
             }
         }
 
-        public void SetBoolGroup(ref bool trueProperty, [CallerMemberName] string propertyName = null)
+        private bool _showSettingsView = false;
+        public bool ShowSettingsView
+        {
+            get => _showSettingsView;
+            set
+            {
+                SetViewBoolGroup(ref _showSettingsView);
+            }
+        }
+
+        public void SetViewBoolGroup(ref bool trueProperty, [CallerMemberName] string propertyName = null)
         {
             _showDiscordView = false;
             RaisePropertyChanged(nameof(ShowDiscordView));
@@ -189,13 +199,10 @@ namespace VTubeMon.Wpf.Core
             _showGameView = false;
             RaisePropertyChanged(nameof(ShowGameView));
 
+            _showSettingsView = false;
+            RaisePropertyChanged(nameof(ShowSettingsView));
+
             SetProperty(ref trueProperty, true, propertyName);
-        }
-
-        bool _setUIThemesBooleanGroup = false;
-        public void SetUIThemesBooleanGroup()
-        {
-
         }
     }
 }

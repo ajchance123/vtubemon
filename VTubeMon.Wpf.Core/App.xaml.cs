@@ -7,6 +7,7 @@ using System.Windows;
 using VTubeMon.API;
 using VTubeMon.Core;
 using VTubeMon.Wpf.Core.IOC;
+using VTubeMon.Wpf.Core.Themes;
 
 namespace VTubeMon.Wpf.Core
 {
@@ -49,8 +50,12 @@ namespace VTubeMon.Wpf.Core
             cb.RegisterModule<DiscordModule>();
             cb.RegisterModule<ViewModelModule>();
             cb.RegisterModule<CoreModule>();
+            cb.RegisterModule<SettingsModule>();
 
             Container = cb.Build();
+
+            changeTheme = Container.Resolve<ThemeService>();
+            changeTheme.onSkinsChanged += ChangeTheme_onSkinsChanged;
 
             try
             {
@@ -67,6 +72,10 @@ namespace VTubeMon.Wpf.Core
             logger.Log("------ Session End ------");
         }
 
+        private void ChangeTheme_onSkinsChanged(object sender, Skin e)
+        {
+            ChangeSkin(e);
+        }
 
         private Thread LogThread;
         private ManualResetEvent LogSignal = new ManualResetEvent(false);
@@ -103,20 +112,21 @@ namespace VTubeMon.Wpf.Core
 
         public static Skin Skin { get; set; } = Skin.Dark;
 
+        ThemeService changeTheme;
         public void ChangeSkin(Skin newSkin)
         {
             Skin = newSkin;
-            /*foreach (ResourceDictionary dict in Resources.MergedDictionaries)
+            foreach (ResourceDictionary dict in Resources.MergedDictionaries)
             {
                 if (dict is SkinResourceDictionary skinDict)
                 {
-                    skinDict.UpdateSource();
+                    skinDict.UpdateSource(newSkin);
                 }
                 else
                 {
                     dict.Source = dict.Source;
                 }
-            }*/
+            }
         }
     }
 }
