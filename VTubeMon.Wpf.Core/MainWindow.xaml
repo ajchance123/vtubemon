@@ -86,6 +86,15 @@
                         Background="Transparent">
                         <MenuItem
                             WindowChrome.IsHitTestVisibleInChrome="True"
+                            Header="Settings">
+                            <MenuItem Header="Themes">
+                                <MenuItem Header="Light" IsCheckable="true" />
+                                <MenuItem Header="Dark" IsCheckable="true" />
+                                <MenuItem Header="High Contrast" IsCheckable="true" />
+                            </MenuItem>
+                        </MenuItem>
+                        <MenuItem
+                            WindowChrome.IsHitTestVisibleInChrome="True"
                             Header="Views">
                             <MenuItem
                                 Header="Logs"

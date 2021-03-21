@@ -20,10 +20,16 @@ namespace VTubeMon.Discord
         public async Task ListCommand(CommandContext commandContext)
         {
             var dataCache = commandContext.Dependencies.GetDependency<DataCache>();
-            foreach(var vtuber in dataCache.VtuberCache.CachedList)
+            var logger = commandContext.Dependencies.GetDependency<ILogger>();
+
+            logger?.Log($"discord.ListCommand({commandContext.Guild.Id}) - start");
+
+            foreach (var vtuber in dataCache.VtuberCache.CachedList)
             {
                 await commandContext.RespondAsync(vtuber.EnName.Value);
             }
+
+            logger?.Log($"discord.ListCommand({commandContext.Guild.Id}) - end");
         }
 
         [Command("register")]
@@ -34,18 +40,20 @@ namespace VTubeMon.Discord
                 var coreGame = commandContext.Dependencies.GetDependency<IVTubeMonCoreGame>();
                 var logger = commandContext.Dependencies.GetDependency<ILogger>();
 
-                logger?.Log($"discord.RegisterCommand({commandContext.User.Id}{commandContext.Guild.Id} - start");
+                logger?.Log($"discord.RegisterCommand({commandContext.User.Id}, {commandContext.Guild.Id}) - start");
                 var result = coreGame.Register(commandContext.User.Id, commandContext.Guild.Id);
 
                 if (result)
                 {
                     await commandContext.RespondAsync($"Registration complete! You now have {coreGame.RegistrationValue} vtuber cash!");
-                    logger?.Log($"discord.RegisterCommand({commandContext.User.Id}{commandContext.Guild.Id} - true");
-                } 
+                    logger?.Log($"discord.RegisterCommand({commandContext.User.Id}, {commandContext.Guild.Id}) - true");
+                }
                 else
                 {
-                    logger?.Log($"discord.RegisterCommand({commandContext.User.Id}{commandContext.Guild.Id} - false");
+                    logger?.Log($"discord.RegisterCommand({commandContext.User.Id}, {commandContext.Guild.Id}) - false");
                 }
+
+                logger?.Log($"discord.RegisterCommand({commandContext.Guild.Id}, {commandContext.Guild.Id}) - end");
             }
             catch (Exception ex)
             {
@@ -61,12 +69,20 @@ namespace VTubeMon.Discord
                 var coreGame = commandContext.Dependencies.GetDependency<IVTubeMonCoreGame>();
                 var logger = commandContext.Dependencies.GetDependency<ILogger>();
 
+                logger?.Log($"discord.DailyCommand({commandContext.User.Id}, {commandContext.Guild.Id}) - start");
                 var dailyCheckinResult = coreGame.DailyCheckIn(commandContext.User.Id, commandContext.Guild.Id);
 
                 if (dailyCheckinResult.CheckInSuccessfull)
                 {
                     await commandContext.RespondAsync($"Daily check-in complete! You have gained {coreGame.DailyCheckinValue} vtuber cash!");
+                    logger?.Log($"discord.DailyCommand({commandContext.User.Id}, {commandContext.Guild.Id}) - true");
                 }
+                else
+                {
+                    logger?.Log($"discord.DailyCommand({commandContext.User.Id}, {commandContext.Guild.Id}) - false");
+                }
+
+                logger?.Log($"discord.DailyCommand({commandContext.Guild.Id}, {commandContext.Guild.Id}) - end");
             }
             catch (Exception ex)
             {
@@ -87,6 +103,8 @@ namespace VTubeMon.Discord
         public async Task RefreshCommand(CommandContext commandContext)
         {
             var dataCache = commandContext.Dependencies.GetDependency<DataCache>();
+            var logger = commandContext.Dependencies.GetDependency<ILogger>();
+
             dataCache.RefreshAll();
             await commandContext.RespondAsync("Data Refreshed!");
         }
@@ -104,12 +122,13 @@ namespace VTubeMon.Discord
             {
                 var dbConnection = commandContext.Dependencies.GetDependency<IVTubeMonDbConnection>();
                 var interactivity = commandContext.Dependencies.GetDependency<InteractivityModule>();
+                var logger = commandContext.Dependencies.GetDependency<ILogger>();
 
                 var command = new MultiStringSelectCommand($"SELECT {commandContext.RawArgumentString}");
 
                 var discordMessage = await commandContext.RespondAsync(string.Join(Environment.NewLine, dbConnection.ExecuteDbQueryCommand(command).Select((s) => string.Join("\t", s))));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 await commandContext.RespondAsync(ex.Message);
             }

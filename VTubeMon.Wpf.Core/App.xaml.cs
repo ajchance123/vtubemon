@@ -10,6 +10,8 @@ using VTubeMon.Wpf.Core.IOC;
 
 namespace VTubeMon.Wpf.Core
 {
+    public enum Skin { Dark, Light, Contrast }
+
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
@@ -97,6 +99,24 @@ namespace VTubeMon.Wpf.Core
         {
             LogQueue.Enqueue($"{DateTime.Now.ToString("G")}\t{e}");
             LogSignal.Set();
+        }
+
+        public static Skin Skin { get; set; } = Skin.Dark;
+
+        public void ChangeSkin(Skin newSkin)
+        {
+            Skin = newSkin;
+            /*foreach (ResourceDictionary dict in Resources.MergedDictionaries)
+            {
+                if (dict is SkinResourceDictionary skinDict)
+                {
+                    skinDict.UpdateSource();
+                }
+                else
+                {
+                    dict.Source = dict.Source;
+                }
+            }*/
         }
     }
 }
