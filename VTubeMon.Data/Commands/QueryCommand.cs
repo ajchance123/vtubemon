@@ -35,7 +35,7 @@ namespace VTubeMon.Data.Commands
             bool first = true;
             foreach(var where in WhereCollection)
             {
-                statement = statement + (first ? "WHERE" : "AND") + where.Statement;
+                statement = statement + (first ? " WHERE " : " AND ") + where.Statement;
                 first = false;
             }
 
