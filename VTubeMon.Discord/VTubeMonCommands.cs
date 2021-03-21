@@ -4,6 +4,7 @@ using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 using System;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using VTubeMon.API;
 using VTubeMon.API.Core;
@@ -24,10 +25,7 @@ namespace VTubeMon.Discord
 
             logger?.Log($"discord.ListCommand({commandContext.Guild.Id}) - start");
 
-            foreach (var vtuber in dataCache.VtuberCache.CachedList)
-            {
-                await commandContext.RespondAsync(vtuber.EnName.Value);
-            }
+            await commandContext.RespondAsync(string.Join(Environment.NewLine, dataCache.VtuberCache.CachedList.Select(v=>v.EnName.Value)));
 
             logger?.Log($"discord.ListCommand({commandContext.Guild.Id}) - end");
         }
@@ -53,7 +51,7 @@ namespace VTubeMon.Discord
                     logger?.Log($"discord.RegisterCommand({commandContext.User.Id}, {commandContext.Guild.Id}) - false");
                 }
 
-                logger?.Log($"discord.RegisterCommand({commandContext.Guild.Id}, {commandContext.Guild.Id}) - end");
+                logger?.Log($"discord.RegisterCommand({commandContext.User.Id}, {commandContext.Guild.Id}) - end");
             }
             catch (Exception ex)
             {
@@ -82,7 +80,7 @@ namespace VTubeMon.Discord
                     logger?.Log($"discord.DailyCommand({commandContext.User.Id}, {commandContext.Guild.Id}) - false");
                 }
 
-                logger?.Log($"discord.DailyCommand({commandContext.Guild.Id}, {commandContext.Guild.Id}) - end");
+                logger?.Log($"discord.DailyCommand({commandContext.User.Id}, {commandContext.Guild.Id}) - end");
             }
             catch (Exception ex)
             {

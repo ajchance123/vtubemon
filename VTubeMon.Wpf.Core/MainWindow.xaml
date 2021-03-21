@@ -88,9 +88,15 @@
                             WindowChrome.IsHitTestVisibleInChrome="True"
                             Header="Settings">
                             <MenuItem Header="Themes">
-                                <MenuItem Header="Light" IsCheckable="true" />
-                                <MenuItem Header="Dark" IsCheckable="true" />
-                                <MenuItem Header="High Contrast" IsCheckable="true" />
+                                <MenuItem.ItemTemplate>
+                                    <DataTemplate>
+                                        <ComboBox>
+                                            Light
+                                            Dark
+                                            High Contrast
+                                        </ComboBox>
+                                    </DataTemplate>
+                                </MenuItem.ItemTemplate>
                             </MenuItem>
                         </MenuItem>
                         <MenuItem

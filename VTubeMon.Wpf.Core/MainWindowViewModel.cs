@@ -175,5 +175,11 @@ namespace VTubeMon.Wpf.Core
                 SetProperty(ref _showDiscordView, value);
             }
         }
+
+        bool _setUIThemesBooleanGroup = false;
+        public void SetUIThemesBooleanGroup()
+        {
+
+        }
     }
 }
