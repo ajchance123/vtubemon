@@ -86,6 +86,21 @@
                         Background="Transparent">
                         <MenuItem
                             WindowChrome.IsHitTestVisibleInChrome="True"
+                            Header="Settings">
+                            <MenuItem Header="Themes">
+                                <MenuItem.ItemTemplate>
+                                    <DataTemplate>
+                                        <ComboBox>
+                                            Light
+                                            Dark
+                                            High Contrast
+                                        </ComboBox>
+                                    </DataTemplate>
+                                </MenuItem.ItemTemplate>
+                            </MenuItem>
+                        </MenuItem>
+                        <MenuItem
+                            WindowChrome.IsHitTestVisibleInChrome="True"
                             Header="Views">
                             <MenuItem
                                 Header="Logs"

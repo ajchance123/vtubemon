@@ -191,5 +191,11 @@ namespace VTubeMon.Wpf.Core
 
             SetProperty(ref trueProperty, true, propertyName);
         }
+
+        bool _setUIThemesBooleanGroup = false;
+        public void SetUIThemesBooleanGroup()
+        {
+
+        }
     }
 }

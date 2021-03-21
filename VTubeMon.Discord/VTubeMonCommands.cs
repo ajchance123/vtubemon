@@ -4,6 +4,7 @@ using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 using System;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using VTubeMon.API;
 using VTubeMon.API.Core;
@@ -20,10 +21,13 @@ namespace VTubeMon.Discord
         public async Task ListCommand(CommandContext commandContext)
         {
             var dataCache = commandContext.Dependencies.GetDependency<DataCache>();
-            foreach (var vtuber in dataCache.VtuberCache.CachedList)
-            {
-                await commandContext.RespondAsync(vtuber.EnName.Value);
-            }
+            var logger = commandContext.Dependencies.GetDependency<ILogger>();
+
+            logger?.Log($"discord.ListCommand({commandContext.Guild.Id}) - start");
+
+            await commandContext.RespondAsync(string.Join(Environment.NewLine, dataCache.VtuberCache.CachedList.Select(v=>v.EnName.Value)));
+
+            logger?.Log($"discord.ListCommand({commandContext.Guild.Id}) - end");
         }
 
         [Command("register")]
@@ -105,6 +109,16 @@ namespace VTubeMon.Discord
         //these commands should check the user id before we actually exeute them
         //(TODO btw)
 
+        [Command("refresh")]
+        public async Task RefreshCommand(CommandContext commandContext)
+        {
+            var dataCache = commandContext.Dependencies.GetDependency<DataCache>();
+            var logger = commandContext.Dependencies.GetDependency<ILogger>();
+
+            dataCache.RefreshAll();
+            await commandContext.RespondAsync("Data Refreshed!");
+        }
+
         [Command("ping")]
         public async Task PingCommand(CommandContext commandContext, DiscordMember member)
         {
@@ -118,12 +132,13 @@ namespace VTubeMon.Discord
             {
                 var dbConnection = commandContext.Dependencies.GetDependency<IVTubeMonDbConnection>();
                 var interactivity = commandContext.Dependencies.GetDependency<InteractivityModule>();
+                var logger = commandContext.Dependencies.GetDependency<ILogger>();
 
                 var command = new MultiStringSelectCommand($"SELECT {commandContext.RawArgumentString}");
 
                 var discordMessage = await commandContext.RespondAsync(string.Join(Environment.NewLine, dbConnection.ExecuteDbQueryCommand(command).Select((s) => string.Join("\t", s))));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 await commandContext.RespondAsync(ex.Message);
             }
