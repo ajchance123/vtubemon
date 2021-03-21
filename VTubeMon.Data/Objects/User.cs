@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using VTubeMon.API;
+using VTubeMon.API.Data.Objects;
 
 namespace VTubeMon.Data.Objects
 {
-    public class User : DataObjectBase
+    public class User : DataObjectBase, IUser
     {
         public User()
         {
@@ -33,9 +34,9 @@ namespace VTubeMon.Data.Objects
             };
         }
 
-        public DataProperty<ulong> IdUser { get; }
-        public DataProperty<ulong> IdGuild { get; }
-        public DataProperty<int> VTuberCash { get; }
+        public IDataProperty<ulong> IdUser { get; }
+        public IDataProperty<ulong> IdGuild { get; }
+        public IDataProperty<int> VTuberCash { get; }
         public override IList<IDataProperty> DataPropertyList { get; }
     }
 }

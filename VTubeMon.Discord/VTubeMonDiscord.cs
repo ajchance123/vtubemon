@@ -30,6 +30,7 @@ namespace VTubeMon.Discord
 
         public void CreateNewClient(string prefix = "v!")
         {
+            _logger.Log($"VTubeMonDiscord.CreateNewClient({prefix}) - start");
             if (!File.Exists(TokenFile))
             {
                 throw new Exception("Token File Missing");
@@ -60,6 +61,7 @@ namespace VTubeMon.Discord
             });
 
             commandModule.RegisterCommands<VTubeMonCommands>();
+            _logger.Log($"VTubeMonDiscord.CreateNewClient({prefix}) - end");
         }
 
         public int Ping { get; }
@@ -67,6 +69,7 @@ namespace VTubeMon.Discord
         public event EventHandler<bool> OnConnect;
         public async Task ConnectAsync()
         {
+            _logger.Log($"VTubeMonDiscord.ConnectAsync() - start");
             try
             {
                 await _client.ConnectAsync();
@@ -78,11 +81,14 @@ namespace VTubeMon.Discord
                 OnConnect?.Invoke(this, false);
                 throw ex;
             }
+
+            _logger.Log($"VTubeMonDiscord.ConnectAsync() - end");
         }
 
         public event EventHandler<bool> OnDisconnect;
         public async Task DisconnectAsync()
         {
+            _logger.Log($"VTubeMonDiscord.Disconnect() - start");
             try
             {
                 await _client.DisconnectAsync();
@@ -94,6 +100,7 @@ namespace VTubeMon.Discord
                 OnDisconnect?.Invoke(this, false);
                 throw ex;
             }
+            _logger.Log($"VTubeMonDiscord.Disconnect() - end");
         }
     }
 }

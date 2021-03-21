@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using VTubeMon.API.Core.CommandResults;
 
 namespace VTubeMon.API.Core
 {
@@ -9,8 +8,8 @@ namespace VTubeMon.API.Core
         int DailyCheckinValue { get; set; }
         int RegistrationValue { get; set; }
 
-        DailyCheckinResult DailyCheckIn(ulong user, ulong guild);
+        CommandResult DailyCheckIn(ulong user, ulong guild, DateTime checkInTimeUtc);
 
-        bool Register(ulong user, ulong guild);
+        CommandResult Register(ulong user, ulong guild);
     }
 }

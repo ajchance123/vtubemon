@@ -3,7 +3,7 @@ using System;
 
 namespace VTubeMon.API.Data.Objects
 {
-    public interface IDaily
+    public interface IDaily : IDataObject
     {
         IDataProperty<ulong> IdUser { get; }
         IDataProperty<ulong> IdGuild { get; }

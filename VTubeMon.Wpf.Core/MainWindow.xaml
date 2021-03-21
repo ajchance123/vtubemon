@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="clr-namespace:VTubeMon.Wpf.Core.Converters"
     xmlns:database="clr-namespace:VTubeMon.Wpf.Core.Components.Database"
-    xmlns:discord="clr-namespace:VTubeMon.Wpf.Core.Components.Discord"
+    xmlns:discord="clr-namespace:VTubeMon.Wpf.Core.Components.Discord" xmlns:game="clr-namespace:VTubeMon.Wpf.Core.Components.Game"
     mc:Ignorable="d"
     Title="MainWindow"
     d:Height="1080"
@@ -99,14 +99,28 @@
                                 Header="Database"
                                 IsCheckable="True"
                                 IsChecked="{Binding ShowDatabaseView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <MenuItem
+                                Header="Game"
+                                IsCheckable="True"
+                                IsChecked="{Binding ShowGameView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </MenuItem>
                         <MenuItem
                             WindowChrome.IsHitTestVisibleInChrome="True"
                             Header="Database">
+                            <MenuItem
+                                Header="View"
+                                IsCheckable="True"
+                                IsChecked="{Binding ShowDatabaseView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <Separator/>
                         </MenuItem>
                         <MenuItem
                             WindowChrome.IsHitTestVisibleInChrome="True"
                             Header="Discord">
+                            <MenuItem
+                                Header="View"
+                                IsCheckable="True"
+                                IsChecked="{Binding ShowDiscordView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <Separator/>
                             <MenuItem
                                 Header="Connect"
                                 Command="{Binding ConnectDiscordCommand}"
@@ -115,6 +129,19 @@
                                 Header="Disconnect"
                                 Command="{Binding DisconnectDiscordCommand}"
                                 IsEnabled="{Binding CanDisconnectDiscord}" />
+                        </MenuItem>
+                        <MenuItem
+                            WindowChrome.IsHitTestVisibleInChrome="True"
+                            Header="Game">
+                            <MenuItem
+                                Header="View"
+                                IsCheckable="True"
+                                IsChecked="{Binding ShowGameView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <Separator/>
+                            <MenuItem
+                                Header="Register"/>
+                            <MenuItem
+                                Header="Daily Checkin"/>
                         </MenuItem>
                     </Menu>
                 </StackPanel>
@@ -303,6 +330,10 @@
                 <Grid
                     Visibility="{Binding ShowDiscordView, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <discord:DiscordView />
+                </Grid>
+                <Grid
+                    Visibility="{Binding ShowGameView, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <game:GameView/>
                 </Grid>
                 <GridSplitter
                     Grid.Column="1"

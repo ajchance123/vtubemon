@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace VTubeMon.API.Data.Objects
 {
-    class IUser
+    public interface IUser : IDataObject
     {
+        IDataProperty<ulong> IdUser { get; }
+        IDataProperty<ulong> IdGuild { get; }
+        IDataProperty<int> VTuberCash { get; }
     }
 }

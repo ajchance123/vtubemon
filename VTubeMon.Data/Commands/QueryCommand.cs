@@ -1,14 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using VTubeMon.API;
 
 namespace VTubeMon.Data.Commands
 {
-    public abstract class SelectCommandBase<T> : IDbQueryCommand<T>
+    public class QueryCommand<T> : IDbQueryCommand<T>
         where T : IDataObject, new()
     {
-        protected abstract string Table { get; }
+        public QueryCommand()
+        {
+            WhereCollection = new List<WhereStatement>();
+        }
+
+        public QueryCommand(string table, string columns = "*", params WhereStatement[] whereStatements)
+        {
+            Table = table;
+            Columns = columns;
+            if(whereStatements != null && whereStatements.Length > 0)
+            {
+                WhereCollection = whereStatements;
+            }
+        }
+
+        protected virtual string Table { get; }
         protected virtual string Columns { get; } = "*";
         protected virtual IEnumerable<WhereStatement> WhereCollection { get; }
         public string Statement => $"SELECT {Columns} FROM {Table}{GetWhereCollection()}";

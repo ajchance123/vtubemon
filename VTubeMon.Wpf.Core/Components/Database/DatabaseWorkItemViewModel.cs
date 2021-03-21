@@ -29,49 +29,97 @@ namespace VTubeMon.Wpf.Core.Components.Database
 
         private void ColumnCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            RaisePropertyChanged(nameof(Query));
+            SetAutoQuery();
             switch(e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
                     foreach(var newColumn in e.NewItems)
                     {
-                        (newColumn as ColumnName).PropertyChanged += (s, e) => RaisePropertyChanged(nameof(Query));
+                        (newColumn as ColumnName).PropertyChanged += (s, e) => SetAutoQuery();
                     }
                     break;
             }
         }
 
+        private void SetAutoQuery()
+        {
+            Query = $"SELECT {string.Join(", ", ColumnCollection.Select(c => c.Name))} FROM {Name}";
+        }
+
         private IVTubeMonDbConnection _vTubeMonDbConnection;
 
-        public string Name { get; set; }
+        private string _name;
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                SetProperty(ref _name, value);
+                SetAutoQuery();
+            }
+        }
 
         private string _query;
         public string Query
         {
-            get
-            {
-                return $"SELECT {string.Join(", ", ColumnCollection.Select(c => c.Name))} FROM {Name}";
-            }
+            get => _query;
+            set => SetProperty(ref _query, value);
         }
 
         public ICommand RunCommand => new DelegateCommand(() =>
         {
-            var command = new MultiStringSelectCommand(Query);
-            var results = _vTubeMonDbConnection.ExecuteDbQueryCommand(command);
-
-            ResultsCollection.Clear();
-            foreach(var result in results)
+            try
             {
-                ResultsCollection.Add(result);
+
+                var command = new MultiStringSelectCommand(Query);
+                var results = _vTubeMonDbConnection.ExecuteDbQueryCommand(command);
+
+                ResultsCollection.Clear();
+                foreach (var result in results)
+                {
+                    ResultsCollection.Add(result);
+                }
+
+                ResultColumnNames.Clear();
+                foreach (var column in command.ColumnNames) //this is cheating but meh
+                {
+                    ResultColumnNames.Add(column);
+                }
+                IsErrorVisible = false;
+                IsResultVisible = true;
             }
-
-            ResultColumnNames.Clear();
-            foreach (var column in command.ColumnNames) //this is cheating but meh
+            catch(Exception ex)
             {
-                ResultColumnNames.Add(column);
+                SqlError = ex.Message;
             }
         });
 
+        private bool _isResultVisible;
+        public bool IsResultVisible
+        {
+            get => _isResultVisible;
+            set => SetProperty(ref _isResultVisible, value);
+        }
+
+
+        private bool _isErrorVisible;
+        public bool IsErrorVisible
+        {
+            get => _isErrorVisible;
+            set => SetProperty(ref _isErrorVisible, value);
+        }
+
+        private string _sqlError;
+        public string SqlError
+        {
+            get => _sqlError;
+            set
+            {
+                IsResultVisible = false;
+                IsErrorVisible = true;
+                SetProperty(ref _sqlError, value);
+            }
+        }
         public ICollection<ColumnName> ColumnCollection { get; }
 
         public ICollection<ICollection<string>> ResultsCollection { get; }

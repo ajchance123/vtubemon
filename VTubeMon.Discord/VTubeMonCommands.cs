@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using VTubeMon.API;
 using VTubeMon.API.Core;
+using VTubeMon.API.Core.CommandResults;
 using VTubeMon.Data;
 using VTubeMon.Data.Commands;
 
@@ -15,12 +16,11 @@ namespace VTubeMon.Discord
     public class VTubeMonCommands
     {
         #region REGULAR FOLK COMMANDS
-
         [Command("list")]
         public async Task ListCommand(CommandContext commandContext)
         {
             var dataCache = commandContext.Dependencies.GetDependency<DataCache>();
-            foreach(var vtuber in dataCache.VtuberCache.CachedList)
+            foreach (var vtuber in dataCache.VtuberCache.CachedList)
             {
                 await commandContext.RespondAsync(vtuber.EnName.Value);
             }
@@ -35,17 +35,25 @@ namespace VTubeMon.Discord
                 var logger = commandContext.Dependencies.GetDependency<ILogger>();
 
                 logger?.Log($"discord.RegisterCommand({commandContext.User.Id}{commandContext.Guild.Id} - start");
+
                 var result = coreGame.Register(commandContext.User.Id, commandContext.Guild.Id);
 
-                if (result)
+                logger?.Log($"discord.RegisterCommand({commandContext.User.Id}{commandContext.Guild.Id} - {result.ResultType}");
+
+                switch (result.ResultType)
                 {
-                    await commandContext.RespondAsync($"Registration complete! You now have {coreGame.RegistrationValue} vtuber cash!");
-                    logger?.Log($"discord.RegisterCommand({commandContext.User.Id}{commandContext.Guild.Id} - true");
-                } 
-                else
-                {
-                    logger?.Log($"discord.RegisterCommand({commandContext.User.Id}{commandContext.Guild.Id} - false");
+                    case CommandResultType.Success:
+                        await commandContext.RespondAsync($"Registration complete! You now have {coreGame.RegistrationValue} vtuber cash!");
+                        break;
+                    case CommandResultType.Failure:
+                        await commandContext.RespondAsync($"Sorry an error has occured {result.Error}, go yell at the devs");
+                        break;
+                    case CommandResultType.Duplicate:
+                        await commandContext.RespondAsync($"You are already registered!");
+                        break;
                 }
+
+                logger?.Log($"discord.RegisterCommand({commandContext.User.Id}{commandContext.Guild.Id} - end");
             }
             catch (Exception ex)
             {
@@ -61,12 +69,26 @@ namespace VTubeMon.Discord
                 var coreGame = commandContext.Dependencies.GetDependency<IVTubeMonCoreGame>();
                 var logger = commandContext.Dependencies.GetDependency<ILogger>();
 
-                var dailyCheckinResult = coreGame.DailyCheckIn(commandContext.User.Id, commandContext.Guild.Id);
+                logger?.Log($"discord.DailyCommand({commandContext.User.Id}{commandContext.Guild.Id} - start");
 
-                if (dailyCheckinResult.CheckInSuccessfull)
+                var result = coreGame.DailyCheckIn(commandContext.User.Id, commandContext.Guild.Id, DateTime.UtcNow);
+
+                logger?.Log($"discord.DailyCommand({commandContext.User.Id}{commandContext.Guild.Id} - {result.ResultType}");
+
+                switch (result.ResultType)
                 {
-                    await commandContext.RespondAsync($"Daily check-in complete! You have gained {coreGame.DailyCheckinValue} vtuber cash!");
+                    case CommandResultType.Success:
+                        await commandContext.RespondAsync($"Daily check-in complete! You have gained {coreGame.DailyCheckinValue} vtuber cash!");
+                        break;
+                    case CommandResultType.Failure:
+                        await commandContext.RespondAsync($"Sorry an error has occured {result.Error}, go yell at the devs");
+                        break;
+                    case CommandResultType.Duplicate:
+                        await commandContext.RespondAsync($"You have already checked in today!");
+                        break;
                 }
+
+                logger?.Log($"discord.DailyCommand({commandContext.User.Id}{commandContext.Guild.Id} - end");
             }
             catch (Exception ex)
             {
@@ -82,14 +104,6 @@ namespace VTubeMon.Discord
 
         //these commands should check the user id before we actually exeute them
         //(TODO btw)
-
-        [Command("refresh")]
-        public async Task RefreshCommand(CommandContext commandContext)
-        {
-            var dataCache = commandContext.Dependencies.GetDependency<DataCache>();
-            dataCache.RefreshAll();
-            await commandContext.RespondAsync("Data Refreshed!");
-        }
 
         [Command("ping")]
         public async Task PingCommand(CommandContext commandContext, DiscordMember member)

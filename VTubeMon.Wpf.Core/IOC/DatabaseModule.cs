@@ -11,6 +11,7 @@ namespace VTubeMon.Wpf.Core.IOC
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<VTubeMonMySqlConnection>().As<IVTubeMonDbConnection>().SingleInstance();
+            builder.RegisterType<MySqlCommandFactories>().As<IVTubeMonCommandFactory>().SingleInstance();
             builder.RegisterType<DataCache>().SingleInstance();
             builder.RegisterType<DatabaseWorkspace>().SingleInstance();
         }

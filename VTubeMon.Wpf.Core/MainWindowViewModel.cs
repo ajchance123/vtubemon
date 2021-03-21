@@ -4,14 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
 using VTubeMon.API;
 using VTubeMon.Data;
 using VTubeMon.Data.Objects;
-using VTubeMon.Discord;
 using VTubeMon.Wpf.Core.Components;
 
 namespace VTubeMon.Wpf.Core
@@ -156,10 +154,7 @@ namespace VTubeMon.Wpf.Core
             get => _showDatabaseView;
             set
             {
-                _showDiscordView = false;
-                RaisePropertyChanged(nameof(ShowDiscordView));
-
-                SetProperty(ref _showDatabaseView, value);
+                SetBoolGroup(ref _showDatabaseView);
             }
         }
 
@@ -169,11 +164,32 @@ namespace VTubeMon.Wpf.Core
             get => _showDiscordView;
             set
             {
-                _showDatabaseView = false;
-                RaisePropertyChanged(nameof(ShowDatabaseView));
-
-                SetProperty(ref _showDiscordView, value);
+                SetBoolGroup(ref _showDiscordView);
             }
+        }
+
+        private bool _showGameView = false;
+        public bool ShowGameView
+        {
+            get => _showGameView;
+            set
+            {
+                SetBoolGroup(ref _showGameView);
+            }
+        }
+
+        public void SetBoolGroup(ref bool trueProperty, [CallerMemberName] string propertyName = null)
+        {
+            _showDiscordView = false;
+            RaisePropertyChanged(nameof(ShowDiscordView));
+
+            _showDatabaseView = false;
+            RaisePropertyChanged(nameof(ShowDatabaseView));
+
+            _showGameView = false;
+            RaisePropertyChanged(nameof(ShowGameView));
+
+            SetProperty(ref trueProperty, true, propertyName);
         }
     }
 }

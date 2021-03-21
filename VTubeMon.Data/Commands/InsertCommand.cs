@@ -19,10 +19,12 @@ namespace VTubeMon.Data.Commands
             DataObjects = dataObjects;
         }
 
+        public bool Ignore { get; set; }
+
         public IEnumerable<T> DataObjects { get; }
 
         public string Table { get; }
 
-        public string Statement => $"INSERT INTO {Table}{DataObjects.First().ColumnNames} VALUES {string.Join(",", DataObjects.Select(d => d.Values))}";
+        public string Statement => $"INSERT {(Ignore ? "IGNORE " : string.Empty)}INTO {Table}{DataObjects.First().ColumnNames} VALUES {string.Join(",", DataObjects.Select(d => d.Values))}";
     }
 }
