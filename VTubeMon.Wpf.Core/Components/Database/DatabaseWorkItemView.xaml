@@ -56,7 +56,6 @@
         </Grid>
         <Border
             Grid.Row="1"
-            BorderBrush="Black"
             BorderThickness="1">
             <Grid>
                 <Grid

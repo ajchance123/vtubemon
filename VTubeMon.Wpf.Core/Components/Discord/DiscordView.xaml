@@ -30,10 +30,12 @@
                     Text="{Binding Status}" />
             </StackPanel>
             <Button
+                Style="{DynamicResource Connection}"
                 HorizontalAlignment="Left"
                 Content="Connect"
                 Command="{Binding ConnectDiscordCommand}" />
             <Button
+                Style="{DynamicResource Connection}"
                 HorizontalAlignment="Left"
                 Content="Disconnect"
                 Command="{Binding DisconnectDiscordCommand}"/>

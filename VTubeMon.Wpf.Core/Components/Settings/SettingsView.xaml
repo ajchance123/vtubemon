@@ -18,15 +18,11 @@
                   x:Name="Border" 
                   Grid.ColumnSpan="2"
                   CornerRadius="0"
-                  Background="#FF3F3F3F"
-                  BorderBrush="#FF97A0A5"
                   BorderThickness="1" />
                 <Border 
                   Grid.Column="0"
                   CornerRadius="0" 
-                  Margin="1" 
-                  Background="#FF3F3F3F" 
-                  BorderBrush="#FF97A0A5"
+                  Margin="1"
                   BorderThickness="0,0,1,0" />
                 <Path 
                   x:Name="Arrow"
@@ -90,9 +86,7 @@
                             HorizontalAlignment="Left" 
                             VerticalAlignment="Center" 
                             Margin="3,3,23,3"
-                            Focusable="True" 
-                            Background="#FF3F3F3F"
-                            Foreground="Green"
+                            Focusable="True"
                             Visibility="Hidden"
                             IsReadOnly="{TemplateBinding IsReadOnly}"/>
                             <Popup 
@@ -109,10 +103,8 @@
                               MaxHeight="{TemplateBinding MaxDropDownHeight}">
                                     <Border 
                                 x:Name="DropDownBorder"
-                                Background="#FF3F3F3F"
 
-                                BorderThickness="1"
-                                BorderBrush="#888888"/>
+                                BorderThickness="1"/>
                                     <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
                                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
                                     </ScrollViewer>
