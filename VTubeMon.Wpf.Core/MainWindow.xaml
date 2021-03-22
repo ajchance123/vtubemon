@@ -74,6 +74,12 @@
                     Orientation="Horizontal"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center">
+                    <StackPanel.Resources>
+                        <Style TargetType="Grid"
+                               BasedOn="{StaticResource {x:Type Grid}}">
+                            <Setter Property="Background" Value="Transparent"/>
+                        </Style>
+                    </StackPanel.Resources>
                     <!--App icon-->
                     <TextBlock
                         Text="V Tube Mon"
@@ -86,22 +92,13 @@
                         Background="Transparent">
                         <MenuItem
                             WindowChrome.IsHitTestVisibleInChrome="True"
-                            Header="Settings">
-                            <MenuItem Header="Themes">
-                                <MenuItem.ItemTemplate>
-                                    <DataTemplate>
-                                        <ComboBox>
-                                            Light
-                                            Dark
-                                            High Contrast
-                                        </ComboBox>
-                                    </DataTemplate>
-                                </MenuItem.ItemTemplate>
-                            </MenuItem>
-                        </MenuItem>
-                        <MenuItem
-                            WindowChrome.IsHitTestVisibleInChrome="True"
                             Header="Views">
+                            <MenuItem.Resources>
+                                <Style TargetType="Grid"
+                                        BasedOn="{StaticResource {x:Type Grid}}">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Style>
+                            </MenuItem.Resources>
                             <MenuItem
                                 Header="Settings"
                                 IsCheckable="True"
@@ -121,11 +118,18 @@
                             <MenuItem
                                 Header="Game"
                                 IsCheckable="True"
-                                IsChecked="{Binding ShowGameView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                IsChecked="{Binding ShowGameView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            </MenuItem>
                         </MenuItem>
                         <MenuItem
                             WindowChrome.IsHitTestVisibleInChrome="True"
                             Header="Database">
+                            <MenuItem.Resources>
+                                <Style TargetType="Grid"
+                                        BasedOn="{StaticResource {x:Type Grid}}">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Style>
+                            </MenuItem.Resources>
                             <MenuItem
                                 Header="View"
                                 IsCheckable="True"
@@ -135,6 +139,12 @@
                         <MenuItem
                             WindowChrome.IsHitTestVisibleInChrome="True"
                             Header="Discord">
+                            <MenuItem.Resources>
+                                <Style TargetType="Grid"
+                                        BasedOn="{StaticResource {x:Type Grid}}">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Style>
+                            </MenuItem.Resources>
                             <MenuItem
                                 Header="View"
                                 IsCheckable="True"
@@ -152,6 +162,12 @@
                         <MenuItem
                             WindowChrome.IsHitTestVisibleInChrome="True"
                             Header="Game">
+                            <MenuItem.Resources>
+                                <Style TargetType="Grid"
+                                        BasedOn="{StaticResource {x:Type Grid}}">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Style>
+                            </MenuItem.Resources>
                             <MenuItem
                                 Header="View"
                                 IsCheckable="True"
@@ -340,7 +356,7 @@
                     <ColumnDefinition
                         Width="Auto" />
                     <ColumnDefinition
-                        Width="Auto" />
+                        MinWidth="20"/>
                 </Grid.ColumnDefinitions>
                 <Grid
                     Visibility="{Binding ShowDatabaseView, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -362,11 +378,9 @@
                     Grid.Column="1"
                     Width="5"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Stretch"
-                    Visibility="{Binding ShowLogOutputWindow, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    VerticalAlignment="Stretch" />
                 <Grid
-                    MinWidth="150"
-                    Background="LightGray"
+                    Style="{DynamicResource ConsoleLog}"
                     Grid.Column="2"
                     Visibility="{Binding ShowLogOutputWindow, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <ScrollViewer
@@ -376,7 +390,8 @@
                             ItemsSource="{Binding LogCollection}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <StackPanel />
+                                    <StackPanel
+                                        Background="Transparent"/>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>

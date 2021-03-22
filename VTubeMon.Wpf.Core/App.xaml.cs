@@ -11,7 +11,7 @@ using VTubeMon.Wpf.Core.Themes;
 
 namespace VTubeMon.Wpf.Core
 {
-    public enum Skin { Dark, Light, Contrast }
+    public enum Skin { Light, Dark, Contrast }
 
     /// <summary>
     /// Interaction logic for App.xaml

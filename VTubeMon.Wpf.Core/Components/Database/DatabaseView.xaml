@@ -24,6 +24,7 @@
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock
+                        Background="Transparent"
                         Text="{Binding Name}" />
                 </DataTemplate>
             </TabControl.ItemTemplate>
