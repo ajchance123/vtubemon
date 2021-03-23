@@ -382,6 +382,7 @@
                     Grid.Column="2"
                     Visibility="{Binding ShowLogOutputWindow, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <ScrollViewer
+                        Margin="5"
                         HorizontalScrollBarVisibility="Disabled"
                         VerticalScrollBarVisibility="Auto">
                         <ItemsControl
