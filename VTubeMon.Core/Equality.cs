@@ -15,7 +15,7 @@ namespace VTubeMon.Core
     {
         public static string Display(this Equality equality)
         {
-            switch(equality)
+            switch (equality)
             {
                 case Equality.EqualTo:
                     return "=";
@@ -32,6 +32,27 @@ namespace VTubeMon.Core
             }
 
             throw new System.ArgumentException("Not a valid value for equality type", nameof(equality));
+        }
+
+        public static Equality ToEquality(this string display)
+        {
+            switch (display)
+            {
+                case "=":
+                    return Equality.EqualTo;
+                case "!=":
+                    return Equality.NotEqualTo;
+                case ">":
+                    return Equality.GreaterThan;
+                case ">=":
+                    return Equality.GreaterThanOrEqualTo;
+                case "<":
+                    return Equality.LessThan;
+                case "<=":
+                    return Equality.LessThanOrEqualTo;
+            }
+
+            throw new System.ArgumentException("Not a valid value for equality type", nameof(display));
         }
     }
 }

@@ -3,7 +3,7 @@ using System;
 
 namespace VTubeMon.API.Core.CommandResults
 {
-    public struct CommandResult
+    public class CommandResult
     {
         public CommandResult(CommandResultType resultType, string error = null)
         {

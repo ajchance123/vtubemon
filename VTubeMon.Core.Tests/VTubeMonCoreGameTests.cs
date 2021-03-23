@@ -28,7 +28,7 @@ namespace VTubeMon.Core.Tests
             ulong guild = 1000;
             var cash = _vTubeMonCoreGame.RegistrationValue;
 
-            var result = new CommandResult(CommandResultType.Success);
+            var result = new CommandResult(CommandResultType.Failure);
 
             _mockVtubeMonCommandfactory.Setup(m => m.RegisterCommand(user, guild, cash)).Returns(result);
 
@@ -36,8 +36,8 @@ namespace VTubeMon.Core.Tests
             var registerResult = _vTubeMonCoreGame.Register(user, guild);
 
             //Assert
-            _mockVtubeMonCommandfactory.VerifyAll();
-            Assert.ReferenceEquals(result, registerResult);
+            _mockVtubeMonCommandfactory.Verify(m => m.RegisterCommand(user, guild, cash));
+            Assert.AreSame(result, registerResult);
         }
 
 
