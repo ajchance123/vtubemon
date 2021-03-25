@@ -15,7 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VTubeMon.Data\VTubeMon.Data.csproj" />
+    <ProjectReference Include="..\VTubeMon.API\VTubeMon.API.csproj" />
+    <ProjectReference Include="..\VTubeMon.Wpf.Core\VTubeMon.Wpf.Core.csproj" />
   </ItemGroup>
 
 </Project>
