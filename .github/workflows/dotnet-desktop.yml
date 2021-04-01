@@ -81,16 +81,16 @@ jobs:
     # Restore Nuget Packages
     - name: Restore Nuget Packages
       run: dotnet restore --packages pkgs
-    
-    # Execute all unit tests in the solution
-    - name: Execute unit tests
-      run: dotnet test
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
       run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
+    
+    # Execute all unit tests in the solution
+    - name: Execute unit tests
+      run: dotnet test
 
     # Decode the base 64 encoded pfx and save the Signing_Certificate
     #- name: Decode the pfx
