@@ -86,7 +86,6 @@ jobs:
     - name:  Restore the Wpf application to populate the obj folder
       run: msbuild $env:Solution_Path /t:Restore /p:Configuration=$env:Configuration /p:RuntimeIdentifier=$env:RuntimeIdentifier
       env:
-        Configuration: Debug
         RuntimeIdentifier: win-${{ matrix.targetplatform }}
     
     # Execute all unit tests in the solution
