@@ -82,11 +82,12 @@ jobs:
     - name: Restore Nuget Packages
       run: dotnet restore --packages pkgs
 
-    # Restore the application to populate the obj folder with RuntimeIdentifiers
-    - name: Restore the application
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
+    # Restore the application
+    - name:  Restore the Wpf application to populate the obj folder
+      run: msbuild $env:Solution_Path /t:Restore /p:Configuration=$env:Configuration /p:RuntimeIdentifier=$env:RuntimeIdentifier
       env:
-        Configuration: ${{ matrix.configuration }}
+        Configuration: Debug
+        RuntimeIdentifier: win-${{ matrix.targetplatform }}
     
     # Execute all unit tests in the solution
     - name: Execute unit tests
