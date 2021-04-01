@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace VTubeMon.Wpf.Core.Themes
 {
     public class ThemeService
     {
-        public IList<Skin> skins = new List<Skin>() { Skin.Light, Skin.Dark, Skin.Contrast };
-
-        public event EventHandler<Skin> onSkinsChanged;
-        public void ChangeSkin(Skin newSkin)
+        private ThemeResourceDictionary _themeResourceDictionary;
+        public ThemeService(ThemeResourceDictionary resourceDictionary)
         {
-            onSkinsChanged?.Invoke(this, newSkin);
+            _themeResourceDictionary = resourceDictionary;
         }
+
+        public IEnumerable<string> Themes => _themeResourceDictionary.Themes;
+        public void SetTheme(string theme) => _themeResourceDictionary.SetTheme(theme);
+        public string SelectedTheme => _themeResourceDictionary.SelectedTheme;
     }
 }

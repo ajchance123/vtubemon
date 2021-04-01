@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using VTubeMon.API;
@@ -11,8 +12,6 @@ using VTubeMon.Wpf.Core.Themes;
 
 namespace VTubeMon.Wpf.Core
 {
-    public enum Skin { Light, Dark, Contrast }
-
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
@@ -24,7 +23,6 @@ namespace VTubeMon.Wpf.Core
         }
 
         private const long MAX_FILE_SIZE = 52428800; //should be 50Mb if I can do math
-
         private string vtubeCommon = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "VTube");
         private string logFile;
         private Window mainWindow = null;
@@ -41,10 +39,14 @@ namespace VTubeMon.Wpf.Core
             LogThread = new Thread(new ThreadStart(LogLoop)) { IsBackground = true };
             LogThread.Start();
 
+            var themeResourceDictionary = new ThemeResourceDictionary();
+            this.Resources.MergedDictionaries.Add(themeResourceDictionary);
+
             ContainerBuilder cb = new ContainerBuilder();
 
             var logger = new EventLogger();
             logger.OnLog += Logger_OnLog;
+            cb.RegisterInstance(themeResourceDictionary);
             cb.RegisterInstance(logger).As<ILogger>();
             cb.RegisterModule<DatabaseModule>();
             cb.RegisterModule<DiscordModule>();
@@ -53,9 +55,6 @@ namespace VTubeMon.Wpf.Core
             cb.RegisterModule<SettingsModule>();
 
             Container = cb.Build();
-
-            changeTheme = Container.Resolve<ThemeService>();
-            changeTheme.onSkinsChanged += ChangeTheme_onSkinsChanged;
 
             try
             {
@@ -70,11 +69,6 @@ namespace VTubeMon.Wpf.Core
             }
 
             logger.Log("------ Session End ------");
-        }
-
-        private void ChangeTheme_onSkinsChanged(object sender, Skin e)
-        {
-            ChangeSkin(e);
         }
 
         private Thread LogThread;
@@ -108,25 +102,6 @@ namespace VTubeMon.Wpf.Core
         {
             LogQueue.Enqueue($"{DateTime.Now.ToString("G")}\t{e}");
             LogSignal.Set();
-        }
-
-        public static Skin Skin { get; set; } = Skin.Dark;
-
-        ThemeService changeTheme;
-        public void ChangeSkin(Skin newSkin)
-        {
-            Skin = newSkin;
-            foreach (ResourceDictionary dict in Resources.MergedDictionaries)
-            {
-                if (dict is SkinResourceDictionary skinDict)
-                {
-                    skinDict.UpdateSource(newSkin);
-                }
-                else
-                {
-                    dict.Source = dict.Source;
-                }
-            }
         }
     }
 }

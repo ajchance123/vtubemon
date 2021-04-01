@@ -166,8 +166,8 @@
     </UserControl.Resources>
     <Grid>
         <ComboBox
-            SelectedItem="{Binding SelectedSkin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            ItemsSource="{Binding SkinCollection}"
+            SelectedItem="{Binding SelectedTheme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            ItemsSource="{Binding ThemeCollection}"
             VerticalAlignment="Top"
             HorizontalAlignment="Left">
         </ComboBox>

@@ -11,21 +11,22 @@ namespace VTubeMon.Wpf.Core.Components.Settings
     {
         public SettingsViewModel(ThemeService themeService)
         {
-            SkinCollection = new ObservableCollection<Skin>(themeService.skins);
+            ThemeCollection = new ObservableCollection<string>(themeService.Themes);
 
             _themeService = themeService;
+            _selectedTheme = _themeService.SelectedTheme;
         }
 
         private ThemeService _themeService;
-        public ICollection<Skin> SkinCollection { get; }
-        private Skin _selectedSkin;
-        public Skin SelectedSkin
+        public ICollection<string> ThemeCollection { get; }
+        private string _selectedTheme;
+        public string SelectedTheme
         {
-            get => _selectedSkin;
+            get => _selectedTheme;
             set
             {
-                SetProperty(ref _selectedSkin, value);
-                _themeService.ChangeSkin(value);
+                SetProperty(ref _selectedTheme, value);
+                _themeService.SetTheme(value);
             }
         }
     }
