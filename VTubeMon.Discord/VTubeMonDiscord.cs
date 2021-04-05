@@ -2,10 +2,13 @@
 using DSharpPlus.CommandsNext;
 using DSharpPlus.Interactivity;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using VTubeMon.API;
 using VTubeMon.API.Core;
+using VTubeMon.API.Server;
 using VTubeMon.Data;
 
 namespace VTubeMon.Discord
@@ -43,6 +46,7 @@ namespace VTubeMon.Discord
                 Token = token,
                 TokenType = TokenType.Bot
             });
+            _client.Ready += On_Client_Ready;
 
             var dependencyCollectionBuilder = new DependencyCollectionBuilder();
             dependencyCollectionBuilder.AddInstance(_dataCache);
@@ -62,6 +66,12 @@ namespace VTubeMon.Discord
 
             commandModule.RegisterCommands<VTubeMonCommands>();
             _logger.Log($"VTubeMonDiscord.CreateNewClient({prefix}) - end");
+        }
+
+        public event EventHandler<bool> OnReadyChanged;
+        private async Task On_Client_Ready(DSharpPlus.EventArgs.ReadyEventArgs e)
+        {
+            OnReadyChanged?.Invoke(this, true);
         }
 
         public int Ping { get; }
@@ -101,6 +111,18 @@ namespace VTubeMon.Discord
                 throw ex;
             }
             _logger.Log($"VTubeMonDiscord.Disconnect() - end");
+        }
+
+        public IEnumerable<IServer> Servers
+        {
+            get
+            {
+                return _client.Guilds.Select(g =>
+                {
+                    IServer server = new DiscordServer(_client, g.Value);
+                    return server;
+                });
+            }
         }
     }
 }

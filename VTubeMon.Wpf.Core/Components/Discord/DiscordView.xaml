@@ -39,6 +39,41 @@
                 HorizontalAlignment="Left"
                 Content="Disconnect"
                 Command="{Binding DisconnectDiscordCommand}"/>
+            <Button
+                HorizontalAlignment="Left"
+                Content="Refresh Servers"
+                Command="{Binding RefreshServersCommmand}"/>
+
+            <GroupBox
+                Header="Send Message"
+                BorderThickness="0">
+                <StackPanel>
+                    <TextBox
+                        HorizontalAlignment="Left"
+                        MinWidth="300"
+                        Text="{Binding MessageToSend, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button
+                        HorizontalAlignment="Left"
+                        Content="Send Message"
+                        Command="{Binding SendMessageCommand}"/>
+                    <ItemsControl
+                        Height="300"
+                        ItemsSource="{Binding ServerCollection}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox
+                                    Content="{Binding ServerName}"
+                                    IsChecked="{Binding IsServerSelected}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </StackPanel>
+            </GroupBox>
         </StackPanel>
         <Grid
             Grid.Row="1">

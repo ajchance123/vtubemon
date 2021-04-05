@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using VTubeMon.API.Server;
 
 namespace VTubeMon.API
 {
@@ -9,9 +11,11 @@ namespace VTubeMon.API
 
         event EventHandler<bool> OnConnect;
         event EventHandler<bool> OnDisconnect;
+        event EventHandler<bool> OnReadyChanged;
 
         Task ConnectAsync();
         void CreateNewClient(string prefix = "v!");
         Task DisconnectAsync();
+        IEnumerable<IServer> Servers { get; }
     }
 }
