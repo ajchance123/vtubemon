@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Page Remove="Resources\strings.jp.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="6.1.0" />
     <PackageReference Include="MvvmLight" Version="5.4.1.1" />
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
@@ -17,6 +21,12 @@
     <ProjectReference Include="..\VTubeMon.Data\VTubeMon.Data.csproj" />
     <ProjectReference Include="..\VTubeMon.Discord\VTubeMon.Discord.csproj" />
     <ProjectReference Include="..\VTubeMon.MySql\VTubeMon.MySql.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Resources\Strings\strings.jp.xaml">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Page>
   </ItemGroup>
 
 </Project>

@@ -8,6 +8,7 @@ using System.Windows;
 using VTubeMon.API;
 using VTubeMon.Core;
 using VTubeMon.Wpf.Core.IOC;
+using VTubeMon.Wpf.Core.Resources.Strings;
 using VTubeMon.Wpf.Core.Themes;
 
 namespace VTubeMon.Wpf.Core
@@ -42,11 +43,15 @@ namespace VTubeMon.Wpf.Core
             var themeResourceDictionary = new ThemeResourceDictionary();
             this.Resources.MergedDictionaries.Add(themeResourceDictionary);
 
+            var stringsResourceDictionary = new StringsResourceDictionary();
+            this.Resources.MergedDictionaries.Add(stringsResourceDictionary);
+
             ContainerBuilder cb = new ContainerBuilder();
 
             var logger = new EventLogger();
             logger.OnLog += Logger_OnLog;
             cb.RegisterInstance(themeResourceDictionary);
+            cb.RegisterInstance(stringsResourceDictionary);
             cb.RegisterInstance(logger).As<ILogger>();
             cb.RegisterModule<DatabaseModule>();
             cb.RegisterModule<DiscordModule>();

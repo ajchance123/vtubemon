@@ -6,9 +6,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="clr-namespace:VTubeMon.Wpf.Core.Converters"
     xmlns:database="clr-namespace:VTubeMon.Wpf.Core.Components.Database"
-    xmlns:discord="clr-namespace:VTubeMon.Wpf.Core.Components.Discord" xmlns:game="clr-namespace:VTubeMon.Wpf.Core.Components.Game" xmlns:settings="clr-namespace:VTubeMon.Wpf.Core.Components.Settings"
+    xmlns:discord="clr-namespace:VTubeMon.Wpf.Core.Components.Discord" 
+    xmlns:game="clr-namespace:VTubeMon.Wpf.Core.Components.Game" 
+    xmlns:settings="clr-namespace:VTubeMon.Wpf.Core.Components.Settings"
     mc:Ignorable="d"
-    Title="MainWindow"
     d:Height="1080"
     d:Width="1920"
     DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}">
@@ -82,7 +83,7 @@
                     </StackPanel.Resources>
                     <!--App icon-->
                     <TextBlock
-                        Text="V Tube Mon"
+                        Text="{DynamicResource VTubeMon_Spaces}"
                         Margin="5,0,0,0"
                         VerticalAlignment="Center"
                         FontSize="18" />
@@ -92,7 +93,7 @@
                         Background="Transparent">
                         <MenuItem
                             WindowChrome.IsHitTestVisibleInChrome="True"
-                            Header="Views">
+                            Header="{DynamicResource View}">
                             <MenuItem.Resources>
                                 <Style TargetType="Grid"
                                         BasedOn="{StaticResource {x:Type Grid}}">
@@ -100,30 +101,30 @@
                                 </Style>
                             </MenuItem.Resources>
                             <MenuItem
-                                Header="Settings"
+                                Header="{DynamicResource Settings}"
                                 IsCheckable="True"
                                 IsChecked="{Binding ShowSettingsView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <MenuItem
-                                Header="Logs"
+                                Header="{DynamicResource Logs}"
                                 IsCheckable="True"
                                 IsChecked="{Binding ShowLogOutputWindow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <MenuItem
-                                Header="Discord"
+                                Header="{DynamicResource Discord}"
                                 IsCheckable="True"
                                 IsChecked="{Binding ShowDiscordView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <MenuItem
-                                Header="Database"
+                                Header="{DynamicResource Database}"
                                 IsCheckable="True"
                                 IsChecked="{Binding ShowDatabaseView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <MenuItem
-                                Header="Game"
+                                Header="{DynamicResource Game}"
                                 IsCheckable="True"
                                 IsChecked="{Binding ShowGameView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             </MenuItem>
                         </MenuItem>
                         <MenuItem
                             WindowChrome.IsHitTestVisibleInChrome="True"
-                            Header="Database">
+                            Header="{DynamicResource Database}">
                             <MenuItem.Resources>
                                 <Style TargetType="Grid"
                                         BasedOn="{StaticResource {x:Type Grid}}">
@@ -137,7 +138,7 @@
                         </MenuItem>
                         <MenuItem
                             WindowChrome.IsHitTestVisibleInChrome="True"
-                            Header="Discord">
+                            Header="{DynamicResource Discord}">
                             <MenuItem.Resources>
                                 <Style TargetType="Grid"
                                         BasedOn="{StaticResource {x:Type Grid}}">
@@ -159,7 +160,7 @@
                         </MenuItem>
                         <MenuItem
                             WindowChrome.IsHitTestVisibleInChrome="True"
-                            Header="Game">
+                            Header="{DynamicResource Game}">
                             <MenuItem.Resources>
                                 <Style TargetType="Grid"
                                         BasedOn="{StaticResource {x:Type Grid}}">

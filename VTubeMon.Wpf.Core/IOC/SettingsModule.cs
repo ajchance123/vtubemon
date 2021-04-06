@@ -1,8 +1,5 @@
 ﻿using Autofac;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using VTubeMon.Wpf.Core.Themes;
+using VTubeMon.Wpf.Core.Resources;
 
 namespace VTubeMon.Wpf.Core.IOC
 {
@@ -11,6 +8,7 @@ namespace VTubeMon.Wpf.Core.IOC
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<ThemeService>().SingleInstance();
+            builder.RegisterType<StringsService>().SingleInstance();
         }
     }
 }
