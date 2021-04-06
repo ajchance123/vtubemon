@@ -38,6 +38,20 @@ CREATE TABLE vtube_mon_db.vtubers (
 	UNIQUE INDEX id_vtubers_UNIQUE (id_vtubers ASC) VISIBLE,
 	CONSTRAINT fk_vtubers_id_agency FOREIGN KEY (id_agency) REFERENCES agencies(id_agency));
 
+CREATE TABLE `vtube_mon_db`.`vtubers_images` (
+  `id_vtuber_image` INT NOT NULL AUTO_INCREMENT,
+  `id_vtuber` INT NOT NULL,
+  `image_path` VARCHAR(256) NOT NULL,
+  PRIMARY KEY (`id_vtuber_image`),
+  INDEX `vtuber_image_id_vituber_idx` (`id_vtuber` ASC) VISIBLE,
+  UNIQUE INDEX `image_path_UNIQUE` (`image_path` ASC) VISIBLE,
+  UNIQUE INDEX `id_vtuber_image_UNIQUE` (`id_vtuber_image` ASC) VISIBLE,
+  CONSTRAINT `vtuber_image_id_vituber`
+    FOREIGN KEY (`id_vtuber`)
+    REFERENCES `vtube_mon_db`.`vtubers` (`id_vtubers`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
 INSERT INTO vtube_mon_db.agencies
 	(agency_name)
 VALUES
@@ -66,3 +80,10 @@ VALUES
     ('Yuzuki Choco',       '癒月ちょこ',   'https://www.youtube.com/channel/UC1suqwovbL1kzsoaZgFZLKg', '2018-09-05', 1, 0, 2),
     ('Oozora Subaru',     '大空スバル',   'https://www.youtube.com/channel/UCvzGlP9oQwU--Y0r9id_jnA', '2018-09-16', 1, 0, 2);
 	;
+	
+INSERT INTO 
+	vtube_mon_db.vtubers_images
+	(id_vtuber, image_path)
+
+VALUES
+	(1, 'C:\VTubeMonData\Images\Tokino_Sora_2020_Portrait.png');

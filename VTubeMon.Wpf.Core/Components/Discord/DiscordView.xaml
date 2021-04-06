@@ -52,18 +52,48 @@
                         HorizontalAlignment="Left"
                         MinWidth="300"
                         Text="{Binding MessageToSend, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Button
-                        HorizontalAlignment="Left"
-                        Content="Send Message"
-                        Command="{Binding SendMessageCommand}"/>
+                    <StackPanel
+                        Orientation="Horizontal">
+
+                        <TextBox
+                            Width="300"
+                            HorizontalAlignment="Left"
+                            Text="{Binding FileAttachmentPath, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Button
+                            Content="Browse"
+                            HorizontalAlignment="Left"
+                            Command="{Binding BrowseFileAttachmentCommand}"/>
+                    </StackPanel>
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <Button
+                            HorizontalAlignment="Left"
+                            Content="Send Message"
+                            Command="{Binding SendMessageCommand}"/>
+                        <CheckBox
+                            Content="Attach File"
+                            VerticalAlignment="Center"
+                            IsChecked="{Binding SendFile, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
                     <ItemsControl
                         Height="300"
                         ItemsSource="{Binding ServerCollection}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox
-                                    Content="{Binding ServerName}"
-                                    IsChecked="{Binding IsServerSelected}"/>
+                                <GroupBox
+                                    BorderThickness="0"
+                                    Header="{Binding ServerName}">
+                                    <ItemsControl
+                                        ItemsSource="{Binding ChannelCollection}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox
+                                                    Content="{Binding Name}"
+                                                    IsChecked="{Binding IsSelected}"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </GroupBox>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                         <ItemsControl.ItemsPanel>

@@ -119,7 +119,7 @@ namespace VTubeMon.Discord
             {
                 return _client.Guilds.Select(g =>
                 {
-                    IServer server = new DiscordServer(_client, g.Value);
+                    IServer server = new VTubeMonDiscordServer(g.Value);
                     return server;
                 });
             }

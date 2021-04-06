@@ -14,7 +14,7 @@ namespace VTubeMon.Wpf.Core.Components.Database
 {
     public class DatabaseWorkItemViewModel : BindableBase
     {
-        public DatabaseWorkItemViewModel(IVTubeMonDbConnection vTubeMonDbConnection)
+        public DatabaseWorkItemViewModel(IVTubeMonDbConnection vTubeMonDbConnection, params DatabaseWorkItemAction[] specialActions)
         {
             var columnCollection = new ObservableCollection<ColumnName>();
             columnCollection.CollectionChanged += ColumnCollection_CollectionChanged;
@@ -25,7 +25,18 @@ namespace VTubeMon.Wpf.Core.Components.Database
             _vTubeMonDbConnection = vTubeMonDbConnection;
             ResultsCollection = new ObservableCollection<ICollection<string>>();
             ResultColumnNames = new ObservableCollection<string>();
+
+            SpecialActions = new ObservableCollection<DatabaseWorkItemAction>();
+            if(specialActions != null)
+            {
+                foreach(var specialAction in specialActions)
+                {
+                    SpecialActions.Add(specialAction);
+                }
+            }
         }
+
+        public ICollection<DatabaseWorkItemAction> SpecialActions { get; }
 
         private void ColumnCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {

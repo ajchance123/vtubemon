@@ -8,6 +8,8 @@ namespace VTubeMon.API.Server
     {
         ulong Id { get; }
         string Name { get; }
-        void SendMessage(string message);
+        void SendMessageToDefaultChannel(string message);
+        void SendMessageToDefaultChannel(string message, string fileName);
+        IEnumerable<IChannel> Channels { get; }
     }
 }

@@ -3,13 +3,12 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
-using System.Windows.Input;
+using System.Text;using System.Windows.Input;
 using System.Windows.Threading;
 using VTubeMon.API;
 using System.Linq;
-using VTubeMon.Discord;
 using System.Windows;
+using Microsoft.Win32;
 
 namespace VTubeMon.Wpf.Core.Components.Discord
 {
@@ -172,9 +171,34 @@ namespace VTubeMon.Wpf.Core.Components.Discord
         public string MessageToSend { get; set; }
         public ICommand SendMessageCommand => new DelegateCommand(() =>
         {
-            foreach(var server in ServerCollection.Where(s => s.IsServerSelected))
+            foreach(var server in ServerCollection)
             {
-                server.SendMessage(MessageToSend);
+                foreach(var channel in server.ChannelCollection.Where(c => c.IsSelected))
+                {
+                    if (SendFile)
+                        channel.SendMessage(MessageToSend, FileAttachmentPath);
+                    else
+                        channel.SendMessage(MessageToSend);
+                }
+            }
+        });
+
+        private string _fileAttachmentPath;
+        public string FileAttachmentPath
+        {
+            get => _fileAttachmentPath;
+            set => SetProperty(ref _fileAttachmentPath, value);
+        }
+
+        public bool SendFile { get; set; }
+        public ICommand BrowseFileAttachmentCommand => new DelegateCommand(() =>
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            var result = ofd.ShowDialog();
+            if (result.HasValue && result.Value)
+            {
+                FileAttachmentPath = ofd.FileName;
             }
         });
     }

@@ -31,6 +31,10 @@ namespace VTubeMon.Wpf.Core.Components.Database
                 {
                     Name = "agencies"
                 },
+                new DatabaseWorkItemViewModel(vTubeMonDbConnection, new DatabaseWorkItemAction("Add Image", () => null))
+                {
+                    Name = "vtubers_images"
+                },
             };
         }
 
