@@ -21,7 +21,8 @@ namespace VTubeMon.Wpf.Core.IO
         public void SerializeJsonToFile(string filename, object o)
         {
             var jsonString = JsonConvert.SerializeObject(o);
-            _fileService.WriteAllText(_fileService.PathCombine(_path, filename), jsonString);
+            var path = _fileService.PathCombine(_path, filename);
+            _fileService.WriteAllText(path, jsonString);
         }
 
         public T DeserializeFileToJson<T>(string filename)
