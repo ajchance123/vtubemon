@@ -4,6 +4,7 @@
     {
         string ColumnName { get; }
         string ValueString { get; }
+        bool CanInsert { get; }
         void SetValue(INamedDataReader dataReader);
     }
 

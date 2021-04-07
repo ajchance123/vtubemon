@@ -52,36 +52,77 @@
                 <TextBox
                     Grid.Row="1"
                     Text="{Binding Query, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <ItemsControl
-                    Grid.Row="2"
-                    ItemsSource="{Binding SpecialActions}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel
-                                Orientation="Horizontal">
-                                <Button
-                                    Content="{Binding Name}"
-                                    Command="{Binding ExecuteActionCommand}"/>
-                                <ItemsControl
-                                    ItemsSource="{Binding ActionParameters}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel
-                                                Orientation="Horizontal">
-                                                <TextBlock
-                                                    Text="{Binding ParameterValue}"/>
-                                                <Button
-                                                    Content="{Binding CommandName}"
-                                                    Command="{Binding ParameterCommand}"
-                                                    Visibility="{Binding ShowCommand, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <Grid
+                    Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Text="Special Actions" />
+                    <ItemsControl
+                        Grid.Row="1"
+                        ItemsSource="{Binding SpecialActions}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition
+                                            Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel
+                                        Orientation="Horizontal">
+                                        <Button
+                                            Content="{Binding Name}"
+                                            VerticalAlignment="Center"
+                                            Command="{Binding ExecuteActionCommand}" />
+                                        <ItemsControl
+                                            ItemsSource="{Binding ActionParameters}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel
+                                                        Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel
+                                                        Margin="5,0,5,0">
+                                                        <TextBlock
+                                                            Text="{Binding Name}" />
+                                                        <Grid>
+                                                            <StackPanel
+                                                                Orientation="Horizontal">
+                                                                <TextBlock
+                                                                    Width="100"
+                                                                    Text="{Binding ParameterValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                                <Button
+                                                                    Content="{Binding CommandName}"
+                                                                    Command="{Binding ParameterCommand}"
+                                                                    Visibility="{Binding ShowCommand, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                                            </StackPanel>
+                                                            <Grid
+                                                                Visibility="{Binding ShowList, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                                <ComboBox
+                                                                    SelectedItem="{Binding ParameterValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                    ItemsSource="{Binding ParameterValueCollection}" />
+                                                            </Grid>
+                                                        </Grid>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Text="{Binding DataMessage}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
             </Grid>
         </Grid>
         <Border

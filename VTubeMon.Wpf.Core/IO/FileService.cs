@@ -29,5 +29,10 @@ namespace VTubeMon.Wpf.Core.IO
         {
             return Path.Combine(paths);
         }
+
+        public string GetRelativePath(string relativeTo, string path)
+        {
+            return Path.GetRelativePath(relativeTo, path);
+        }
     }
 }

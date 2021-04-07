@@ -1,4 +1,4 @@
-﻿namespace VTubeMon.Wpf.Core.IO
+﻿namespace VTubeMon.API
 {
     public interface IIOService
     {

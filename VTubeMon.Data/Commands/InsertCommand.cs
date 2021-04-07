@@ -25,6 +25,6 @@ namespace VTubeMon.Data.Commands
 
         public string Table { get; }
 
-        public string Statement => $"INSERT {(Ignore ? "IGNORE " : string.Empty)}INTO {Table}{DataObjects.First().ColumnNames} VALUES {string.Join(",", DataObjects.Select(d => d.Values))}";
+        public string Statement => $"INSERT {(Ignore ? "IGNORE " : string.Empty)}INTO {Table}{DataObjects.First().InsertableColumnNames} VALUES {string.Join(",", DataObjects.Select(d => d.InsertableValues))}";
     }
 }

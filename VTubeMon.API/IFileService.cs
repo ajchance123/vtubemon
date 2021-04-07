@@ -10,5 +10,6 @@ namespace VTubeMon.API
         string ReadAllText(string path);
 
         string PathCombine(params string[] paths);
+        string GetRelativePath(string relativeTo, string path);
     }
 }

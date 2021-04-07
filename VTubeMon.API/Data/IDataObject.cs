@@ -11,6 +11,8 @@ namespace VTubeMon.API
         IList<IDataProperty> DataPropertyList { get; }
 
         string ColumnNames { get; }
+        string InsertableColumnNames { get; }
         string Values { get; }
+        string InsertableValues { get; }
     }
 }

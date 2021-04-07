@@ -1,9 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Win32;
+using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
+using System.Windows.Input;
+using VTubeMon.API;
 using VTubeMon.Wpf.Core.IO;
 using VTubeMon.Wpf.Core.Resources;
 using VTubeMon.Wpf.Core.Resources.Strings;
@@ -12,12 +14,12 @@ namespace VTubeMon.Wpf.Core.Components.Settings
 {
     public class SettingsViewModel : BindableBase
     {
-        public SettingsViewModel(ThemeService themeService, StringsService stringsService, IIOService ioService)
+        public SettingsViewModel(ThemeService themeService, StringsService stringsService, IModelService modelService)
         {
             ThemeCollection = new ObservableCollection<Translation>(themeService.ResourceNames.Select(s => stringsService.Translate(s)));
             LanguageCollection = new ObservableCollection<string>(stringsService.ResourceNames);
 
-            _ioService = ioService;
+            _modelService = modelService;
             _themeService = themeService;
             _stringsService = stringsService;
             _stringsService.OnResourceNameChanged += _stringsService_OnResourceNameChanged;
@@ -30,7 +32,7 @@ namespace VTubeMon.Wpf.Core.Components.Settings
 
         private void ReadModel()
         {
-            var settingsModel = _ioService.DeserializeFileToJson<SettingsModel>(_settingsFileName);
+            var settingsModel = _modelService.LoadModel<SettingsModel>(_settingsFileName);
             _model = settingsModel ?? new SettingsModel();
             if (settingsModel != null)
             {
@@ -41,16 +43,19 @@ namespace VTubeMon.Wpf.Core.Components.Settings
                 _stringsService.SetResource(settingsModel.SelectedLanguage);
                 _selectedLanguage = settingsModel.SelectedLanguage;
                 RaisePropertyChanged(nameof(SelectedLanguage));
+
+                _localImageFolder = settingsModel.ImageFolder;
+                RaisePropertyChanged(nameof(LocalImageFolder));
             }
         }
 
         private void SaveModel()
         {
-            _ioService.SerializeJsonToFile(_settingsFileName, _model);
+            _modelService.SaveModel(_settingsFileName, _model);
         }
 
         private string _settingsFileName = "UserSettings.json";
-        private IIOService _ioService;
+        private IModelService _modelService;
         private SettingsModel _model;
 
         private void _stringsService_OnResourceNameChanged(object sender, string e)
@@ -95,6 +100,29 @@ namespace VTubeMon.Wpf.Core.Components.Settings
                 SetProperty(ref _selectedLanguage, value);
                 _stringsService.SetResource(value);
                 _model.SelectedLanguage = value;
+                SaveModel();
+            }
+        }
+
+        public ICommand BrowseLocalImageFolderCommand => new DelegateCommand(() =>
+        {
+            Ookii.Dialogs.Wpf.VistaFolderBrowserDialog vistaFolderBrowserDialog = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog();
+            var result = vistaFolderBrowserDialog.ShowDialog();
+
+            if(result.HasValue && result.Value)
+            {
+                LocalImageFolder = vistaFolderBrowserDialog.SelectedPath;
+            }
+        });
+
+        private string _localImageFolder;
+        public string LocalImageFolder
+        {
+            get => _localImageFolder;
+            set
+            {
+                SetProperty(ref _localImageFolder, value);
+                _model.ImageFolder = value;
                 SaveModel();
             }
         }

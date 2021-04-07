@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using VTubeMon.API;
+using VTubeMon.API.Data.Objects;
 
 namespace VTubeMon.Data.Objects
 {
-    public class VTuber : DataObjectBase
+    public class VTuber : DataObjectBase, IVTuber
     {
         public VTuber()
         {
@@ -23,14 +24,14 @@ namespace VTubeMon.Data.Objects
             };
         }
 
-        public DataProperty<int> IdVtubers{ get; private set; }
-        public DataProperty<string> EnName { get; private set; }
-        public DataProperty<string> JpName { get; private set; }
-        public DataProperty<string> ChannelLink{ get; private set; }
-        public DataProperty<DateTime> DebutDatetimeUtc{ get; private set; }
-        public DataProperty<int> IdAgency { get; private set; }
-        public DataProperty<bool> IsIndependent{ get; private set; }
-        public DataProperty<int> Generation{ get; private set; }
+        public IDataProperty<int> IdVtubers{ get; private set; }
+        public IDataProperty<string> EnName { get; private set; }
+        public IDataProperty<string> JpName { get; private set; }
+        public IDataProperty<string> ChannelLink{ get; private set; }
+        public IDataProperty<DateTime> DebutDatetimeUtc{ get; private set; }
+        public IDataProperty<int> IdAgency { get; private set; }
+        public IDataProperty<bool> IsIndependent{ get; private set; }
+        public IDataProperty<int> Generation{ get; private set; }
 
         public override IList<IDataProperty> DataPropertyList { get; }
 

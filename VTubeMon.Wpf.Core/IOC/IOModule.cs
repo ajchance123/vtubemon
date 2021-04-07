@@ -10,6 +10,7 @@ namespace VTubeMon.Wpf.Core.IOC
         {
             builder.RegisterType<FileService>().As<IFileService>().SingleInstance();
             builder.RegisterType<IOService>().As<IIOService>().SingleInstance();
+            builder.RegisterType<ModelService>().As<IModelService>().SingleInstance();
         }
     }
 }
