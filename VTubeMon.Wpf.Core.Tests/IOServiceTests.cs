@@ -58,6 +58,29 @@ namespace VTubeMon.Wpf.Core.Tests
             Assert.AreEqual("test123", jsonTestClass.Property1);
             Assert.AreEqual(5, jsonTestClass.Property2);
         }
+
+        [TestMethod]
+        public void TestDeserialize_Exception_Combine()
+        {
+            string file = "test.json";
+
+            _fileServiceMock.Setup(f => f.PathCombine(null, file)).Throws(new System.Exception());
+            var jsonTestClass = _ioService.DeserializeFileToJson<TestSerializeJsonClass>(file);
+
+            Assert.AreEqual(null, jsonTestClass);
+        }
+
+        [TestMethod]
+        public void TestDeserialize_Exception_Read()
+        {
+            string file = "test.json";
+
+            _fileServiceMock.Setup(f => f.PathCombine(null, file)).Returns(file);
+            _fileServiceMock.Setup(f => f.ReadAllText(file)).Throws(new System.Exception());
+            var jsonTestClass = _ioService.DeserializeFileToJson<TestSerializeJsonClass>(file);
+
+            Assert.AreEqual(null, jsonTestClass);
+        }
     }
 
     public class TestSerializeJsonClass
