@@ -33,6 +33,9 @@
         <Setter Property="Background" Value="#BBEAFE" />
         <Setter Property="Foreground" Value="#091818" />
     </Style>
+    <SolidColorBrush x:Key="comboBoxHighlight">
+        #9487FF
+    </SolidColorBrush>
     <Style TargetType="TabControl">
         <Setter Property="Background" Value="#1D9BFF" />
     </Style>

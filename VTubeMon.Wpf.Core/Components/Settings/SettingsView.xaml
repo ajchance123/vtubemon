@@ -238,7 +238,7 @@
                                 <Setter
                                     TargetName="Border"
                                     Property="Background"
-                                    Value="#FF4F4F4F" />
+                                    Value="{DynamicResource comboBoxHighlight}" />
                             </Trigger>
                             <Trigger
                                 Property="IsEnabled"
