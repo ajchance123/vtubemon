@@ -9,12 +9,6 @@ namespace VTubeMon.Wpf.Core.IOC
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<VTubeMonCoreGame>().As<IVTubeMonCoreGame>().SingleInstance();
-            builder.RegisterBuildCallback(OnBuild);
-        }
-
-        private void OnBuild(ILifetimeScope obj)
-        {
-            
         }
     }
 }

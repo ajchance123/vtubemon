@@ -20,5 +20,9 @@
         x:Key="Dark">闇</system:String>
     <system:String
         x:Key="Light">光</system:String>
+    <system:String
+        x:Key="Connect">接続する</system:String>
+    <system:String
+        x:Key="Disconnect">切断する</system:String>
 
 </ResourceDictionary>

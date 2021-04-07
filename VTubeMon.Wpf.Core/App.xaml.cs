@@ -7,6 +7,7 @@ using System.Threading;
 using System.Windows;
 using VTubeMon.API;
 using VTubeMon.Core;
+using VTubeMon.Wpf.Core.IO;
 using VTubeMon.Wpf.Core.IOC;
 using VTubeMon.Wpf.Core.Resources.Strings;
 using VTubeMon.Wpf.Core.Themes;
@@ -53,6 +54,8 @@ namespace VTubeMon.Wpf.Core
             cb.RegisterInstance(themeResourceDictionary);
             cb.RegisterInstance(stringsResourceDictionary);
             cb.RegisterInstance(logger).As<ILogger>();
+
+            cb.RegisterModule<IOModule>();
             cb.RegisterModule<DatabaseModule>();
             cb.RegisterModule<DiscordModule>();
             cb.RegisterModule<ViewModelModule>();
@@ -64,6 +67,7 @@ namespace VTubeMon.Wpf.Core
             try
             {
                 logger.Log("------ New Startup ------");
+                Container.Resolve<IIOService>().SetPath(vtubeCommon);
                 mainWindow = new MainWindow();
                 mainWindow.ShowDialog();
             }
