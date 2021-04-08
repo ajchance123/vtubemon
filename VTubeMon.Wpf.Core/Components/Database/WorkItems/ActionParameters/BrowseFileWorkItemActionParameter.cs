@@ -3,6 +3,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.Generic;
 using System.Windows.Input;
+using VTubeMon.API;
 
 namespace VTubeMon.Wpf.Core.Components.Database.WorkItems.ActionParameters
 {

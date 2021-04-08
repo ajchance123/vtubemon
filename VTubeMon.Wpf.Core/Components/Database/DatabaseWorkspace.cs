@@ -8,15 +8,15 @@ namespace VTubeMon.Wpf.Core.Components
     {
         public DatabaseWorkspace()
         {
-            _queryWorkItems = new List<DbQueryWorkItem>();
+            _queryWorkItems = new List<DatabaseWorkItemModel>();
         }
 
-        private List<DbQueryWorkItem> _queryWorkItems { get; }
-        public IReadOnlyList<DbQueryWorkItem> QueryWorkItems => _queryWorkItems;
-        public event EventHandler<DbQueryWorkItem> OnNewWorkItem;
-        public DbQueryWorkItem NewWorkItem(DbQueryWorkItem dbQueryWorkItem = null)
+        private List<DatabaseWorkItemModel> _queryWorkItems { get; }
+        public IReadOnlyList<DatabaseWorkItemModel> QueryWorkItems => _queryWorkItems;
+        public event EventHandler<DatabaseWorkItemModel> OnNewWorkItem;
+        public DatabaseWorkItemModel NewWorkItem(DatabaseWorkItemModel dbQueryWorkItem = null)
         {
-            dbQueryWorkItem = dbQueryWorkItem ?? new DbQueryWorkItem();
+            dbQueryWorkItem = dbQueryWorkItem ?? new DatabaseWorkItemModel();
             _queryWorkItems.Add(dbQueryWorkItem);
             OnNewWorkItem?.Invoke(this, dbQueryWorkItem);
             return dbQueryWorkItem;

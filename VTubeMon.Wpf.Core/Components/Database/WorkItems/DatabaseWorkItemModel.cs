@@ -4,7 +4,7 @@ using System.Text;
 
 namespace VTubeMon.Wpf.Core.Components
 {
-    public class DbQueryWorkItem
+    public class DatabaseWorkItemModel
     {
     }
 }

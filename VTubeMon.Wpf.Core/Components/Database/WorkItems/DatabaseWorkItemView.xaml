@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:VTubeMon.Wpf.Core.Components.Database"
+    xmlns:actions="clr-namespace:VTubeMon.Wpf.Core.Components.Database.WorkItems.Actions"
     mc:Ignorable="d"
     d:DesignHeight="450"
     d:DesignWidth="800">
@@ -18,113 +19,88 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition
-                    Width="Auto" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <DataGrid
-                AutoGenerateColumns="False"
-                ItemsSource="{Binding ColumnCollection}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn
-                        Header="Columns"
-                        Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                </DataGrid.Columns>
-            </DataGrid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition
+                    Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <DataGrid
+                    AutoGenerateColumns="False"
+                    ItemsSource="{Binding ColumnCollection}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Header="Columns"
+                            Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </DataGrid.Columns>
+                </DataGrid>
 
+                <Grid
+                    Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <StackPanel
+                            Orientation="Horizontal">
+                            <Button
+                                Content="Run Query"
+                                Command="{Binding RunQueryCommand}" />
+                        </StackPanel>
+                    </Grid>
+                    <TextBox
+                        Grid.Row="1"
+                        Text="{Binding Query, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+            </Grid>
             <Grid
-                Grid.Column="1">
+                Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition
                         Height="Auto" />
                     <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Text="Non Query Actions" />
+                <ItemsControl
+                    Grid.Row="1"
+                    ItemsSource="{Binding NonQueryActions}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <actions:DatabaseWorkItemActionView />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+            <Grid
+                Margin="0,10,0,0"
+                Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition
+                        Height="Auto" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid>
                     <StackPanel
                         Orientation="Horizontal">
                         <Button
-                            Content="Run"
-                            Command="{Binding RunCommand}" />
+                            Content="Run Non Query"
+                            Command="{Binding RunNonQueryCommand}" />
                     </StackPanel>
                 </Grid>
                 <TextBox
                     Grid.Row="1"
-                    Text="{Binding Query, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <Grid
-                    Grid.Row="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition
-                            Height="Auto" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <TextBlock
-                        Text="Special Actions" />
-                    <ItemsControl
-                        Grid.Row="1"
-                        ItemsSource="{Binding SpecialActions}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition
-                                            Width="Auto" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel
-                                        Orientation="Horizontal">
-                                        <Button
-                                            Content="{Binding Name}"
-                                            VerticalAlignment="Center"
-                                            Command="{Binding ExecuteActionCommand}" />
-                                        <ItemsControl
-                                            ItemsSource="{Binding ActionParameters}">
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <StackPanel
-                                                        Orientation="Horizontal" />
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel
-                                                        Margin="5,0,5,0">
-                                                        <TextBlock
-                                                            Text="{Binding Name}" />
-                                                        <Grid>
-                                                            <StackPanel
-                                                                Orientation="Horizontal">
-                                                                <TextBlock
-                                                                    Width="100"
-                                                                    Text="{Binding ParameterValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                                                <Button
-                                                                    Content="{Binding CommandName}"
-                                                                    Command="{Binding ParameterCommand}"
-                                                                    Visibility="{Binding ShowCommand, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                                            </StackPanel>
-                                                            <Grid
-                                                                Visibility="{Binding ShowList, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                                                <ComboBox
-                                                                    SelectedItem="{Binding ParameterValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                                    ItemsSource="{Binding ParameterValueCollection}" />
-                                                            </Grid>
-                                                        </Grid>
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                    </StackPanel>
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        VerticalAlignment="Center"
-                                        Text="{Binding DataMessage}" />
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Grid>
+                    Text="{Binding NonQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
+
         </Grid>
         <Border
             Grid.Row="1"
@@ -137,7 +113,7 @@
                         Text="{Binding SqlError}"/>
                 </Grid>
                 <Grid
-                    Visibility="{Binding IsResultVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    Visibility="{Binding IsQueryResultVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Grid.RowDefinitions>
                         <RowDefinition
                             Height="Auto" />
@@ -198,7 +174,11 @@
                         </ItemsControl>
                     </ScrollViewer>
                 </Grid>
-
+                <Grid
+                    Visibility="{Binding IsNonQueryResultVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock
+                        Text="{Binding NonQueryResult}" />
+                </Grid>
             </Grid>
 
         </Border>

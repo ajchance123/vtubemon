@@ -5,16 +5,16 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using VTubeMon.API;
 using VTubeMon.Data.Commands;
+using VTubeMon.Wpf.Core.Resources;
 
-namespace VTubeMon.Wpf.Core.Components.Database
+namespace VTubeMon.Wpf.Core.Components.Database.WorkItems
 {
-    public class DatabaseWorkItemViewModel : BindableBase
+    public abstract class DatabaseWorkItemViewModelBase : BindableBase
     {
-        public DatabaseWorkItemViewModel(IVTubeMonDbConnection vTubeMonDbConnection, params DatabaseWorkItemAction[] specialActions)
+        public DatabaseWorkItemViewModelBase(StringsService stringsService, IVTubeMonDbConnection vTubeMonDbConnection, ICollection<DatabaseWorkItemActionViewModelBase> nonQueryActions)
         {
             var columnCollection = new ObservableCollection<ColumnName>();
             columnCollection.CollectionChanged += ColumnCollection_CollectionChanged;
@@ -25,26 +25,28 @@ namespace VTubeMon.Wpf.Core.Components.Database
             _vTubeMonDbConnection = vTubeMonDbConnection;
             ResultsCollection = new ObservableCollection<ICollection<string>>();
             ResultColumnNames = new ObservableCollection<string>();
+            Name = stringsService.Translate(Table).ToString();
 
-            SpecialActions = new ObservableCollection<DatabaseWorkItemAction>();
-            if(specialActions != null)
+            NonQueryActions = nonQueryActions;
+
+            foreach (var nonQueryAction in NonQueryActions)
             {
-                foreach(var specialAction in specialActions)
-                {
-                    SpecialActions.Add(specialAction);
-                }
+                nonQueryAction.OnCommandCreated += (s, e) => NonQuery = e.Statement;
             }
         }
 
-        public ICollection<DatabaseWorkItemAction> SpecialActions { get; }
+        public virtual ICollection<DatabaseWorkItemActionViewModelBase> NonQueryActions { get; }
+
+        public abstract string Table { get; }
+        public string Name { get; }
 
         private void ColumnCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             SetAutoQuery();
-            switch(e.Action)
+            switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach(var newColumn in e.NewItems)
+                    foreach (var newColumn in e.NewItems)
                     {
                         (newColumn as ColumnName).PropertyChanged += (s, e) => SetAutoQuery();
                     }
@@ -54,21 +56,11 @@ namespace VTubeMon.Wpf.Core.Components.Database
 
         private void SetAutoQuery()
         {
-            Query = $"SELECT {string.Join(", ", ColumnCollection.Select(c => c.Name))} FROM {Name}";
+            Query = $"SELECT {string.Join(", ", ColumnCollection.Select(c => c.Name))} FROM {Table}";
         }
 
-        private IVTubeMonDbConnection _vTubeMonDbConnection;
+        protected IVTubeMonDbConnection _vTubeMonDbConnection;
 
-        private string _name;
-        public string Name
-        {
-            get => _name;
-            set
-            {
-                SetProperty(ref _name, value);
-                SetAutoQuery();
-            }
-        }
 
         private string _query;
         public string Query
@@ -77,7 +69,7 @@ namespace VTubeMon.Wpf.Core.Components.Database
             set => SetProperty(ref _query, value);
         }
 
-        public ICommand RunCommand => new DelegateCommand(() =>
+        public ICommand RunQueryCommand => new DelegateCommand(() =>
         {
             try
             {
@@ -97,7 +89,8 @@ namespace VTubeMon.Wpf.Core.Components.Database
                     ResultColumnNames.Add(column);
                 }
                 IsErrorVisible = false;
-                IsResultVisible = true;
+                IsQueryResultVisible = true;
+                IsNonQueryResultVisible = false;
             }
             catch(Exception ex)
             {
@@ -105,11 +98,19 @@ namespace VTubeMon.Wpf.Core.Components.Database
             }
         });
 
-        private bool _isResultVisible;
-        public bool IsResultVisible
+
+        private bool _isQueryResultVisible;
+        public bool IsQueryResultVisible
         {
-            get => _isResultVisible;
-            set => SetProperty(ref _isResultVisible, value);
+            get => _isQueryResultVisible;
+            set => SetProperty(ref _isQueryResultVisible, value);
+        }
+
+        private bool _isNonQueryResultVisible;
+        public bool IsNonQueryResultVisible
+        {
+            get => _isNonQueryResultVisible;
+            set => SetProperty(ref _isNonQueryResultVisible, value);
         }
 
 
@@ -126,7 +127,8 @@ namespace VTubeMon.Wpf.Core.Components.Database
             get => _sqlError;
             set
             {
-                IsResultVisible = false;
+                IsQueryResultVisible = false;
+                IsNonQueryResultVisible = false;
                 IsErrorVisible = true;
                 SetProperty(ref _sqlError, value);
             }
@@ -135,6 +137,41 @@ namespace VTubeMon.Wpf.Core.Components.Database
 
         public ICollection<ICollection<string>> ResultsCollection { get; }
         public ICollection<string> ResultColumnNames { get; }
+
+        public ICommand RunNonQueryCommand => new DelegateCommand(() =>
+        {
+            try
+            {
+
+                var command = new NonQueryCommand(this.Table, NonQuery);
+                var result = _vTubeMonDbConnection.ExecuteDbNonQueryCommand(command);
+
+                IsErrorVisible = false;
+                IsQueryResultVisible = false;
+                IsNonQueryResultVisible = true;
+
+                NonQueryResult = $"({result}) Row(s) affected";
+            }
+            catch (Exception ex)
+            {
+                SqlError = ex.Message;
+            }
+        });
+
+
+        private string _nonQuery;
+        public string NonQuery
+        {
+            get => _nonQuery;
+            set => SetProperty(ref _nonQuery, value);
+        }
+
+        private string _nonQueryResult;
+        public string NonQueryResult
+        {
+            get => _nonQueryResult;
+            set => SetProperty(ref _nonQueryResult, value);
+        }
     }
 
     public class ColumnName : BindableBase

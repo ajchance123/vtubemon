@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Input;
 
-namespace VTubeMon.Wpf.Core.Components.Database
+namespace VTubeMon.API
 {
     public interface IDatabaseWorkItemActionParameter
     {
