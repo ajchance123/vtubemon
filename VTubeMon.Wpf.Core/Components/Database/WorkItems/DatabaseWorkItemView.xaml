@@ -117,6 +117,7 @@
                                     </StackPanel>
                                     <TextBlock
                                         Grid.Column="1"
+                                        VerticalAlignment="Center"
                                         Text="{Binding DataMessage}" />
                                 </Grid>
                             </DataTemplate>

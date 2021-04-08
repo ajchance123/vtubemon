@@ -4,6 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Hoshimachi_Suisei_2019_Portrait2.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
