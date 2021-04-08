@@ -13,6 +13,10 @@ namespace VTubeMon.Data.Tests
 
         public string Values { get; }
 
+        public string InsertableColumnNames { get; }
+
+        public string InsertableValues { get; }
+
         public void InitializeFromReader(INamedDataReader reader)
         {
 
