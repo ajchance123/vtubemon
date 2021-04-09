@@ -1,5 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using VTubeMon.API;
+using VTubeMon.Common;
 using VTubeMon.Data.Commands;
 
 namespace VTubeMon.Data.Tests
@@ -33,7 +33,7 @@ namespace VTubeMon.Data.Tests
 
             var query = new QueryCommand<MockDataObject>(table, columns, new WhereStatement()
             {
-                Equality = Core.Equality.EqualTo,
+                Equality = Equality.EqualTo,
                 Target = "en_name",
                 Value = "haaaachamaaaa",
                 UseQuotes = true
@@ -58,14 +58,14 @@ namespace VTubeMon.Data.Tests
             var query = new QueryCommand<MockDataObject>(table, columns, 
                 new WhereStatement()
                 {
-                    Equality = Core.Equality.EqualTo,
+                    Equality = Equality.EqualTo,
                     Target = "en_name",
                     Value = "haaaachamaaaa",
                     UseQuotes = true
                 }, 
                 new WhereStatement()
                 {
-                    Equality = Core.Equality.GreaterThan,
+                    Equality = Equality.GreaterThan,
                     Target = "id_vtuber",
                     Value = "3"
                 });

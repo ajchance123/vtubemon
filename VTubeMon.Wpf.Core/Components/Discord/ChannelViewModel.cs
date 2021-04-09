@@ -1,5 +1,5 @@
 ﻿using Prism.Mvvm;
-using VTubeMon.API.Server;
+using VTubeMon.API;
 
 namespace VTubeMon.Wpf.Core.Components.Discord
 {

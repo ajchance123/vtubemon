@@ -1,5 +1,4 @@
 ﻿using System;
-using VTubeMon.API.Core.CommandResults;
 
 namespace VTubeMon.API
 {

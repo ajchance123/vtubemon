@@ -1,7 +1,6 @@
 ﻿using System;
-using VTubeMon.API.Core.CommandResults;
 
-namespace VTubeMon.API.Core
+namespace VTubeMon.API
 {
     public interface IVTubeMonCoreGame
     {

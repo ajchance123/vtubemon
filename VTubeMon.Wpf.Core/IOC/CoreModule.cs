@@ -1,6 +1,6 @@
 ﻿using Autofac;
-using VTubeMon.API.Core;
-using VTubeMon.Core;
+using VTubeMon.API;
+using VTubeMon.Game;
 
 namespace VTubeMon.Wpf.Core.IOC
 {

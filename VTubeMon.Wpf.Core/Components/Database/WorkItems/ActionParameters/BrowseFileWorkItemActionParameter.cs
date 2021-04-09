@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Windows.Input;
 using VTubeMon.API;
@@ -14,6 +15,7 @@ namespace VTubeMon.Wpf.Core.Components.Database.WorkItems.ActionParameters
         {
             _openFileDialog = new OpenFileDialog();
             _openFileDialog.Filter = fileFilter;
+            _openFileDialog.Multiselect = true;
         }
         public string Name => "Select File";
 
@@ -26,12 +28,14 @@ namespace VTubeMon.Wpf.Core.Components.Database.WorkItems.ActionParameters
             set => SetProperty(ref _parameterValue, value);
         }
 
+        public string[] FileNames { get; private set; }
         public ICommand ParameterCommand => new DelegateCommand(() =>
         {
             var result = _openFileDialog.ShowDialog();
             if(result.HasValue && result.Value)
             {
-                ParameterValue = _openFileDialog.FileName;
+                ParameterValue = string.Join(Environment.NewLine, _openFileDialog.FileNames);
+                FileNames = _openFileDialog.FileNames;
             }
         });
 

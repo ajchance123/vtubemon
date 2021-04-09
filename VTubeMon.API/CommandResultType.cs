@@ -1,7 +1,6 @@
-﻿
-using System;
+﻿using System;
 
-namespace VTubeMon.API.Core.CommandResults
+namespace VTubeMon.API
 {
     public class CommandResult
     {

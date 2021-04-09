@@ -20,9 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VTubeMon.Core\VTubeMon.Core.csproj" />
+    <ProjectReference Include="..\VTubeMon.Common\VTubeMon.Common.csproj" />
     <ProjectReference Include="..\VTubeMon.Data\VTubeMon.Data.csproj" />
     <ProjectReference Include="..\VTubeMon.Discord\VTubeMon.Discord.csproj" />
+    <ProjectReference Include="..\VTubeMon.Game\VTubeMon.Game.csproj" />
     <ProjectReference Include="..\VTubeMon.MySql\VTubeMon.MySql.csproj" />
   </ItemGroup>
 

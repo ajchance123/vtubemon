@@ -1,7 +1,7 @@
 ﻿using System;
 using VTubeMon.API;
 
-namespace VTubeMon.Core
+namespace VTubeMon.Common
 {
     public class EventLogger : ILogger
     {

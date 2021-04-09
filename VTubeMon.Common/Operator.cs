@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace VTubeMon.Core
+﻿namespace VTubeMon.Common
 {
     public enum Operator
     {

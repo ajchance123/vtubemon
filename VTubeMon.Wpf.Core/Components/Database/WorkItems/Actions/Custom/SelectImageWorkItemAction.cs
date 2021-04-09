@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using VTubeMon.API;
 using VTubeMon.Data.Commands;
 using VTubeMon.Data.Objects;
@@ -36,10 +37,17 @@ namespace VTubeMon.Wpf.Core.Components.Database.WorkItems.Actions.Custom
         protected override IDbNonQueryCommand CreateNonDbQueryCommand()
         {
             var imageFolder = _modelService.LoadModel<SettingsModel>().ImageFolder;
-            var relativePath = _fileService.GetRelativePath(imageFolder, _browseFileWorkItemActionParameter.ParameterValue);
-            relativePath = relativePath.Replace(@"\", @"\\");
 
-            var insertCommand = new InsertCommand<VTuberImage>("vtubers_images", new VTuberImage(_vTuberSelectionActionParameter.VtuberId, relativePath));
+            var insertCommand = new InsertCommand<VTuberImage>("vtubers_images", _browseFileWorkItemActionParameter.FileNames.Select(f =>
+            {
+                var relativePath = _fileService.GetRelativePath(imageFolder, f);
+                relativePath = relativePath.Replace(@"\", @"\\");
+
+                var vtuberImage = new VTuberImage(_vTuberSelectionActionParameter.VtuberId, relativePath);
+
+                return vtuberImage;
+            }));
+
             return insertCommand;
         }
     }

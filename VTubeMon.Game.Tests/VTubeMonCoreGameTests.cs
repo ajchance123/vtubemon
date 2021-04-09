@@ -2,10 +2,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using VTubeMon.API;
-using VTubeMon.API.Core;
-using VTubeMon.API.Core.CommandResults;
+using VTubeMon.Game;
 
-namespace VTubeMon.Core.Tests
+namespace VTubeMon.Common.Tests
 {
     [TestClass]
     public class VTubeMonCoreGameTests

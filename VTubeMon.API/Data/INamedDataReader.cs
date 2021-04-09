@@ -35,7 +35,7 @@ namespace VTubeMon.API
         // Summary:
         //     Closes the MySqlDataReader object.
         void Close();
-        void Dispose();
+
         string GetBodyDefinition(string column);
         //
         // Summary:

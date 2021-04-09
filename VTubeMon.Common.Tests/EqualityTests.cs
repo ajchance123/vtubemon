@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace VTubeMon.Core.Tests
+namespace VTubeMon.Common.Tests
 {
     [TestClass]
     public class EqualityTests

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VTubeMon.Common;
 using VTubeMon.Data.Commands;
 
 namespace VTubeMon.Data.Tests
@@ -12,7 +13,7 @@ namespace VTubeMon.Data.Tests
             //arrange
             var where = new WhereStatement()
             {
-                Equality = Core.Equality.LessThan,
+                Equality = Equality.LessThan,
                 Target = "id",
                 Value = "4"
             };

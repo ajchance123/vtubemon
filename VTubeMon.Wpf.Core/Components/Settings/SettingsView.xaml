@@ -259,6 +259,7 @@
                 Text="Theme:" />
             <ComboBox
                 SelectedItem="{Binding SelectedTheme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                DisplayMemberPath="Value"
                 ItemsSource="{Binding ThemeCollection}"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Left" />

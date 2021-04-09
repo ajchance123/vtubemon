@@ -14,9 +14,4 @@
     <PackageReference Include="coverlet.collector" Version="1.3.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\VTubeMon.API\VTubeMon.API.csproj" />
-    <ProjectReference Include="..\VTubeMon.Core\VTubeMon.Core.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -2,12 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Windows;
 using VTubeMon.API;
-using VTubeMon.Core;
-using VTubeMon.Wpf.Core.IO;
+using VTubeMon.Common;
 using VTubeMon.Wpf.Core.IOC;
 using VTubeMon.Wpf.Core.Resources.Strings;
 using VTubeMon.Wpf.Core.Themes;

@@ -16,13 +16,13 @@ namespace VTubeMon.Wpf.Core.Components.Settings
     {
         public SettingsViewModel(ThemeService themeService, StringsService stringsService, IModelService modelService)
         {
-            ThemeCollection = new ObservableCollection<Translation>(themeService.ResourceNames.Select(s => stringsService.Translate(s)));
+            ThemeCollection = new ObservableCollection<TranslationViewModel>(themeService.ResourceNames.Select(r => stringsService.AutoTranslate(r)));
+
             LanguageCollection = new ObservableCollection<string>(stringsService.ResourceNames);
 
             _modelService = modelService;
             _themeService = themeService;
             _stringsService = stringsService;
-            _stringsService.OnResourceNameChanged += _stringsService_OnResourceNameChanged;
 
             _selectedTheme = ThemeCollection.Single(t => t.Key == _themeService.SelectedResource);
             _selectedLanguage = stringsService.SelectedResource;
@@ -58,23 +58,10 @@ namespace VTubeMon.Wpf.Core.Components.Settings
         private IModelService _modelService;
         private SettingsModel _model;
 
-        private void _stringsService_OnResourceNameChanged(object sender, string e)
-        {
-            string selectedTheme = SelectedTheme.Key;
-
-            ThemeCollection.Clear();
-            foreach(var theme in _themeService.ResourceNames.Select(s => _stringsService.Translate(s)))
-            {
-                ThemeCollection.Add(theme);
-            }
-
-            SelectedTheme = ThemeCollection.Single(t => t.Key == selectedTheme);
-        }
-
         private ThemeService _themeService;
-        public ICollection<Translation> ThemeCollection { get; }
-        private Translation _selectedTheme;
-        public Translation SelectedTheme
+        public ICollection<TranslationViewModel> ThemeCollection { get; }
+        private TranslationViewModel _selectedTheme;
+        public TranslationViewModel SelectedTheme
         {
             get => _selectedTheme;
             set

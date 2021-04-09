@@ -1,5 +1,4 @@
-﻿
-namespace VTubeMon.Core
+﻿namespace VTubeMon.Common
 {
     public enum Equality
     {

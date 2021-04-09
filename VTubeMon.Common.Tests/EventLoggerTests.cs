@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace VTubeMon.Core.Tests
+namespace VTubeMon.Common.Tests
 {
     [TestClass]
     public class EventLoggerTests

@@ -1,8 +1,5 @@
 ﻿using DSharpPlus.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using VTubeMon.API.Server;
+using VTubeMon.API;
 
 namespace VTubeMon.Discord
 {

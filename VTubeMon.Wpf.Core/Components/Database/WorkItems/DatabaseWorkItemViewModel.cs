@@ -9,6 +9,7 @@ using System.Windows.Input;
 using VTubeMon.API;
 using VTubeMon.Data.Commands;
 using VTubeMon.Wpf.Core.Resources;
+using VTubeMon.Wpf.Core.Resources.Strings;
 
 namespace VTubeMon.Wpf.Core.Components.Database.WorkItems
 {
@@ -25,7 +26,7 @@ namespace VTubeMon.Wpf.Core.Components.Database.WorkItems
             _vTubeMonDbConnection = vTubeMonDbConnection;
             ResultsCollection = new ObservableCollection<ICollection<string>>();
             ResultColumnNames = new ObservableCollection<string>();
-            Name = stringsService.Translate(Table).ToString();
+            Name = stringsService.AutoTranslate(Table);
 
             NonQueryActions = nonQueryActions;
 
@@ -38,7 +39,7 @@ namespace VTubeMon.Wpf.Core.Components.Database.WorkItems
         public virtual ICollection<DatabaseWorkItemActionViewModelBase> NonQueryActions { get; }
 
         public abstract string Table { get; }
-        public string Name { get; }
+        public TranslationViewModel Name { get; }
 
         private void ColumnCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
