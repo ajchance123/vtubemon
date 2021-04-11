@@ -4,6 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Hoshimachi_Suisei_2019_Portrait2.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,13 +14,16 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="6.1.0" />
     <PackageReference Include="MvvmLight" Version="5.4.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Ookii.Dialogs.Wpf" Version="3.1.0" />
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VTubeMon.Core\VTubeMon.Core.csproj" />
+    <ProjectReference Include="..\VTubeMon.Common\VTubeMon.Common.csproj" />
     <ProjectReference Include="..\VTubeMon.Data\VTubeMon.Data.csproj" />
     <ProjectReference Include="..\VTubeMon.Discord\VTubeMon.Discord.csproj" />
+    <ProjectReference Include="..\VTubeMon.Game\VTubeMon.Game.csproj" />
     <ProjectReference Include="..\VTubeMon.MySql\VTubeMon.MySql.csproj" />
   </ItemGroup>
 

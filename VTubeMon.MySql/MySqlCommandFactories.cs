@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using VTubeMon.API;
-using VTubeMon.API.Core.CommandResults;
 using VTubeMon.API.Data.Objects;
+using VTubeMon.Common;
 using VTubeMon.Data.Commands;
 using VTubeMon.Data.Objects;
 
@@ -34,14 +34,14 @@ namespace VTubeMon.MySql
             var queryDailiesCommand = new QueryCommand<Daily>("dailies", "*",
                 new WhereStatement()
                 {
-                    Equality = Core.Equality.EqualTo,
+                    Equality = Equality.EqualTo,
                     Value = $"{user}",
                     Target = "id_user",
                     UseQuotes = false
                 },
                 new WhereStatement()
                 {
-                    Equality = Core.Equality.EqualTo,
+                    Equality = Equality.EqualTo,
                     Value = $"{guild}",
                     Target = "id_guild",
                     UseQuotes = false
@@ -69,17 +69,16 @@ namespace VTubeMon.MySql
 
         public int TotalCash(ulong user, ulong guild)
         {
-
             var userQueryCommand = new QueryCommand<User>("users", "*",
                 new WhereStatement()
                 {
-                    Equality = Core.Equality.EqualTo,
+                    Equality = Equality.EqualTo,
                     Target = "id_user",
                     Value = $"{user}"
                 },
                 new WhereStatement()
                 {
-                    Equality = Core.Equality.EqualTo,
+                    Equality = Equality.EqualTo,
                     Target = "id_guild",
                     Value = $"{guild}"
                 });

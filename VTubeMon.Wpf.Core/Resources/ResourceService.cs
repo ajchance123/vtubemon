@@ -16,6 +16,7 @@ namespace VTubeMon.Wpf.Core.Resources
             _resource.SetResource(resourceName);
             OnResourceNameChanged?.Invoke(this, resourceName);
         }
+
         public string SelectedResource => _resource.SelectedResource;
         public IEnumerable<string> ResourceNames => _resource.ResourceNames;
         public event EventHandler<string> OnResourceNameChanged;

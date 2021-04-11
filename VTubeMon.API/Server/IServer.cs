@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace VTubeMon.API.Server
+namespace VTubeMon.API
 {
     public interface IServer
     {

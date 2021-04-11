@@ -21,5 +21,11 @@
         x:Key="Dark">Dark</system:String>
     <system:String
         x:Key="Light">Light</system:String>
+    <system:String
+        x:Key="Connect">Connect</system:String>
+    <system:String
+        x:Key="Disconnect">Disconnect</system:String>
+    <system:String
+        x:Key="Users">Users</system:String>
     
 </ResourceDictionary>

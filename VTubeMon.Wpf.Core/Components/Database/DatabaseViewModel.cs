@@ -1,47 +1,27 @@
 ﻿using Prism.Mvvm;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using VTubeMon.API;
+using VTubeMon.Wpf.Core.Components.Database.WorkItems;
+using VTubeMon.Wpf.Core.Components.Database.WorkItems.Custom;
+using VTubeMon.Wpf.Core.Resources;
 
 namespace VTubeMon.Wpf.Core.Components.Database
 {
     public class DatabaseViewModel : BindableBase
     {
-        public DatabaseViewModel(IVTubeMonDbConnection vTubeMonDbConnection, DatabaseWorkspace databaseWorkspace)
+        public DatabaseViewModel(StringsService stringService, IModelService modelService, IFileService fileService, IVTubeMonDbConnection vTubeMonDbConnection, DatabaseWorkspace databaseWorkspace)
         {
-            _databaseWorkspace = databaseWorkspace;
-            _vTubeMonDbConnection = vTubeMonDbConnection;
-            QueryCollection = new ObservableCollection<DatabaseWorkItemViewModel>()
+            QueryCollection = new ObservableCollection<DatabaseWorkItemViewModelBase>()
             {
-                new DatabaseWorkItemViewModel(vTubeMonDbConnection)
-                {
-                    Name = "vtubers"
-                },
-                new DatabaseWorkItemViewModel(vTubeMonDbConnection)
-                {
-                    Name = "dailies"
-                },
-                new DatabaseWorkItemViewModel(vTubeMonDbConnection)
-                {
-                    Name = "users"
-                },
-                new DatabaseWorkItemViewModel(vTubeMonDbConnection)
-                {
-                    Name = "agencies"
-                },
-                new DatabaseWorkItemViewModel(vTubeMonDbConnection, new DatabaseWorkItemAction("Add Image", () => null))
-                {
-                    Name = "vtubers_images"
-                },
+                new VTubersWorkItem(stringService, vTubeMonDbConnection),
+                new DailiesWorkItem(stringService, vTubeMonDbConnection),
+                new UsersWorkItem(stringService, vTubeMonDbConnection),
+                new AgenciesWorkItem(stringService, vTubeMonDbConnection),
+                new VTuberImagesWorkItem(stringService, vTubeMonDbConnection, modelService, fileService)
             };
         }
 
-        public string Name { get; set; }
-        private DatabaseWorkspace _databaseWorkspace;
-        private IVTubeMonDbConnection _vTubeMonDbConnection;
-
-        public ICollection<DatabaseWorkItemViewModel> QueryCollection { get; }
+        public ICollection<DatabaseWorkItemViewModelBase> QueryCollection { get; }
     }
 }

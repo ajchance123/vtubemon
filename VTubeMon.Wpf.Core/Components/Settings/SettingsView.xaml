@@ -259,6 +259,7 @@
                 Text="Theme:" />
             <ComboBox
                 SelectedItem="{Binding SelectedTheme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                DisplayMemberPath="Value"
                 ItemsSource="{Binding ThemeCollection}"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Left" />
@@ -271,6 +272,24 @@
                 HorizontalAlignment="Left"
                 SelectedItem="{Binding SelectedLanguage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 ItemsSource="{Binding LanguageCollection}" />
+        </StackPanel>
+
+        <StackPanel>
+            <TextBlock
+                Text="Local Image Folder" />
+            <StackPanel
+                Orientation="Horizontal">
+                
+                <Button
+                    Content="Browse"
+                    Command="{Binding BrowseLocalImageFolderCommand}" />
+                
+                <TextBlock
+                    MinWidth="250"
+                    Margin="10,0,0,0"
+                    HorizontalAlignment="Left"
+                    Text="{Binding LocalImageFolder}"/>
+            </StackPanel>
         </StackPanel>
     </StackPanel>
 </UserControl>

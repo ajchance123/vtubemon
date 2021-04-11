@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using VTubeMon.API.Server;
+using VTubeMon.API;
 
 namespace VTubeMon.Wpf.Core.Components.Discord
 {

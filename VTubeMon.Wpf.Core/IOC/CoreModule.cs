@@ -1,6 +1,6 @@
 ﻿using Autofac;
-using VTubeMon.API.Core;
-using VTubeMon.Core;
+using VTubeMon.API;
+using VTubeMon.Game;
 
 namespace VTubeMon.Wpf.Core.IOC
 {
@@ -9,12 +9,6 @@ namespace VTubeMon.Wpf.Core.IOC
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<VTubeMonCoreGame>().As<IVTubeMonCoreGame>().SingleInstance();
-            builder.RegisterBuildCallback(OnBuild);
-        }
-
-        private void OnBuild(ILifetimeScope obj)
-        {
-            
         }
     }
 }

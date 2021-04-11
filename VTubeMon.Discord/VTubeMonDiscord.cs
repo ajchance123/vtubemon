@@ -7,8 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using VTubeMon.API;
-using VTubeMon.API.Core;
-using VTubeMon.API.Server;
 using VTubeMon.Data;
 
 namespace VTubeMon.Discord

@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VTubeMon.API\VTubeMon.API.csproj" />
-    <ProjectReference Include="..\VTubeMon.Core\VTubeMon.Core.csproj" />
+    <ProjectReference Include="..\VTubeMon.Common\VTubeMon.Common.csproj" />
   </ItemGroup>
 
 </Project>

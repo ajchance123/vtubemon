@@ -4,11 +4,8 @@ using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 using System;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using VTubeMon.API;
-using VTubeMon.API.Core;
-using VTubeMon.API.Core.CommandResults;
 using VTubeMon.Data;
 using VTubeMon.Data.Commands;
 

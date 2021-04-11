@@ -31,11 +31,11 @@
             </StackPanel>
             <Button
                 HorizontalAlignment="Left"
-                Content="Connect"
+                Content="{DynamicResource Connect}"
                 Command="{Binding ConnectDiscordCommand}" />
             <Button
                 HorizontalAlignment="Left"
-                Content="Disconnect"
+                Content="{DynamicResource Disconnect}"
                 Command="{Binding DisconnectDiscordCommand}"/>
             <Button
                 HorizontalAlignment="Left"

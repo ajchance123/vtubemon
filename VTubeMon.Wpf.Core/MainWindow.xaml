@@ -6,8 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="clr-namespace:VTubeMon.Wpf.Core.Converters"
     xmlns:database="clr-namespace:VTubeMon.Wpf.Core.Components.Database"
-    xmlns:discord="clr-namespace:VTubeMon.Wpf.Core.Components.Discord" 
-    xmlns:game="clr-namespace:VTubeMon.Wpf.Core.Components.Game" 
+    xmlns:discord="clr-namespace:VTubeMon.Wpf.Core.Components.Discord"
+    xmlns:game="clr-namespace:VTubeMon.Wpf.Core.Components.Game"
     xmlns:settings="clr-namespace:VTubeMon.Wpf.Core.Components.Settings"
     mc:Ignorable="d"
     d:Height="1080"
@@ -26,6 +26,12 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary
                     Source="Styles.xaml" />
+                
+                <!-- to see this in the designer, take out "d:" and then refresh the designer, remember to remove "d:" for checkins -->
+                <d:ResourceDictionary
+                    Source="Resources\Strings\strings.en-US.xaml" />
+                <d:ResourceDictionary
+                    Source="Resources\Themes\WhiteMode.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter
                 x:Key="BooleanToVisibilityConverter" />
@@ -76,9 +82,12 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center">
                     <StackPanel.Resources>
-                        <Style TargetType="Grid"
-                               BasedOn="{StaticResource {x:Type Grid}}">
-                            <Setter Property="Background" Value="Transparent"/>
+                        <Style
+                            TargetType="Grid"
+                            BasedOn="{StaticResource {x:Type Grid}}">
+                            <Setter
+                                Property="Background"
+                                Value="Transparent" />
                         </Style>
                     </StackPanel.Resources>
                     <!--App icon-->
@@ -95,9 +104,12 @@
                             WindowChrome.IsHitTestVisibleInChrome="True"
                             Header="{DynamicResource View}">
                             <MenuItem.Resources>
-                                <Style TargetType="Grid"
-                                        BasedOn="{StaticResource {x:Type Grid}}">
-                                    <Setter Property="Background" Value="Transparent"/>
+                                <Style
+                                    TargetType="Grid"
+                                    BasedOn="{StaticResource {x:Type Grid}}">
+                                    <Setter
+                                        Property="Background"
+                                        Value="Transparent" />
                                 </Style>
                             </MenuItem.Resources>
                             <MenuItem
@@ -126,13 +138,16 @@
                             WindowChrome.IsHitTestVisibleInChrome="True"
                             Header="{DynamicResource Database}">
                             <MenuItem.Resources>
-                                <Style TargetType="Grid"
-                                        BasedOn="{StaticResource {x:Type Grid}}">
-                                    <Setter Property="Background" Value="Transparent"/>
+                                <Style
+                                    TargetType="Grid"
+                                    BasedOn="{StaticResource {x:Type Grid}}">
+                                    <Setter
+                                        Property="Background"
+                                        Value="Transparent" />
                                 </Style>
                             </MenuItem.Resources>
                             <MenuItem
-                                Header="View"
+                                Header="{DynamicResource View}"
                                 IsCheckable="True"
                                 IsChecked="{Binding ShowDatabaseView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </MenuItem>
@@ -140,21 +155,24 @@
                             WindowChrome.IsHitTestVisibleInChrome="True"
                             Header="{DynamicResource Discord}">
                             <MenuItem.Resources>
-                                <Style TargetType="Grid"
-                                        BasedOn="{StaticResource {x:Type Grid}}">
-                                    <Setter Property="Background" Value="Transparent"/>
+                                <Style
+                                    TargetType="Grid"
+                                    BasedOn="{StaticResource {x:Type Grid}}">
+                                    <Setter
+                                        Property="Background"
+                                        Value="Transparent" />
                                 </Style>
                             </MenuItem.Resources>
                             <MenuItem
-                                Header="View"
+                                Header="{DynamicResource View}"
                                 IsCheckable="True"
                                 IsChecked="{Binding ShowDiscordView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <MenuItem
-                                Header="Connect"
+                                Header="{DynamicResource Connect}"
                                 Command="{Binding ConnectDiscordCommand}"
                                 IsEnabled="{Binding CanConnectDiscord}" />
                             <MenuItem
-                                Header="Disconnect"
+                                Header="{DynamicResource Disconnect}"
                                 Command="{Binding DisconnectDiscordCommand}"
                                 IsEnabled="{Binding CanDisconnectDiscord}" />
                         </MenuItem>
@@ -162,19 +180,22 @@
                             WindowChrome.IsHitTestVisibleInChrome="True"
                             Header="{DynamicResource Game}">
                             <MenuItem.Resources>
-                                <Style TargetType="Grid"
-                                        BasedOn="{StaticResource {x:Type Grid}}">
-                                    <Setter Property="Background" Value="Transparent"/>
+                                <Style
+                                    TargetType="Grid"
+                                    BasedOn="{StaticResource {x:Type Grid}}">
+                                    <Setter
+                                        Property="Background"
+                                        Value="Transparent" />
                                 </Style>
                             </MenuItem.Resources>
                             <MenuItem
-                                Header="View"
+                                Header="{DynamicResource View}"
                                 IsCheckable="True"
                                 IsChecked="{Binding ShowGameView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <MenuItem
-                                Header="Register"/>
+                                Header="Register" />
                             <MenuItem
-                                Header="Daily Checkin"/>
+                                Header="Daily Checkin" />
                         </MenuItem>
                     </Menu>
                 </StackPanel>
@@ -351,27 +372,30 @@
                 Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition
-                        MinWidth="20"/>
+                        MinWidth="20" />
                     <ColumnDefinition
                         Width="Auto" />
                     <ColumnDefinition
-                        MinWidth="20"/>
+                        MinWidth="20" />
                 </Grid.ColumnDefinitions>
                 <Grid
+                    d:Visibility="Collapsed"
                     Visibility="{Binding ShowDatabaseView, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <database:DatabaseView/>
+                    <database:DatabaseView />
                 </Grid>
                 <Grid
                     Visibility="{Binding ShowDiscordView, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <discord:DiscordView />
                 </Grid>
                 <Grid
+                    d:Visibility="Collapsed"
                     Visibility="{Binding ShowGameView, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <game:GameView/>
+                    <game:GameView />
                 </Grid>
                 <Grid
+                    d:Visibility="Collapsed"
                     Visibility="{Binding ShowSettingsView, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <settings:SettingsView/>
+                    <settings:SettingsView />
                 </Grid>
                 <GridSplitter
                     Grid.Column="1"
@@ -391,7 +415,7 @@
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel
-                                        Background="Transparent"/>
+                                        Background="Transparent" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>

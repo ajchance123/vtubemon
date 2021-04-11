@@ -1,4 +1,4 @@
-﻿using VTubeMon.Core;
+﻿using VTubeMon.Common;
 
 namespace VTubeMon.Data.Commands
 {
