@@ -20,6 +20,7 @@ namespace VTubeMon.API
     {
         Success,
         Failure,
-        Duplicate
+        Duplicate,
+        Unauthorized
     }
 }

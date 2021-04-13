@@ -1,5 +1,6 @@
 ﻿CREATE SCHEMA vtube_mon_db;
 
+DROP TABLE `vtube_mon_db`.`vtubers_images`;
 DROP TABLE `vtube_mon_db`.`dailies`;
 DROP TABLE `vtube_mon_db`.`vtubers`;
 DROP TABLE `vtube_mon_db`.`users`;
@@ -13,6 +14,7 @@ CREATE TABLE vtube_mon_db.agencies (
 CREATE TABLE `vtube_mon_db`.`users` (
   `id_user` BIGINT UNSIGNED NOT NULL,
   `id_guild` BIGINT UNSIGNED NOT NULL,
+  `admin` BOOLEAN NOT NULL,
   `vtuber_cash` INT NULL,
   PRIMARY KEY (`id_user`, `id_guild`));
 
