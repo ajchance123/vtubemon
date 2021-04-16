@@ -15,19 +15,6 @@ namespace VTubeMon.Discord
     {
         #region REGULAR FOLK COMMANDS
 
-        [Command("help")]
-        public async Task HelpCommand(CommandContext commandContext)
-        {
-            var dataCache = commandContext.Dependencies.GetDependency<DataCache>();
-            var logger = commandContext.Dependencies.GetDependency<ILogger>();
-
-            logger?.Log($"discord.ListCommand({commandContext.Guild.Id}) - start");
-
-            await commandContext.RespondAsync(string.Join(Environment.NewLine, dataCache.VtuberCache.CachedList.Select(v => v.EnName.Value)));
-
-            logger?.Log($"discord.ListCommand({commandContext.Guild.Id}) - end");
-        }
-
         [Command("list")]
         [Description("Prints out vtuber list")]
         public async Task ListCommand(CommandContext commandContext)
