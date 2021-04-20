@@ -14,11 +14,12 @@ CREATE TABLE vtube_mon_db.agencies (
 	agency_name VARCHAR(45) NULL,
 	PRIMARY KEY (id_agency));
 
-CREATE TABLE vtube_mon_db.users (
-  id_user BIGINT UNSIGNED NOT NULL,
-  id_guild BIGINT UNSIGNED NOT NULL,
-  vtuber_cash INT NULL,
-  PRIMARY KEY (id_user, id_guild));
+CREATE TABLE `vtube_mon_db`.`users` (
+  `id_user` BIGINT UNSIGNED NOT NULL,
+  `id_guild` BIGINT UNSIGNED NOT NULL,
+  `admin` BOOLEAN NOT NULL,
+  `vtuber_cash` INT NULL,
+  PRIMARY KEY (`id_user`, `id_guild`));
 
 CREATE TABLE vtube_mon_db.dailies (
   id_user BIGINT UNSIGNED NOT NULL,

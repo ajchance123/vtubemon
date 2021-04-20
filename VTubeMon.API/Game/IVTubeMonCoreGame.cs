@@ -9,6 +9,8 @@ namespace VTubeMon.API
 
         CommandResult DailyCheckIn(ulong user, ulong guild, DateTime checkInTimeUtc);
 
-        CommandResult Register(ulong user, ulong guild);
+        CommandResult Register(ulong user, ulong guild, bool admin);
+        CommandResult MakeAdmin(ulong inituser, ulong user, ulong guild, bool admin);
+        
     }
 }
