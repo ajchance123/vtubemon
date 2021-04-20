@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using VTubeMon.Wpf.Core.Components.Database;
+using VTubeMon.Wpf.Core.Components.Database.Users.Details;
+using VTubeMon.Wpf.Core.Components.Database.Users.Values;
 using VTubeMon.Wpf.Core.Components.Discord;
 using VTubeMon.Wpf.Core.Components.Settings;
 
@@ -13,6 +15,8 @@ namespace VTubeMon.Wpf.Core.IOC
             builder.RegisterType<DatabaseViewModel>().SingleInstance();
             builder.RegisterType<DiscordViewModel>().SingleInstance();
             builder.RegisterType<SettingsViewModel>().SingleInstance();
+            builder.RegisterType<UserViewModel>().SingleInstance();
+            builder.RegisterType<UserSettingsDetailCollectionViewModel>().SingleInstance();
         }
     }
 }

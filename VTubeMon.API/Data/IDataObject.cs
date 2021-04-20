@@ -12,6 +12,7 @@ namespace VTubeMon.API
 
         string ColumnNames { get; }
         string InsertableColumnNames { get; }
+        string GetUpdateString(string asName);
         string Values { get; }
         string InsertableValues { get; }
     }

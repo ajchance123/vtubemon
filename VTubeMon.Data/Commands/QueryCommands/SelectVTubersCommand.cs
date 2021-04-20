@@ -4,6 +4,9 @@ namespace VTubeMon.Data.Commands
 {
     public class SelectVTubersCommand : QueryCommand<VTuber>
     {
-        protected override string Table => "vtubers";
+        public SelectVTubersCommand() : base("vtubers")
+        {
+
+        }
     }
 }

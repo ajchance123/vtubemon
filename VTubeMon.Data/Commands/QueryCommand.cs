@@ -6,11 +6,6 @@ namespace VTubeMon.Data.Commands
     public class QueryCommand<T> : IDbQueryCommand<T>
         where T : IDataObject, new()
     {
-        public QueryCommand()
-        {
-            WhereCollection = new List<WhereStatement>();
-        }
-
         public QueryCommand(string table, string columns = "*", params WhereStatement[] whereStatements)
         {
             Table = table;

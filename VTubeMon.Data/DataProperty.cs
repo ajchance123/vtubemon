@@ -51,7 +51,7 @@ namespace VTubeMon.Data
 
         }
 
-        public override string ValueString => $"'{Value.ToString()}'";
+        public override string ValueString => $"'{Value?.ToString()}'";
     }
     public class DateTimeDataProperty : DataProperty<DateTime>
     {

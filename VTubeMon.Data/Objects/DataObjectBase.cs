@@ -19,6 +19,7 @@ namespace VTubeMon.Data.Objects
 
         public string ColumnNames => $"({string.Join(",", DataPropertyList.Select(d => d.ColumnName))})";
         public string InsertableColumnNames => $"({string.Join(",", DataPropertyList.Where(d => d.CanInsert).Select(d => d.ColumnName))})";
+        public string GetUpdateString(string asName) => string.Join(",", DataPropertyList.Select(d => $"{d.ColumnName} = {asName}.{d.ColumnName}"));
 
         public string Values => $"({string.Join(",", DataPropertyList.Select(d => d.ValueString))})";
         public string InsertableValues => $"({string.Join(",", DataPropertyList.Where(d => d.CanInsert).Select(d => d.ValueString))})";
