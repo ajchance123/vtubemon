@@ -27,15 +27,23 @@ namespace VTubeMon.Game
             return _vTubeMonCoreGameFactories.RegisterCommand(user, guild, admin, RegistrationValue);
         }
 
-        public CommandResult MakeAdmin(ulong inituser, ulong user, ulong guild, bool admin)
+        public CommandResult ToggleAdmin(ulong inituser, ulong user, ulong guild, bool admin)
         {
-            IUser userobject = _vTubeMonCoreGameFactories.GetUser(inituser, guild);
+            try
+            {
+                IUser userobject = _vTubeMonCoreGameFactories.GetUser(user, guild);
+            }
+            catch(Exception ex)
+            {
+                if(ex.Message.Equals("User does not exist."))
+                    return new CommandResult(CommandResultType.NotExist);
+            }
+            /*IUser userobject = _vTubeMonCoreGameFactories.GetUser(inituser, guild);
             if (!userobject.Admin.Value)
             {
                 return new CommandResult(CommandResultType.Unauthorized, "You are not authorized");
-            }
-
-            return _vTubeMonCoreGameFactories.MakeAdminCommand(user, guild, admin);
+            }*/
+            return _vTubeMonCoreGameFactories.ToggleAdminCommand(user, guild, admin);
         }
     }
 }

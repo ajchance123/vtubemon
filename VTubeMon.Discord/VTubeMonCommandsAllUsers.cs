@@ -1,4 +1,5 @@
-﻿using DSharpPlus.CommandsNext;
+﻿using DSharpPlus;
+using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
@@ -11,7 +12,7 @@ using VTubeMon.Data.Commands;
 
 namespace VTubeMon.Discord
 {
-    public class VTubeMonCommands
+    public class VTubeMonCommandsAllUsers
     {
         #region REGULAR FOLK COMMANDS
 
@@ -66,7 +67,7 @@ namespace VTubeMon.Discord
         }
 
         [Command("daily")]
-        [Description("")]
+        [Description("Initializes user's daily check in")]
         public async Task DailyCommand(CommandContext commandContext)
         {
             try
@@ -101,50 +102,6 @@ namespace VTubeMon.Discord
             }
         }
 
-
-        #endregion
-
-        #region ADMIN COMMANDS
-
-
-        [Command("makeadmin")]
-        [Description("Assign specified user admin role")]
-        public async Task MakeAdmin(CommandContext commandContext, [Description("Specified user")] DiscordMember member )
-        {
-            try
-            {
-                var coreGame = commandContext.Dependencies.GetDependency<IVTubeMonCoreGame>();
-                var logger = commandContext.Dependencies.GetDependency<ILogger>();
-
-                logger?.Log($"discord.MakeAdmin({member.Id}{commandContext.Guild.Id} - start");
-
-                var result = coreGame.MakeAdmin(commandContext.User.Id, member.Id, commandContext.Guild.Id, true);
-
-                logger?.Log($"discord.MakeAdmin({member.Id}{commandContext.Guild.Id} - {result.ResultType}");
-
-                switch (result.ResultType)
-                {
-                    case CommandResultType.Success:
-                        await commandContext.RespondAsync($"Congradulations, {member.DisplayName} is now an admin!");
-                        break;
-                    case CommandResultType.Failure:
-                        await commandContext.RespondAsync($"Sorry an error has occured {result.Error}, go yell at the devs");
-                        break;
-                    case CommandResultType.Duplicate:
-                        await commandContext.RespondAsync($"{member.DisplayName} is already an admin!");
-                        break;
-                    case CommandResultType.Unauthorized:
-                        await commandContext.RespondAsync($"You are not authorized to do this.");
-                        break;
-                }
-
-                logger?.Log($"discord.RegisterCommand({commandContext.User.Id}{commandContext.Guild.Id} - end");
-            }
-            catch (Exception ex)
-            {
-                await commandContext.RespondAsync(ex.Message);
-            }
-        }
 
         #endregion
 
@@ -209,8 +166,6 @@ namespace VTubeMon.Discord
                 await commandContext.RespondAsync(ex.Message);
             }
         }
-
-
         #endregion
     }
 }

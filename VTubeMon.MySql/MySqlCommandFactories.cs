@@ -117,7 +117,7 @@ namespace VTubeMon.MySql
             return users.Single().VTuberCash.Value;
         }
 
-        public CommandResult MakeAdminCommand(ulong user, ulong guild, bool admin)
+        public CommandResult ToggleAdminCommand(ulong user, ulong guild, bool admin)
         {
             NonQueryCommand updateAdmin = new NonQueryCommand("users", $"UPDATE `users` SET admin = {admin} WHERE id_user = {user} AND id_guild = {guild};");
 

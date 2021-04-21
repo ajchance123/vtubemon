@@ -62,7 +62,8 @@ namespace VTubeMon.Discord
 
             });
 
-            commandModule.RegisterCommands<VTubeMonCommands>();
+            commandModule.RegisterCommands<VTubeMonCommandsAllUsers>();
+            commandModule.RegisterCommands<VTubeMonCommandsAdminUsers>();
             //commandModule.SetHelpFormatter<VTubeMonDiscordHelp>();
             _logger.Log($"VTubeMonDiscord.CreateNewClient({prefix}) - end");
         }

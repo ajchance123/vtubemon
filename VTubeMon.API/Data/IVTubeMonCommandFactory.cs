@@ -7,7 +7,7 @@ namespace VTubeMon.API
     {
         CommandResult RegisterCommand(ulong user, ulong guild, bool admin, int registerCash);
         CommandResult DailyCheckinCommand(ulong user, ulong guild, DateTime checkInDateTime);
-        CommandResult MakeAdminCommand(ulong user, ulong guild, bool admin);
+        CommandResult ToggleAdminCommand(ulong user, ulong guild, bool admin);
         IUser GetUser(ulong user, ulong guild);
     }
 }

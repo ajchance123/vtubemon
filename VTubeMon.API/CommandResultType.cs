@@ -21,6 +21,7 @@ namespace VTubeMon.API
         Success,
         Failure,
         Duplicate,
+        NotExist,
         Unauthorized
     }
 }
