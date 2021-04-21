@@ -17,8 +17,9 @@ namespace VTubeMon.Wpf.Core.Components.Database
                 new VTubersWorkItem(stringService, vTubeMonDbConnection),
                 new DailiesWorkItem(stringService, vTubeMonDbConnection),
                 new UsersWorkItem(stringService, vTubeMonDbConnection),
-                new UserSettingsWorkItem(stringService, vTubeMonDbConnection),
+                new UserSettingsMainWorkItem(stringService, vTubeMonDbConnection),
                 new UserSettingsValuesWorkItem(stringService, vTubeMonDbConnection),
+                new UserSettingsDetailsWorkItem(stringService, vTubeMonDbConnection),
                 new AgenciesWorkItem(stringService, vTubeMonDbConnection),
                 new VTuberImagesWorkItem(stringService, vTubeMonDbConnection, modelService, fileService)
             };
