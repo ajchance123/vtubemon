@@ -25,7 +25,7 @@ namespace VTubeMon.Data.Objects
         {
             IdUser = new DataProperty<ulong>("id_user", (r) => r.GetUInt64, user);
             IdGuild = new DataProperty<ulong>("id_guild", (r) => r.GetUInt64, guild);
-            CheckInDate = new DateTimeDataProperty("vtuber_cash", dateTimeUtc);
+            CheckInDate = new DateTimeDataProperty("check_in_date", dateTimeUtc);
 
             DataPropertyList = new List<IDataProperty>()
             {

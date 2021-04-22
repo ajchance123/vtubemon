@@ -11,6 +11,8 @@ namespace VTubeMon.API
 
         CommandResult Register(ulong user, ulong guild, bool admin);
         CommandResult ToggleAdmin(ulong inituser, ulong user, ulong guild, bool admin);
-        
+        int TotalCash(ulong user, ulong guild);
+
+
     }
 }

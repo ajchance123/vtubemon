@@ -19,12 +19,17 @@ namespace VTubeMon.Game
 
         public CommandResult DailyCheckIn(ulong user, ulong guild, DateTime checkinTimeUtc)
         {
-            return _vTubeMonCoreGameFactories.DailyCheckinCommand(user, guild, checkinTimeUtc);
+            return _vTubeMonCoreGameFactories.DailyCheckinCommand(user, guild, checkinTimeUtc, DailyCheckinValue);
         }
 
         public CommandResult Register(ulong user, ulong guild, bool admin)
         {
             return _vTubeMonCoreGameFactories.RegisterCommand(user, guild, admin, RegistrationValue);
+        }
+
+        public int TotalCash(ulong user, ulong guild)
+        {
+            return _vTubeMonCoreGameFactories.TotalCash(user, guild);
         }
 
         public CommandResult ToggleAdmin(ulong inituser, ulong user, ulong guild, bool admin)

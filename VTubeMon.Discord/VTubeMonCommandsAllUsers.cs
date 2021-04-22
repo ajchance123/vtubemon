@@ -65,7 +65,7 @@ namespace VTubeMon.Discord
         }
 
         [Command("daily")]
-        [Description("Initializes user's daily check in")]
+        [Description("Daily check-in")]
         public async Task DailyCommand(CommandContext commandContext)
         {
             try
@@ -98,6 +98,21 @@ namespace VTubeMon.Discord
             {
                 await commandContext.RespondAsync(ex.Message);
             }
+        }
+
+        [Command("cash")]
+        [Description("Get's the sum value of your wallet")]
+        public async Task CashCommand(CommandContext commandContext)
+        {
+            var logger = commandContext.Dependencies.GetDependency<ILogger>();
+            var coreGame = commandContext.Dependencies.GetDependency<IVTubeMonCoreGame>();
+
+            logger?.Log($"discord.CashCommand({commandContext.Guild.Id}) - start");
+
+            int result = coreGame.TotalCash(commandContext.User.Id, commandContext.Guild.Id);
+            await commandContext.RespondAsync($"You have {result} vTuber cash!");
+
+            logger?.Log($"discord.CashCommand({commandContext.Guild.Id}) - end");
         }
     }
 }

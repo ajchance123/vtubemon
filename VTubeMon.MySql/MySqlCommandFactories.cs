@@ -58,7 +58,7 @@ namespace VTubeMon.MySql
             }
         }
 
-        public CommandResult DailyCheckinCommand(ulong user, ulong guild, DateTime checkInDateTime)
+        public CommandResult DailyCheckinCommand(ulong user, ulong guild, DateTime checkInDateTime, int dailyCash)
         {
             var queryDailiesCommand = new QueryCommand<Daily>("dailies", "*",
                 new WhereStatement()
@@ -76,22 +76,31 @@ namespace VTubeMon.MySql
                     UseQuotes = false
                 });
 
-            var dailies = _vTubeMonDbConnection.ExecuteDbQueryCommand(queryDailiesCommand);
-            /*var lastCheckIn = dailies.Last();
-            if(lastCheckIn.CheckInDate.Value.DayOfYear == DateTime.Now.DayOfYear)
+           var dailies = _vTubeMonDbConnection.ExecuteDbQueryCommand(queryDailiesCommand);
+
+            if(dailies.Any())
             {
-                //already checked in
-                return new CommandResult(CommandResultType.Duplicate);
+                var lastCheckIn = dailies.Last();
+                if (lastCheckIn.CheckInDate.Value.DayOfYear == DateTime.Now.DayOfYear)
+                {
+                    //already checked in
+                    return new CommandResult(CommandResultType.Duplicate);
+                }
             }
+
+
             bool insertResult;
             try
             {
+                int newCash = TotalCash(user, guild) + dailyCash;
+                NonQueryCommand updateCash = new NonQueryCommand("users", $"UPDATE `users` SET vtuber_cash = {newCash} WHERE id_user = {user} AND id_guild = {guild};");
+                _vTubeMonDbConnection.ExecuteDbNonQueryCommand(updateCash);
                 insertResult = _vTubeMonDbConnection.ExecuteDbNonQueryCommand(new InsertCommand<IDaily>("dailies", new Daily(user, guild, checkInDateTime))) > 0;
             }
             catch(Exception ex)
             {
                 return ex;
-            }*/
+            }
 
             return new CommandResult(CommandResultType.Success);
         }
