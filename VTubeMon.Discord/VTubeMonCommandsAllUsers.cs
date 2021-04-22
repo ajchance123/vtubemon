@@ -14,8 +14,6 @@ namespace VTubeMon.Discord
 {
     public class VTubeMonCommandsAllUsers
     {
-        #region REGULAR FOLK COMMANDS
-
         [Command("list")]
         [Description("Prints out vtuber list")]
         public async Task ListCommand(CommandContext commandContext)
@@ -101,71 +99,5 @@ namespace VTubeMon.Discord
                 await commandContext.RespondAsync(ex.Message);
             }
         }
-
-
-        #endregion
-
-
-        #region SUPER COOL ADMIN COMMANDS - NO COMMON FOLK ALLOWED
-
-        //these commands should check the user id before we actually exeute them
-        //(TODO btw)
-
-        [Command("refresh")]
-        [Description("Refreshed data cache")]
-        public async Task RefreshCommand(CommandContext commandContext)
-        {
-            var dataCache = commandContext.Dependencies.GetDependency<DataCache>();
-            var logger = commandContext.Dependencies.GetDependency<ILogger>();
-
-            dataCache.RefreshAll();
-            await commandContext.RespondAsync("Data Refreshed!");
-        }
-
-        [Command("ping")]
-        [Description("Ping specified user")]
-        public async Task PingCommand(CommandContext commandContext, DiscordMember member)
-        {
-            await commandContext.RespondAsync($"{member.Mention}! Someone wants you!");
-        }
-
-        [Command("select")]
-        [Description("")]
-        public async Task SelectCommand(CommandContext commandContext)
-        {
-            try
-            {
-                var dbConnection = commandContext.Dependencies.GetDependency<IVTubeMonDbConnection>();
-                var interactivity = commandContext.Dependencies.GetDependency<InteractivityModule>();
-                var logger = commandContext.Dependencies.GetDependency<ILogger>();
-
-                var command = new MultiStringSelectCommand($"SELECT {commandContext.RawArgumentString}");
-
-                var discordMessage = await commandContext.RespondAsync(string.Join(Environment.NewLine, dbConnection.ExecuteDbQueryCommand(command).Select((s) => string.Join("\t", s))));
-            }
-            catch (Exception ex)
-            {
-                await commandContext.RespondAsync(ex.Message);
-            }
-        }
-
-        [Command("nonQuery")]
-        [Description("")]
-        public async Task NonQueryCommand(CommandContext commandContext)
-        {
-            try
-            {
-                var dbConnection = commandContext.Dependencies.GetDependency<IVTubeMonDbConnection>();
-
-                //var rows = dbConnection.ExecuteDbNonQueryCommand(new )
-
-                //await commandContext.RespondAsync($"{rows} row(s) affected");
-            }
-            catch (Exception ex)
-            {
-                await commandContext.RespondAsync(ex.Message);
-            }
-        }
-        #endregion
     }
 }

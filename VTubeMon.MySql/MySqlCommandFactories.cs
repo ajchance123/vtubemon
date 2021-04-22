@@ -77,7 +77,7 @@ namespace VTubeMon.MySql
                 });
 
             var dailies = _vTubeMonDbConnection.ExecuteDbQueryCommand(queryDailiesCommand);
-            var lastCheckIn = dailies.Last();
+            /*var lastCheckIn = dailies.Last();
             if(lastCheckIn.CheckInDate.Value.DayOfYear == DateTime.Now.DayOfYear)
             {
                 //already checked in
@@ -91,7 +91,7 @@ namespace VTubeMon.MySql
             catch(Exception ex)
             {
                 return ex;
-            }
+            }*/
 
             return new CommandResult(CommandResultType.Success);
         }
