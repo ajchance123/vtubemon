@@ -12,12 +12,12 @@ namespace VTubeMon.Discord
 {
     class VTubeMonDiscordHelpFormatter : BaseHelpFormatter
     {
-        private DiscordEmbedBuilder EmbedBuilder { get; }
+        private DiscordEmbedBuilder embedBuilder { get; }
         private Command Command { get; set; }
 
         public VTubeMonDiscordHelpFormatter(CommandContext ctx) : base(ctx)
         {
-            this.EmbedBuilder = new DiscordEmbedBuilder()
+            this.embedBuilder = new DiscordEmbedBuilder()
             {
                 Author = new DiscordEmbedBuilder.EmbedAuthor()
                 {
@@ -30,21 +30,26 @@ namespace VTubeMon.Discord
 
         public override CommandHelpMessage Build()
         {
-            return new CommandHelpMessage("", EmbedBuilder.Build());
+            return new CommandHelpMessage(embed: embedBuilder);
         }
 
         public override BaseHelpFormatter WithCommand(Command command)
         {
             if (command is CommandGroup)
-                this.EmbedBuilder.AddField(command.Name, command.Description, false);
+                this.embedBuilder.AddField(command.Name, command.Description, false);
             else
-                this.EmbedBuilder.AddField(command.Name, command.Description, true);
+                this.embedBuilder.AddField(command.Name, command.Description, true);
 
             return this;
         }
 
         public override BaseHelpFormatter WithSubcommands(IEnumerable<Command> subcommands)
         {
+            foreach(var command in subcommands)
+            {
+                embedBuilder.AddField(command.Name, command.Description != null ? command.Description : "No description");
+            }
+
             return this;
         }
     }

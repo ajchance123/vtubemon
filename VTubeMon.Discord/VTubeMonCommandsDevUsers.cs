@@ -14,7 +14,7 @@ using VTubeMon.Data.Commands;
 namespace VTubeMon.Discord
 {
     [Group("dev")]
-    [Description("Developer Commands.")]
+    [Description("Developer Commands")]
     [Hidden]
     class VTubeMonCommandsDevUsers : BaseCommandModule
     {

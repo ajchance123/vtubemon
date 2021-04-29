@@ -17,6 +17,11 @@ namespace VTubeMon.Data.Tests
 
         public string InsertableValues { get; }
 
+        public string GetUpdateString(string asName)
+        {
+            return asName;
+        }
+
         public void InitializeFromReader(INamedDataReader reader)
         {
 
