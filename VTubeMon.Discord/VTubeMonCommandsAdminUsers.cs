@@ -5,6 +5,7 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
 using VTubeMon.API;
 using DSharpPlus;
+using VTubeMon.Game;
 
 namespace VTubeMon.Discord
 {
@@ -13,7 +14,7 @@ namespace VTubeMon.Discord
     //Uncomment the code below to make the guild managers the only ones to call these commands
     [RequirePermissions(Permissions.ManageGuild)]
     [Hidden]
-    public class VTubeMonCommandsAdminUsers
+    public class VTubeMonCommandsAdminUsers : BaseCommandModule
     {
         // all the commands will need to be executed as <prefix>admin <command> <arguments>
         
@@ -29,8 +30,8 @@ namespace VTubeMon.Discord
         {
             try
             {
-                var coreGame = commandContext.Dependencies.GetDependency<IVTubeMonCoreGame>();
-                var logger = commandContext.Dependencies.GetDependency<ILogger>();
+                var coreGame = commandContext.Services.GetService(typeof(IVTubeMonCoreGame)) as IVTubeMonCoreGame;
+                var logger = commandContext.Services.GetService(typeof(ILogger)) as ILogger;
 
                 logger?.Log($"discord.ToggleAdmin({member.Id}{commandContext.Guild.Id} - start");
 
@@ -52,9 +53,6 @@ namespace VTubeMon.Discord
                     case CommandResultType.NotExist:
                         await commandContext.RespondAsync($"{member.DisplayName} is not registered!");
                         break;
-                    /*case CommandResultType.Unauthorized:
-                        await commandContext.RespondAsync($"You are not authorized to do this.");
-                        break;*/
                 }
 
                 logger?.Log($"discord.RegisterCommand({commandContext.User.Id}{commandContext.Guild.Id} - end");
@@ -71,8 +69,8 @@ namespace VTubeMon.Discord
         {
             try
             {
-                var coreGame = commandContext.Dependencies.GetDependency<IVTubeMonCoreGame>();
-                var logger = commandContext.Dependencies.GetDependency<ILogger>();
+                var coreGame = commandContext.Services.GetService(typeof(IVTubeMonCoreGame)) as IVTubeMonCoreGame;
+                var logger = commandContext.Services.GetService(typeof(ILogger)) as ILogger;
 
                 logger?.Log($"discord.ToggleAdmin({member.Id}{commandContext.Guild.Id} - start");
 

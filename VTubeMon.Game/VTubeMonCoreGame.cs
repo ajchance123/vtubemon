@@ -34,21 +34,21 @@ namespace VTubeMon.Game
 
         public CommandResult ToggleAdmin(ulong inituser, ulong user, ulong guild, bool admin)
         {
-            try
-            {
-                IUser userobject = _vTubeMonCoreGameFactories.GetUser(user, guild);
-            }
-            catch(Exception ex)
-            {
-                if(ex.Message.Equals("User does not exist."))
-                    return new CommandResult(CommandResultType.NotExist);
-            }
+            IUser userobject = _vTubeMonCoreGameFactories.GetUser(user, guild);
+            if(userobject == null)
+                return new CommandResult(CommandResultType.NotExist);
+
             /*IUser userobject = _vTubeMonCoreGameFactories.GetUser(inituser, guild);
             if (!userobject.Admin.Value)
             {
                 return new CommandResult(CommandResultType.Unauthorized, "You are not authorized");
             }*/
             return _vTubeMonCoreGameFactories.ToggleAdminCommand(user, guild, admin);
+        }
+
+        public object GetService(Type serviceType)
+        {
+            throw new NotImplementedException();
         }
     }
 }

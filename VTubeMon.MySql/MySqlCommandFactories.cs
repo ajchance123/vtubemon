@@ -34,11 +34,11 @@ namespace VTubeMon.MySql
                     UseQuotes = false
                 });
 
-            List<User> user_list = new List<User>(_vTubeMonDbConnection.ExecuteDbQueryCommand(command));
+            List<User> user_list = _vTubeMonDbConnection.ExecuteDbQueryCommand(command).ToList();
 
             if (!user_list.Any())
             {
-                throw new Exception("User does not exist.");
+                return null;
             }
 
             return user_list.First();
@@ -60,6 +60,9 @@ namespace VTubeMon.MySql
 
         public CommandResult DailyCheckinCommand(ulong user, ulong guild, DateTime checkInDateTime, int dailyCash)
         {
+            if(GetUser(user, guild) == null)
+                return new CommandResult(CommandResultType.NotExist);
+
             var queryDailiesCommand = new QueryCommand<Daily>("dailies", "*",
                 new WhereStatement()
                 {
@@ -76,7 +79,7 @@ namespace VTubeMon.MySql
                     UseQuotes = false
                 });
 
-           var dailies = _vTubeMonDbConnection.ExecuteDbQueryCommand(queryDailiesCommand);
+           List<Daily> dailies = _vTubeMonDbConnection.ExecuteDbQueryCommand(queryDailiesCommand).ToList();
 
             if(dailies.Any())
             {
@@ -88,19 +91,11 @@ namespace VTubeMon.MySql
                 }
             }
 
+            int newCash = TotalCash(user, guild) + dailyCash;
 
-            bool insertResult;
-            try
-            {
-                int newCash = TotalCash(user, guild) + dailyCash;
-                NonQueryCommand updateCash = new NonQueryCommand("users", $"UPDATE `users` SET vtuber_cash = {newCash} WHERE id_user = {user} AND id_guild = {guild};");
-                _vTubeMonDbConnection.ExecuteDbNonQueryCommand(updateCash);
-                insertResult = _vTubeMonDbConnection.ExecuteDbNonQueryCommand(new InsertCommand<IDaily>("dailies", new Daily(user, guild, checkInDateTime))) > 0;
-            }
-            catch(Exception ex)
-            {
-                return ex;
-            }
+            NonQueryCommand updateCash = new NonQueryCommand("users", $"UPDATE `users` SET vtuber_cash = {newCash} WHERE id_user = {user} AND id_guild = {guild};");
+            _vTubeMonDbConnection.ExecuteDbNonQueryCommand(updateCash);
+            _vTubeMonDbConnection.ExecuteDbNonQueryCommand(new InsertCommand<IDaily>("dailies", new Daily(user, guild, checkInDateTime)));
 
             return new CommandResult(CommandResultType.Success);
         }
@@ -121,9 +116,16 @@ namespace VTubeMon.MySql
                     Value = $"{guild}"
                 });
 
-            var users = _vTubeMonDbConnection.ExecuteDbQueryCommand(userQueryCommand);
+            List<User> users = new List<User>(_vTubeMonDbConnection.ExecuteDbQueryCommand(userQueryCommand));
 
-            return users.Single().VTuberCash.Value;
+            try
+            {
+                return users.Single().VTuberCash.Value;
+            }
+            catch
+            {
+                throw new Exception("User does not exist");
+            }
         }
 
         public CommandResult ToggleAdminCommand(ulong user, ulong guild, bool admin)

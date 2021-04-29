@@ -12,14 +12,14 @@ using VTubeMon.Data.Commands;
 
 namespace VTubeMon.Discord
 {
-    public class VTubeMonCommandsAllUsers
+    public class VTubeMonCommandsAllUsers : BaseCommandModule
     {
         [Command("list")]
         [Description("Prints out vtuber list")]
         public async Task ListCommand(CommandContext commandContext)
         {
-            var dataCache = commandContext.Dependencies.GetDependency<DataCache>();
-            var logger = commandContext.Dependencies.GetDependency<ILogger>();
+            var dataCache = commandContext.Services.GetService(typeof(DataCache)) as DataCache;
+            var logger = commandContext.Services.GetService(typeof(ILogger)) as ILogger;
 
             logger?.Log($"discord.ListCommand({commandContext.Guild.Id}) - start");
 
@@ -29,13 +29,13 @@ namespace VTubeMon.Discord
         }
 
         [Command("register")]
-        [Description("Register user")]
+        [Description("Registers user")]
         public async Task RegisterCommand(CommandContext commandContext)
         {
             try
             {
-                var coreGame = commandContext.Dependencies.GetDependency<IVTubeMonCoreGame>();
-                var logger = commandContext.Dependencies.GetDependency<ILogger>();
+                var coreGame = commandContext.Services.GetService(typeof(IVTubeMonCoreGame)) as IVTubeMonCoreGame;
+                var logger = commandContext.Services.GetService(typeof(ILogger)) as ILogger;
 
                 logger?.Log($"discord.RegisterCommand({commandContext.User.Id}{commandContext.Guild.Id} - start");
 
@@ -70,8 +70,8 @@ namespace VTubeMon.Discord
         {
             try
             {
-                var coreGame = commandContext.Dependencies.GetDependency<IVTubeMonCoreGame>();
-                var logger = commandContext.Dependencies.GetDependency<ILogger>();
+                var coreGame = commandContext.Services.GetService(typeof(IVTubeMonCoreGame)) as IVTubeMonCoreGame;
+                var logger = commandContext.Services.GetService(typeof(ILogger)) as ILogger;
 
                 logger?.Log($"discord.DailyCommand({commandContext.User.Id}{commandContext.Guild.Id} - start");
 
@@ -90,6 +90,9 @@ namespace VTubeMon.Discord
                     case CommandResultType.Duplicate:
                         await commandContext.RespondAsync($"You have already checked in today!");
                         break;
+                    case CommandResultType.NotExist:
+                        await commandContext.RespondAsync($"You are not registered!");
+                        break;
                 }
 
                 logger?.Log($"discord.DailyCommand({commandContext.User.Id}{commandContext.Guild.Id} - end");
@@ -104,8 +107,8 @@ namespace VTubeMon.Discord
         [Description("Get's the sum value of your wallet")]
         public async Task CashCommand(CommandContext commandContext)
         {
-            var logger = commandContext.Dependencies.GetDependency<ILogger>();
-            var coreGame = commandContext.Dependencies.GetDependency<IVTubeMonCoreGame>();
+            var logger = commandContext.Services.GetService(typeof(ILogger)) as ILogger;
+            var coreGame = commandContext.Services.GetService(typeof(IVTubeMonCoreGame)) as IVTubeMonCoreGame;
 
             logger?.Log($"discord.CashCommand({commandContext.Guild.Id}) - start");
 

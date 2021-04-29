@@ -28,7 +28,12 @@ namespace VTubeMon.Discord
         public async void SendMessageToDefaultChannel(string message, string fileName)
         {
             var defaultChannel = _discordGuild.GetDefaultChannel();
-            await defaultChannel.SendFileAsync(fileName, message);
+            DiscordEmbed messageEmbed = new DiscordEmbedBuilder()
+            {
+                ImageUrl = fileName,
+                Color = DiscordColor.HotPink
+            };
+            await defaultChannel.SendMessageAsync(message, messageEmbed);
         }
 
         public IEnumerable<IChannel> Channels => _discordGuild.Channels.Where(c => c.Type == DSharpPlus.ChannelType.Text).Select(c => { IChannel channel = new VTubeMonChannel(c); return channel; });

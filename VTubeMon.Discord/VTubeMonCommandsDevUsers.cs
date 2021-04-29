@@ -16,7 +16,7 @@ namespace VTubeMon.Discord
     [Group("dev")]
     [Description("Developer Commands.")]
     [Hidden]
-    class VTubeMonCommandsDevUsers
+    class VTubeMonCommandsDevUsers : BaseCommandModule
     {
         HashSet<ulong> DevIDs = new HashSet<ulong>()
         {
@@ -33,8 +33,8 @@ namespace VTubeMon.Discord
             if (!DevIDs.Contains(commandContext.Member.Id))
                 return;
 
-            var dataCache = commandContext.Dependencies.GetDependency<DataCache>();
-            var logger = commandContext.Dependencies.GetDependency<ILogger>();
+            var dataCache = commandContext.Services.GetService(typeof(DataCache)) as DataCache;
+            var logger = commandContext.Services.GetService(typeof(ILogger)) as ILogger;
 
             dataCache.RefreshAll();
             await commandContext.RespondAsync("Data Refreshed!");
@@ -57,9 +57,8 @@ namespace VTubeMon.Discord
 
             try
             {
-                var dbConnection = commandContext.Dependencies.GetDependency<IVTubeMonDbConnection>();
-                var interactivity = commandContext.Dependencies.GetDependency<InteractivityModule>();
-                var logger = commandContext.Dependencies.GetDependency<ILogger>();
+                var dbConnection = commandContext.Services.GetService(typeof(IVTubeMonDbConnection)) as IVTubeMonDbConnection;
+                var logger = commandContext.Services.GetService(typeof(ILogger)) as ILogger;
 
                 var command = new MultiStringSelectCommand($"SELECT {commandContext.RawArgumentString}");
 
@@ -79,7 +78,7 @@ namespace VTubeMon.Discord
 
             try
             {
-                var dbConnection = commandContext.Dependencies.GetDependency<IVTubeMonDbConnection>();
+                var dbConnection = commandContext.Services.GetService(typeof(IVTubeMonDbConnection)) as IVTubeMonDbConnection;
 
                 //var rows = dbConnection.ExecuteDbNonQueryCommand(new )
 

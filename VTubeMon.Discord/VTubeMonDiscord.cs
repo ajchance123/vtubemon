@@ -1,5 +1,6 @@
 ﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
+using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
 using System;
 using System.Collections.Generic;
@@ -44,33 +45,26 @@ namespace VTubeMon.Discord
                 Token = token,
                 TokenType = TokenType.Bot
             });
+
             _client.Ready += On_Client_Ready;
 
-            var dependencyCollectionBuilder = new DependencyCollectionBuilder();
-            dependencyCollectionBuilder.AddInstance(_dataCache);
-            dependencyCollectionBuilder.AddInstance(_vTubeMonDbConnection);
-            dependencyCollectionBuilder.AddInstance(_vTubeMonCoreGame);
-            dependencyCollectionBuilder.AddInstance(_logger);
 
-            var interactivity = _client.UseInteractivity(new InteractivityConfiguration());
-            dependencyCollectionBuilder.AddInstance(interactivity);
-
-            var commandModule = _client.UseCommandsNext(new CommandsNextConfiguration()
+            var commandModule = _client.UseCommandsNext(new CommandsNextConfiguration
             {
-                StringPrefix = prefix,
-                Dependencies = dependencyCollectionBuilder.Build()
-
+                CaseSensitive = false,
+                StringPrefixes = new[] { prefix }
             });
-
+            
             commandModule.RegisterCommands<VTubeMonCommandsAllUsers>();
             commandModule.RegisterCommands<VTubeMonCommandsAdminUsers>();
             commandModule.RegisterCommands<VTubeMonCommandsDevUsers>();
-            //commandModule.SetHelpFormatter<VTubeMonDiscordHelp>();
+            commandModule.SetHelpFormatter<VTubeMonDiscordHelpFormatter>();
+
             _logger.Log($"VTubeMonDiscord.CreateNewClient({prefix}) - end");
         }
 
         public event EventHandler<bool> OnReadyChanged;
-        private async Task On_Client_Ready(DSharpPlus.EventArgs.ReadyEventArgs e)
+        private async Task On_Client_Ready(DiscordClient sender, ReadyEventArgs e)
         {
             OnReadyChanged?.Invoke(this, true);
         }
