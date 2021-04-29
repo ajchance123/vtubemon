@@ -1,15 +1,18 @@
-﻿using DSharpPlus.CommandsNext;
+﻿using DSharpPlus;
+using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Converters;
 using DSharpPlus.CommandsNext.Entities;
 using DSharpPlus.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace VTubeMon.Discord
 {
     class VTubeMonDiscordHelpFormatter : BaseHelpFormatter
     {
-        public DiscordEmbedBuilder EmbedBuilder { get; }
+        private DiscordEmbedBuilder EmbedBuilder { get; }
         private Command Command { get; set; }
 
         public VTubeMonDiscordHelpFormatter(CommandContext ctx) : base(ctx)
@@ -21,23 +24,28 @@ namespace VTubeMon.Discord
                     Name = "HelpVTuber"
                 },
                 Title = "Help Menu",
-                Color = DiscordColor.Gold
+                Color = DiscordColor.Gold,
             };
         }
 
         public override CommandHelpMessage Build()
         {
-            throw new NotImplementedException();
+            return new CommandHelpMessage("", EmbedBuilder.Build());
         }
 
         public override BaseHelpFormatter WithCommand(Command command)
         {
-            throw new NotImplementedException();
+            if (command is CommandGroup)
+                this.EmbedBuilder.AddField(command.Name, command.Description, false);
+            else
+                this.EmbedBuilder.AddField(command.Name, command.Description, true);
+
+            return this;
         }
 
         public override BaseHelpFormatter WithSubcommands(IEnumerable<Command> subcommands)
         {
-            throw new NotImplementedException();
+            return this;
         }
     }
 }
