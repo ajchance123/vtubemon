@@ -73,7 +73,12 @@ namespace VTubeMon.Discord
         [Description("Allows you to purchase items from the store")]
         public async Task PingCommand(CommandContext commandContext, [Description("Item you wish to purchase")]String item)
         {
+            var logger = commandContext.Services.GetService(typeof(ILogger)) as ILogger;
+            logger?.Log($"discord.buyCommand({commandContext.Guild.Id}) - start");
+
             await commandContext.RespondAsync("Thank you for your purchase");
+
+            logger?.Log($"discord.buyCommand({commandContext.Guild.Id}) - end");
         }
 
         private void createStoreFront()

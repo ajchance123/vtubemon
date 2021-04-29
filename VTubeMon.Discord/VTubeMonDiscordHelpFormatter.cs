@@ -26,6 +26,11 @@ namespace VTubeMon.Discord
                 Description = "Vtubemon is a collection game made for your discord server! Play minigames, collect vtubers and arm them up to fight" +
                 " against other users' vtubers and gain rewards for your account.\n\nTo start type `v!register` to join the game and start collecting! Good luck!\n",
                 Color = DiscordColor.Blurple,
+                Footer = new DiscordEmbedBuilder.EmbedFooter()
+                {
+                    IconUrl = "https://iconsplace.com/wp-content/uploads/_icons/ffa500/256/png/help-icon-11-256.png",
+                    Text = "Beep boop I'm a helpful tuber!"
+                },
                 Timestamp = DateTime.UtcNow,
             };
         }
@@ -50,9 +55,6 @@ namespace VTubeMon.Discord
             {
                 commands.AppendLine($"{command.Name}{(command.Aliases.Count != 0 ? "("+ String.Join(",", command.Aliases)+")" : "")}: " +
                     $"{(command.Description != null ? command.Description : "No description")}");
-                //this.embedBuilder.AddField(command.Name + (command.Aliases != null ? $" ({String.Join(",", command.Aliases)})" : ""),
-                    //command.Description != null ? command.Description : "No description",
-                    //command is CommandGroup ? false : true);
             }
 
             this.embedBuilder.AddField("Commands", commands.ToString());
