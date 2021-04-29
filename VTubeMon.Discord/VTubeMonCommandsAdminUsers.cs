@@ -10,7 +10,7 @@ using VTubeMon.Game;
 namespace VTubeMon.Discord
 {
     [Group("guildadmin")]
-    [Description("Administrative commands.")]
+    [Description("Administrative commands")]
     //Uncomment the code below to make the guild managers the only ones to call these commands
     [RequirePermissions(Permissions.ManageGuild)]
     [Hidden]

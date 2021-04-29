@@ -5,7 +5,6 @@ using DSharpPlus.CommandsNext.Entities;
 using DSharpPlus.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace VTubeMon.Discord
@@ -13,7 +12,6 @@ namespace VTubeMon.Discord
     class VTubeMonDiscordHelpFormatter : BaseHelpFormatter
     {
         private DiscordEmbedBuilder embedBuilder { get; }
-        private Command Command { get; set; }
 
         public VTubeMonDiscordHelpFormatter(CommandContext ctx) : base(ctx)
         {
@@ -21,10 +19,14 @@ namespace VTubeMon.Discord
             {
                 Author = new DiscordEmbedBuilder.EmbedAuthor()
                 {
-                    Name = "HelpVTuber"
+                    Name = "VTubeMon",
+                    IconUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvvasYj2sB0wJwTwGgkqrOEAVo_ZLDzcY_3A&usqp=CAU",
+                    Url = "https://github.com/ajchance123/vtubemon",
                 },
-                Title = "Help Menu",
-                Color = DiscordColor.Gold,
+                Description = "Vtubemon is a collection game made for your discord server! Play minigames, collect vtubers and arm them up to fight" +
+                " against other users' vtubers and gain rewards for your account.\n\nTo start type `v!register` to join the game and start collecting! Good luck!\n",
+                Color = DiscordColor.Blurple,
+                Timestamp = DateTime.UtcNow,
             };
         }
 
@@ -35,20 +37,25 @@ namespace VTubeMon.Discord
 
         public override BaseHelpFormatter WithCommand(Command command)
         {
-            if (command is CommandGroup)
-                this.embedBuilder.AddField(command.Name, command.Description, false);
-            else
-                this.embedBuilder.AddField(command.Name, command.Description, true);
+            this.embedBuilder.AddField(command.Name + $" ({String.Join(",", command.Aliases)})", command.Description, command is CommandGroup ? false : true);
 
             return this;
         }
 
         public override BaseHelpFormatter WithSubcommands(IEnumerable<Command> subcommands)
         {
-            foreach(var command in subcommands)
+            StringBuilder commands = new StringBuilder();
+
+            foreach (var command in subcommands)
             {
-                embedBuilder.AddField(command.Name, command.Description != null ? command.Description : "No description");
+                commands.AppendLine($"{command.Name}{(command.Aliases.Count != 0 ? "("+ String.Join(",", command.Aliases)+")" : "")}: " +
+                    $"{(command.Description != null ? command.Description : "No description")}");
+                //this.embedBuilder.AddField(command.Name + (command.Aliases != null ? $" ({String.Join(",", command.Aliases)})" : ""),
+                    //command.Description != null ? command.Description : "No description",
+                    //command is CommandGroup ? false : true);
             }
+
+            this.embedBuilder.AddField("Commands", commands.ToString());
 
             return this;
         }

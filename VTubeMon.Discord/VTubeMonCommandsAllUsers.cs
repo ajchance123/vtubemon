@@ -14,7 +14,7 @@ namespace VTubeMon.Discord
 {
     public class VTubeMonCommandsAllUsers : BaseCommandModule
     {
-        [Command("list")]
+        [Command("list"), Aliases("l")]
         [Description("Prints out vtuber list")]
         public async Task ListCommand(CommandContext commandContext)
         {
@@ -28,7 +28,7 @@ namespace VTubeMon.Discord
             logger?.Log($"discord.ListCommand({commandContext.Guild.Id}) - end");
         }
 
-        [Command("register")]
+        [Command("register"), Aliases("r")]
         [Description("Registers user")]
         public async Task RegisterCommand(CommandContext commandContext)
         {
@@ -64,7 +64,7 @@ namespace VTubeMon.Discord
             }
         }
 
-        [Command("daily")]
+        [Command("daily"), Aliases("d")]
         [Description("Daily check-in")]
         public async Task DailyCommand(CommandContext commandContext)
         {
@@ -103,7 +103,7 @@ namespace VTubeMon.Discord
             }
         }
 
-        [Command("cash")]
+        [Command("cash"), Aliases("c")]
         [Description("Get's the sum value of your wallet")]
         public async Task CashCommand(CommandContext commandContext)
         {

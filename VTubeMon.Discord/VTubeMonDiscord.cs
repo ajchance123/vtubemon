@@ -2,6 +2,7 @@
 using DSharpPlus.CommandsNext;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
+using DSharpPlus.Interactivity.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -48,8 +49,11 @@ namespace VTubeMon.Discord
             });
 
             _client.Ready += On_Client_Ready;
+            _client.UseInteractivity(new InteractivityConfiguration()
+            {
+                Timeout = TimeSpan.FromMinutes(5)
+            }); ;
 
-            
             var serviceCollectionBuilder = new ServiceCollection();
             serviceCollectionBuilder.AddSingleton(_dataCache);
             serviceCollectionBuilder.AddSingleton(_vTubeMonDbConnection);
@@ -66,6 +70,7 @@ namespace VTubeMon.Discord
             commandModule.RegisterCommands<VTubeMonCommandsAllUsers>();
             commandModule.RegisterCommands<VTubeMonCommandsAdminUsers>();
             commandModule.RegisterCommands<VTubeMonCommandsDevUsers>();
+            commandModule.RegisterCommands<VTubeMonCommandsShop>();
             commandModule.SetHelpFormatter<VTubeMonDiscordHelpFormatter>();
 
             _logger.Log($"VTubeMonDiscord.CreateNewClient({prefix}) - end");
