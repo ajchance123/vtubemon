@@ -2,6 +2,7 @@
 using DSharpPlus.CommandsNext;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -48,11 +49,18 @@ namespace VTubeMon.Discord
 
             _client.Ready += On_Client_Ready;
 
+            
+            var serviceCollectionBuilder = new ServiceCollection();
+            serviceCollectionBuilder.AddSingleton(_dataCache);
+            serviceCollectionBuilder.AddSingleton(_vTubeMonDbConnection);
+            serviceCollectionBuilder.AddSingleton(_vTubeMonCoreGame);
+            serviceCollectionBuilder.AddSingleton(_logger);
 
             var commandModule = _client.UseCommandsNext(new CommandsNextConfiguration
             {
                 CaseSensitive = false,
-                StringPrefixes = new[] { prefix }
+                StringPrefixes = new[] { prefix },
+                Services = serviceCollectionBuilder.BuildServiceProvider()
             });
             
             commandModule.RegisterCommands<VTubeMonCommandsAllUsers>();

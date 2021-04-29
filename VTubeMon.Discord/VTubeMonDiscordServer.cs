@@ -36,6 +36,6 @@ namespace VTubeMon.Discord
             await defaultChannel.SendMessageAsync(message, messageEmbed);
         }
 
-        public IEnumerable<IChannel> Channels => _discordGuild.Channels.Where(c => c.Type == DSharpPlus.ChannelType.Text).Select(c => { IChannel channel = new VTubeMonChannel(c); return channel; });
+        public IEnumerable<IChannel> Channels => _discordGuild.Channels.Where(c => c.Value.Type == DSharpPlus.ChannelType.Text).Select(c => { IChannel channel = new VTubeMonChannel(c.Value); return channel; });
     }
 }
