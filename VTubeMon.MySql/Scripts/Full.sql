@@ -4,6 +4,8 @@ DROP TABLE IF EXISTS vtube_mon_db.user_settings_values;
 DROP TABLE if EXISTS vtube_mon_db.user_settings_details;
 DROP TABLE IF EXISTS vtube_mon_db.user_settings_main;
 DROP TABLE IF EXISTS vtube_mon_db.vtubers_images;
+DROP TABLE IF EXISTS vtube_mon_db.store_object;
+DROP TABLE IF EXISTS vtube_mon_db.store_category;
 DROP TABLE IF EXISTS vtube_mon_db.dailies;
 DROP TABLE IF EXISTS vtube_mon_db.vtubers;
 DROP TABLE IF EXISTS vtube_mon_db.users;
@@ -25,7 +27,7 @@ CREATE TABLE vtube_mon_db.dailies (
   id_user BIGINT UNSIGNED NOT NULL,
   id_guild BIGINT UNSIGNED NOT NULL,
   check_in_date DATETIME NOT NULL,
-  PRIMARY KEY (id_user, id_guild),
+  PRIMARY KEY (id_user, id_guild, check_in_date),
   CONSTRAINT fk_dailies_id_users
     FOREIGN KEY (id_user, id_guild)
     REFERENCES vtube_mon_db.users (id_user, id_guild));
@@ -96,6 +98,21 @@ CREATE TABLE vtube_mon_db.user_settings_values (
     REFERENCES vtube_mon_db.users (id_user, id_guild)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+    
+CREATE TABLE vtube_mon_db.store_object (
+  id_item int NOT NULL,
+  item_name varchar(64) NOT NULL,
+  item_category int NOT NULL,
+  item_price varchar(64) DEFAULT NULL,
+  item_icon varchar(256) DEFAULT NULL,
+  item_stat varchar(64) DEFAULT NULL,
+  item_stat_value int DEFAULT NULL,
+  item_buy_limit int NOT NULL,
+  item_quantity int NOT NULL,
+  PRIMARY KEY (id_item),
+  UNIQUE KEY id_item_UNIQUE (id_item),
+  UNIQUE KEY id_name_UNIQUE (item_name)
+);
 
 INSERT INTO vtube_mon_db.agencies
 	(agency_name)

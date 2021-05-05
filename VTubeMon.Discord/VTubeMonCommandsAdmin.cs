@@ -14,7 +14,7 @@ namespace VTubeMon.Discord
     //Uncomment the code below to make the guild managers the only ones to call these commands
     [RequirePermissions(Permissions.ManageGuild)]
     [Hidden]
-    public class VTubeMonCommandsAdminUsers : BaseCommandModule
+    public class VTubeMonCommandsAdmin : BaseCommandModule
     {
         // all the commands will need to be executed as <prefix>admin <command> <arguments>
         

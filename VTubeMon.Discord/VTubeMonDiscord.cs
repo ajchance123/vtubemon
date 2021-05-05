@@ -67,9 +67,9 @@ namespace VTubeMon.Discord
                 Services = serviceCollectionBuilder.BuildServiceProvider()
             });
             
-            commandModule.RegisterCommands<VTubeMonCommandsAllUsers>();
-            commandModule.RegisterCommands<VTubeMonCommandsAdminUsers>();
-            commandModule.RegisterCommands<VTubeMonCommandsDevUsers>();
+            commandModule.RegisterCommands<VTubeMonCommandsGeneral>();
+            commandModule.RegisterCommands<VTubeMonCommandsAdmin>();
+            commandModule.RegisterCommands<VTubeMonCommandsDev>();
             commandModule.RegisterCommands<VTubeMonCommandsShop>();
             commandModule.SetHelpFormatter<VTubeMonDiscordHelpFormatter>();
 

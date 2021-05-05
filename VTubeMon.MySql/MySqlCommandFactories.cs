@@ -89,13 +89,14 @@ namespace VTubeMon.MySql
                     //already checked in
                     return new CommandResult(CommandResultType.Duplicate);
                 }
+
             }
+            
+            _vTubeMonDbConnection.ExecuteDbNonQueryCommand(new InsertCommand<IDaily>("dailies", new Daily(user, guild, checkInDateTime)));
 
             int newCash = TotalCash(user, guild) + dailyCash;
-
             NonQueryCommand updateCash = new NonQueryCommand("users", $"UPDATE `users` SET vtuber_cash = {newCash} WHERE id_user = {user} AND id_guild = {guild};");
             _vTubeMonDbConnection.ExecuteDbNonQueryCommand(updateCash);
-            _vTubeMonDbConnection.ExecuteDbNonQueryCommand(new InsertCommand<IDaily>("dailies", new Daily(user, guild, checkInDateTime)));
 
             return new CommandResult(CommandResultType.Success);
         }

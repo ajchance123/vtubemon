@@ -16,7 +16,7 @@ namespace VTubeMon.Discord
     [Group("dev")]
     [Description("Developer Commands")]
     [Hidden]
-    class VTubeMonCommandsDevUsers : BaseCommandModule
+    class VTubeMonCommandsDev : BaseCommandModule
     {
         HashSet<ulong> DevIDs = new HashSet<ulong>()
         {

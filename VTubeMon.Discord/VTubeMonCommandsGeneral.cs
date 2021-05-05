@@ -12,7 +12,7 @@ using VTubeMon.Data.Commands;
 
 namespace VTubeMon.Discord
 {
-    public class VTubeMonCommandsAllUsers : BaseCommandModule
+    public class VTubeMonCommandsGeneral : BaseCommandModule
     {
         [Command("list"), Aliases("l")]
         [Description("Prints out vtuber list")]

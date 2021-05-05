@@ -33,6 +33,7 @@ namespace VTubeMon.Discord
                 },
                 Timestamp = DateTime.UtcNow,
             };
+            this.embedBuilder.AddField("*Support*", "Please scream at the devs if you're encountering any problems or have any questions.e");
         }
 
         public override CommandHelpMessage Build()

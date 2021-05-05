@@ -19,7 +19,7 @@ namespace VTubeMon.Discord
         TimedOut
     }
 
-    [Group("Shop"), Aliases("s")]
+    [Group("shop"), Aliases("s")]
     [Description("Summons the shop")]
     class VTubeMonCommandsShop : BaseCommandModule
     {
@@ -106,15 +106,19 @@ namespace VTubeMon.Discord
                 {
                     case ShopPage.StoreFront:
                         await storeFront(commandContext);
+                        logger?.Log($"discord.shopCommand({commandContext.Guild.Id}) - loading storeFront");
                         break;
                     case ShopPage.Armory:
                         await armoryFront(commandContext, playerValue);
+                        logger?.Log($"discord.shopCommand({commandContext.Guild.Id}) - loading armory");
                         break;
                     case ShopPage.Buffs:
                         await buffsFront(commandContext, playerValue);
+                        logger?.Log($"discord.shopCommand({commandContext.Guild.Id}) - loading buffs");
                         break;
                     case ShopPage.Flair:
-                        await flairsFront(commandContext, playerValue);
+                        await flairFront(commandContext, playerValue);
+                        logger?.Log($"discord.shopCommand({commandContext.Guild.Id}) - loading flair");
                         break;
                     case ShopPage.TimedOut:
                         shopping = false;
@@ -183,7 +187,7 @@ namespace VTubeMon.Discord
             await message.DeleteAsync();
         }
 
-        private async Task flairsFront(CommandContext commandContext, int playerValue)
+        private async Task flairFront(CommandContext commandContext, int playerValue)
         {
             createFlairs(playerValue, commandContext.User.Username);
             var message = await commandContext.RespondAsync(embed: EmbedBuilder);
@@ -231,8 +235,8 @@ namespace VTubeMon.Discord
         {
             this.EmbedBuilder.ClearFields();
 
-            this.EmbedBuilder.WithDescription("Welcome to the shop! Here you can buy armor and buffs for your vtubers, purchase account modifiers to strut" +
-                " your stuff, and buy various knicknacks to show off to others on thes server! Please select what catagory to browse with `v!s [catagory]`," +
+            this.EmbedBuilder.WithDescription("Welcome to the shop! Here you can buy armor and buffs for your vtubers, purchase profile modifiers to strut" +
+                " your stuff, and buy various knicknacks to show off to others on this server! Please select what catagory to browse with `v!s [catagory]`," +
                 " or you may select a reaction below.");
             this.EmbedBuilder.AddField("Armory :crossed_swords:", "Purchase individual armor pieces or sets of armor to increase your vtuber stats");
             this.EmbedBuilder.AddField("Buffs :shield:", "Enhance your vtuber with buffs that can last for a battle or a period of time");
@@ -243,7 +247,8 @@ namespace VTubeMon.Discord
         {
             this.EmbedBuilder.ClearFields();
 
-            this.EmbedBuilder.WithDescription("Welcome to the armory! Please peruse the merchandise and let me know what you would like to buy.");
+            this.EmbedBuilder.WithDescription("Welcome to the armory! Please peruse the merchandise and let me know what you would like to buy by" +
+                " typing `v!buy [item-name]`");
             this.EmbedBuilder.AddField("Sets", "lots of emptiness");
             this.EmbedBuilder.AddField("Armor Pieces", "more emptiness");
             this.EmbedBuilder.Footer.Text = $"{name}'s total cash: {cash}";
@@ -253,7 +258,8 @@ namespace VTubeMon.Discord
         {
             this.EmbedBuilder.ClearFields();
 
-            this.EmbedBuilder.WithDescription("Welcome to the buff store! Please peruse the merchandise and let me know what you would like to buy.");
+            this.EmbedBuilder.WithDescription("Welcome to the buff store! Please peruse the merchandise and let me know what you would like to buy by" +
+                " typing `v!buy [item-name]`");
             this.EmbedBuilder.AddField("Strength Buffs", "lots of emptiness");
             this.EmbedBuilder.AddField("Beauty Buffs", "more emptiness");
             this.EmbedBuilder.Footer.Text = $"{name}'s total cash: {cash}";
@@ -263,7 +269,8 @@ namespace VTubeMon.Discord
         {
             this.EmbedBuilder.ClearFields();
 
-            this.EmbedBuilder.WithDescription("Welcome to the flair store! Please peruse the merchandise and let me know what you would like to buy.");
+            this.EmbedBuilder.WithDescription("Welcome to the flair store! Please peruse the merchandise and let me know what you would like to buy by" +
+                " typing `v!buy [item-name]`");
             this.EmbedBuilder.AddField("Profile Icons", "lots of emptiness");
             this.EmbedBuilder.AddField("Profile Titles", "more emptiness");
             this.EmbedBuilder.Footer.Text = $"{name}'s total cash: {cash}";
