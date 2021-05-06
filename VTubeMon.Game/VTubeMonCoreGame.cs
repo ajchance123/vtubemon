@@ -38,17 +38,20 @@ namespace VTubeMon.Game
             if(userobject == null)
                 return new CommandResult(CommandResultType.NotExist);
 
-            /*IUser userobject = _vTubeMonCoreGameFactories.GetUser(inituser, guild);
-            if (!userobject.Admin.Value)
-            {
-                return new CommandResult(CommandResultType.Unauthorized, "You are not authorized");
-            }*/
             return _vTubeMonCoreGameFactories.ToggleAdminCommand(user, guild, admin);
         }
 
         public object GetService(Type serviceType)
         {
             throw new NotImplementedException();
+        }
+
+        public bool isAdmin(ulong user, ulong guild)
+        {
+            IUser userobject = _vTubeMonCoreGameFactories.GetUser(user, guild);
+            if (!userobject.Admin.Value)
+                return false;
+            return true;
         }
     }
 }

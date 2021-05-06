@@ -4,12 +4,16 @@ DROP TABLE IF EXISTS vtube_mon_db.user_settings_values;
 DROP TABLE if EXISTS vtube_mon_db.user_settings_details;
 DROP TABLE IF EXISTS vtube_mon_db.user_settings_main;
 DROP TABLE IF EXISTS vtube_mon_db.vtubers_images;
-DROP TABLE IF EXISTS vtube_mon_db.store_object;
-DROP TABLE IF EXISTS vtube_mon_db.store_category;
-DROP TABLE IF EXISTS vtube_mon_db.dailies;
+DROP TABLE IF EXISTS vtube_mon_db.store_item;
+DROP TABLE IF EXISTS vtube_mon_db.inventory_item;
+DROP TABLE IF EXISTS vtube_mon_db.item_stat;
+DROP TABLE IF EXISTS vtube_mon_db.item;
+DROP TABLE IF EXISTS vtube_mon_db.item_category;
+DROP TABLE IF EXISTS vtube_mon_db.dailies; 
 DROP TABLE IF EXISTS vtube_mon_db.vtubers;
 DROP TABLE IF EXISTS vtube_mon_db.users;
 DROP TABLE IF EXISTS vtube_mon_db.agencies;
+
 
 CREATE TABLE vtube_mon_db.agencies (
 	id_agency INT NOT NULL AUTO_INCREMENT,
@@ -99,19 +103,45 @@ CREATE TABLE vtube_mon_db.user_settings_values (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
     
-CREATE TABLE vtube_mon_db.store_object (
+CREATE TABLE vtube_mon_db.item_category(
+	id_category int NOT NULL PRIMARY KEY,
+    category_name varchar(64)
+);
+
+CREATE TABLE vtube_mon_db.item (
+	id_item int NOT NULL PRIMARY KEY,
+    item_name varchar(64) UNIQUE,
+    id_category int NOT NULL,
+    price int NOT NULL,
+    image_path varchar(256) DEFAULT NULL,
+    PRIMARY KEY (id_item),
+    FOREIGN KEY (id_category) REFERENCES item_category(id_category)
+);
+
+CREATE TABLE vtube_mon_db.item_stat (
+	id_item int NOT NULL,
+    id_stat int NOT NULL,
+    stat_value int NOT NULL,
+    PRIMARY KEY (id_item, id_stat),
+    FOREIGN KEY (id_item) REFERENCES item(id_item)
+);
+
+CREATE TABLE vtube_mon_db.inventory_item (
+	id_item int NOT NULL,
+    id_user BIGINT UNSIGNED NOT NULL,
+    id_guild BIGINT UNSIGNED NOT NULL,
+    item_quantity int NOT NULL,
+    PRIMARY KEY (id_item, id_user, id_guild),
+    FOREIGN KEY (id_item) REFERENCES item(id_item),
+    FOREIGN KEY (id_user) REFERENCES users(id_user)
+);
+    
+CREATE TABLE vtube_mon_db.store_item (
   id_item int NOT NULL,
-  item_name varchar(64) NOT NULL,
-  item_category int NOT NULL,
-  item_price varchar(64) DEFAULT NULL,
-  item_icon varchar(256) DEFAULT NULL,
-  item_stat varchar(64) DEFAULT NULL,
-  item_stat_value int DEFAULT NULL,
   item_buy_limit int NOT NULL,
   item_quantity int NOT NULL,
   PRIMARY KEY (id_item),
-  UNIQUE KEY id_item_UNIQUE (id_item),
-  UNIQUE KEY id_name_UNIQUE (item_name)
+  FOREIGN KEY (id_item) REFERENCES item(id_item)
 );
 
 INSERT INTO vtube_mon_db.agencies
