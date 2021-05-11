@@ -21,7 +21,13 @@ namespace VTubeMon.Wpf.Core.Components.Database
                 new UserSettingsValuesWorkItem(stringService, vTubeMonDbConnection),
                 new UserSettingsDetailsWorkItem(stringService, vTubeMonDbConnection),
                 new AgenciesWorkItem(stringService, vTubeMonDbConnection),
-                new VTuberImagesWorkItem(stringService, vTubeMonDbConnection, modelService, fileService)
+                new VTuberImagesWorkItem(stringService, vTubeMonDbConnection, modelService, fileService),
+                new ItemWorkItem(stringService, vTubeMonDbConnection),
+                new ItemCategoryWorkItem(stringService, vTubeMonDbConnection),
+                new ItemStatWorkItem(stringService, vTubeMonDbConnection),
+                new StatCategoryWorkItem(stringService, vTubeMonDbConnection),
+                new InventoryItemWorkItem(stringService, vTubeMonDbConnection),
+                new StoreItemWorkItem(stringService, vTubeMonDbConnection)
             };
         }
 
