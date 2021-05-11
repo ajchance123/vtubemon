@@ -63,14 +63,13 @@ namespace VTubeMon.Wpf.Core.Components.Database.Users.Values
 
         public ICommand SaveCommand => new DelegateCommand(() =>
         {
-            var currentCollection = UserSettingCollection.Where(us => us.UserSettingsValue?.IdUserSettingsValues?.Value != null);
+            var currentCollection = UserSettingCollection.ToList();
             if (currentCollection.Any())
             {
                 _vTubeMonDbConnection.ExecuteDbNonQueryCommand(
                     new InsertCommand<UserSettingsValue>("user_settings_values",
                         currentCollection.Select(u =>
                             new UserSettingsValue(
-                                u.UserSettingsValue.IdUserSettingsValues.Value,
                                 u.UserSettingMain.IdUserSettingsMain.Value,
                                 SelectedUser.IdUser.Value,
                                 SelectedUser.IdGuild.Value,
@@ -79,14 +78,14 @@ namespace VTubeMon.Wpf.Core.Components.Database.Users.Values
                     { OnDuplicateKeyUpdate = true });
             }
 
-            var nullCollection = UserSettingCollection.Where(us => us.UserSettingsValue?.IdUserSettingsValues?.Value == null);
+            var nullCollection = UserSettingCollection.ToList();
+            //var nullCollection = UserSettingCollection.Where(us => us.UserSettingsValue?.IdUserSettingsValues?.Value == null);
             if (nullCollection.Any())
             {
                 _vTubeMonDbConnection.ExecuteDbNonQueryCommand(
                     new InsertCommand<UserSettingsValue>("user_settings_values",
                         nullCollection.Select(u =>
                             new UserSettingsValue(
-                                0,
                                 u.UserSettingMain.IdUserSettingsMain.Value,
                                 SelectedUser.IdUser.Value,
                                 SelectedUser.IdGuild.Value,

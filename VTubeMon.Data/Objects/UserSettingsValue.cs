@@ -8,8 +8,6 @@ namespace VTubeMon.API.Data.Objects
     {
         public UserSettingsValue()
         {
-
-            IdUserSettingsValues = new DataProperty<int>("id_user_settings_values", (r) => r.GetInt32);
             IdUserSettingsMain = new DataProperty<int>("id_user_settings_main", (r) => r.GetInt32);
             IdUser = new DataProperty<ulong>("id_user", (r) => r.GetUInt64);
             IdGuild = new DataProperty<ulong>("id_guild", (r) => r.GetUInt64);
@@ -17,7 +15,6 @@ namespace VTubeMon.API.Data.Objects
 
             DataPropertyList = new List<IDataProperty>()
             {
-                IdUserSettingsValues,
                 IdUserSettingsMain,
                 IdUser,
                 IdGuild,
@@ -25,9 +22,8 @@ namespace VTubeMon.API.Data.Objects
             };
         }
 
-        public UserSettingsValue(int idUserSettingsValues, int idUserSetting, ulong idUser, ulong idGuild, string value)
+        public UserSettingsValue(/*int idUserSettingsValues,*/ int idUserSetting, ulong idUser, ulong idGuild, string value)
         {
-            IdUserSettingsValues = new DataProperty<int>("id_user_settings_values", (r) => r.GetInt32, idUserSettingsValues);
             IdUserSettingsMain = new DataProperty<int>("id_user_settings_main", (r) => r.GetInt32, idUserSetting);
             IdUser = new DataProperty<ulong>("id_user", (r) => r.GetUInt64, idUser);
             IdGuild = new DataProperty<ulong>("id_guild", (r) => r.GetUInt64, idGuild);
@@ -35,15 +31,12 @@ namespace VTubeMon.API.Data.Objects
 
             DataPropertyList = new List<IDataProperty>()
             {
-                IdUserSettingsValues,
                 IdUserSettingsMain,
                 IdUser,
                 IdGuild,
                 Value
             };
         }
-
-        public IDataProperty<int> IdUserSettingsValues { get; }
         public IDataProperty<int> IdUserSettingsMain { get; }
         public IDataProperty<ulong> IdUser { get; }
         public IDataProperty<ulong> IdGuild { get; }

@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS vtube_mon_db.inventory_item;
 DROP TABLE IF EXISTS vtube_mon_db.item_stat;
 DROP TABLE IF EXISTS vtube_mon_db.item;
 DROP TABLE IF EXISTS vtube_mon_db.item_category;
+DROP TABLE IF EXISTS vtube_mon_db.stat_category;
 DROP TABLE IF EXISTS vtube_mon_db.dailies; 
 DROP TABLE IF EXISTS vtube_mon_db.vtubers;
 DROP TABLE IF EXISTS vtube_mon_db.users;
@@ -114,8 +115,12 @@ CREATE TABLE vtube_mon_db.item (
     id_category int NOT NULL,
     price int NOT NULL,
     image_path varchar(256) DEFAULT NULL,
-    PRIMARY KEY (id_item),
     FOREIGN KEY (id_category) REFERENCES item_category(id_category)
+);
+
+CREATE TABLE vtube_mon_db.stat_category(
+	id_stat int NOT NULL PRIMARY KEY,
+    stat_name varchar(64) UNIQUE
 );
 
 CREATE TABLE vtube_mon_db.item_stat (
@@ -123,7 +128,8 @@ CREATE TABLE vtube_mon_db.item_stat (
     id_stat int NOT NULL,
     stat_value int NOT NULL,
     PRIMARY KEY (id_item, id_stat),
-    FOREIGN KEY (id_item) REFERENCES item(id_item)
+    FOREIGN KEY (id_item) REFERENCES item(id_item),
+    FOREIGN KEY (id_stat) REFERENCES stat_category(id_stat)
 );
 
 CREATE TABLE vtube_mon_db.inventory_item (
@@ -188,3 +194,12 @@ INSERT INTO vtube_mon_db.user_settings_details
 VALUES
 	(1, 'English'),
 	(1, '日本語');
+
+INSERT INTO item_category(id_category, category_name) VALUES (0, 'Consumable');
+INSERT INTO item_category(id_category, category_name) VALUES (1, 'Headgear');
+INSERT INTO stat_category(id_stat, stat_name) VALUES (0, 'Strength');
+INSERT INTO stat_category(id_stat, stat_name) VALUES (1, 'Speed');
+INSERT INTO item(id_item, item_name, id_category, price) VALUES (0, 'Daimond Tiara', 1, 50);
+INSERT INTO item_stat(id_item, id_stat, stat_value) VALUES (0, 0, 10);
+INSERT INTO item_stat(id_item, id_stat, stat_value) VALUES (0, 1, 5);
+INSERT INTO store_item(id_item, item_buy_limit, item_quantity) VALUES (0, 5, 100);
