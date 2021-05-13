@@ -2,6 +2,7 @@
 using VTubeMon.Wpf.Core.Components.Database;
 using VTubeMon.Wpf.Core.Components.Database.Users.Details;
 using VTubeMon.Wpf.Core.Components.Database.Users.Values;
+using VTubeMon.Wpf.Core.Components.Database.Items.Values;
 using VTubeMon.Wpf.Core.Components.Discord;
 using VTubeMon.Wpf.Core.Components.Settings;
 
@@ -17,6 +18,7 @@ namespace VTubeMon.Wpf.Core.IOC
             builder.RegisterType<SettingsViewModel>().SingleInstance();
             builder.RegisterType<UserViewModel>().SingleInstance();
             builder.RegisterType<UserSettingsDetailCollectionViewModel>().SingleInstance();
+            builder.RegisterType<ItemViewModel>().SingleInstance();
         }
     }
 }

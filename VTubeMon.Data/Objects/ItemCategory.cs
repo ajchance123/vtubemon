@@ -22,6 +22,12 @@ namespace VTubeMon.Data.Objects
         {
             IdCategory = new DataProperty<int>("id_category", (r) => r.GetInt32, idCategory);
             CategoryName = new DataProperty<string>("category_name", (r) => r.GetString, categoryName);
+
+            DataPropertyList = new List<IDataProperty>()
+            {
+                IdCategory,
+                CategoryName
+            };
         }
 
         public IDataProperty<int> IdCategory { get; }

@@ -40,18 +40,25 @@ namespace VTubeMon.Wpf.Core.Components.Database
             set => SetProperty(ref _isUserSelected, value);
         }
 
-        private bool _isCustomQueriesSelected;
-        public bool IsCustomQueriesSelected
-        {
-            get => _isCustomQueriesSelected;
-            set => SetProperty(ref _isCustomQueriesSelected, value);
-        }
-
         private bool _isUserSettingOptionsSelected;
         public bool IsUserSettingOptionsSelected
         {
             get => _isUserSettingOptionsSelected;
             set => SetProperty(ref _isUserSettingOptionsSelected, value);
+        }
+
+        private bool _isItemsSelected;
+        public bool IsItemsSelected
+        {
+            get => _isItemsSelected;
+            set => SetProperty(ref _isItemsSelected, value);
+        }
+
+        private bool _isCustomQueriesSelected;
+        public bool IsCustomQueriesSelected
+        {
+            get => _isCustomQueriesSelected;
+            set => SetProperty(ref _isCustomQueriesSelected, value);
         }
     }
 }

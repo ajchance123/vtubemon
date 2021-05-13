@@ -4,8 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:VTubeMon.Wpf.Core.Components.Database" xmlns:users="clr-namespace:VTubeMon.Wpf.Core.Components.Database.Users"
+    xmlns:local="clr-namespace:VTubeMon.Wpf.Core.Components.Database"
+    xmlns:users="clr-namespace:VTubeMon.Wpf.Core.Components.Database.Users"
     xmlns:userDetails="clr-namespace:VTubeMon.Wpf.Core.Components.Database.Users.Details"
+    xmlns:items="clr-namespace:VTubeMon.Wpf.Core.Components.Database.Items"
     mc:Ignorable="d"
     DataContext="{Binding DatabaseViewModel, Source={StaticResource Locator}}"
     d:DesignHeight="450"
@@ -38,6 +40,10 @@
                 <ListBoxItem
                     IsSelected="{Binding IsUserSettingOptionsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     User Settings Options
+                </ListBoxItem>
+                <ListBoxItem
+                    IsSelected="{Binding IsItemsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    Items
                 </ListBoxItem>
                 <ListBoxItem
                     IsSelected="{Binding IsCustomQueriesSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -73,6 +79,21 @@
                     Text="User Settings Options" />
                 <userDetails:UserSettingsDetailCollectionView
                     Grid.Row="1" />
+            </Grid>
+            <Grid
+                d:Visibility="Collapsed"
+                Visibility="{Binding IsItemsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"
+                Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition
+                        Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    FontSize="16"
+                    Text="Items" />
+                <items:ItemView
+                    Grid.Row="1"/>
             </Grid>
             <Grid
                 Visibility="{Binding IsCustomQueriesSelected, Converter={StaticResource BooleanToVisibilityConverter}}"

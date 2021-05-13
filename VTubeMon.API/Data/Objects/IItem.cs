@@ -9,7 +9,6 @@ namespace VTubeMon.API.Data.Objects
         IDataProperty<int> IdItem { get; }
         IDataProperty<string> ItemName { get; }
         IDataProperty<int> IdCategory { get; }
-        IDataProperty<string> CategoryName { get; }
         IDataProperty<int> Price { get; }
     }
 }
