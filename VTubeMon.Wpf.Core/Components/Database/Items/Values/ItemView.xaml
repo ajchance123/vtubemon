@@ -32,6 +32,15 @@
                 Padding="10,0"
                 Margin="25,0"
                 Command="{Binding SaveCommand}" />
+            <TextBlock
+                    HorizontalAlignment="Right"
+                    Text="Category:   "/>
+            <ComboBox
+                HorizontalAlignment="Right"
+                MinWidth="200"
+                DisplayMemberPath="CategoryName.Value"
+                SelectedItem="{Binding SelectedCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                ItemsSource="{Binding ItemCategoryCollection}"/>
         </StackPanel>
         <Grid
             Grid.Row="1">
@@ -52,10 +61,11 @@
                             Orientation="Horizontal">
                             <TextBlock
                                 Width="200"
+                                HorizontalAlignment="Right"
                                 Text="{Binding StatName}" />
                             <Grid>
                                 <TextBox
-                                    MinWidth="200"
+                                    MinWidth="50"
                                     Text="{Binding StatValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </Grid>
                         </StackPanel>

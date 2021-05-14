@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -8,6 +9,7 @@ using VTubeMon.API;
 using VTubeMon.API.Data.Objects;
 using VTubeMon.Data.Commands;
 using VTubeMon.Data.Commands.QueryCommands;
+using VTubeMon.Data.Commands.QueryCommands.ItemCommands;
 using VTubeMon.Data.Objects;
 using VTubeMon.Wpf.Core.Resources;
 
@@ -21,15 +23,19 @@ namespace VTubeMon.Wpf.Core.Components.Database.Items.Values
             _vTubeMonDbConnection = vTubeMonDbConnection;
             ItemCollection = new ObservableCollection<IItem>(vTubeMonDbConnection.ExecuteDbQueryCommand(new SelectItemCommand()));
             ItemStatCollection = new ObservableCollection<ItemStatViewModel>();
+            ItemCategoryCollection = new ObservableCollection<ItemCategory>();
 
             InitializeItemStats();
+            InitializeItemCategory();
         }
 
         private StringsService _stringService;
         private IVTubeMonDbConnection _vTubeMonDbConnection;
         private IItem _selectedItem;
+        private IItemCategory _selectedCategory;
         private IList<ItemStat> _selectedItemStatValues;
         public ICollection<IItem> ItemCollection { get; }
+        public ICollection<ItemCategory> ItemCategoryCollection { get; }
         public ICollection<ItemStatViewModel> ItemStatCollection { get; }
 
         public IItem SelectedItem
@@ -39,6 +45,16 @@ namespace VTubeMon.Wpf.Core.Components.Database.Items.Values
             {
                 SetProperty(ref _selectedItem, value);
                 UpdateItemStats();
+                UpdateItemCategory(_selectedItem.IdCategory.Value);
+            }
+        }
+
+        public IItemCategory SelectedCategory
+        {
+            get => _selectedCategory;
+            set
+            {
+                SetProperty(ref _selectedCategory, value);
             }
         }
 
@@ -48,6 +64,15 @@ namespace VTubeMon.Wpf.Core.Components.Database.Items.Values
             foreach(var stat in _itemStats)
             {
                 ItemStatCollection.Add(new ItemStatViewModel(_vTubeMonDbConnection, stat));
+            }
+        }
+
+        private void InitializeItemCategory()
+        {
+            IList<ItemCategory> _itemCategories = new List<ItemCategory>(_vTubeMonDbConnection.ExecuteDbQueryCommand(new SelectItemCategoryCommand()));
+            foreach(var itemCat in _itemCategories)
+            {
+                ItemCategoryCollection.Add(itemCat);
             }
         }
 
@@ -61,9 +86,26 @@ namespace VTubeMon.Wpf.Core.Components.Database.Items.Values
             }
         }
 
+        private void UpdateItemCategory(int idCat)
+        {
+            foreach(var cat in ItemCategoryCollection)
+            {
+                if(cat.IdCategory.Value == idCat)
+                {
+                    SelectedCategory = cat;
+                    break;
+                }
+            }
+        }
+
         public ICommand SaveCommand => new DelegateCommand(() =>
         {
             var currentCollection = ItemStatCollection.ToList();
+        });
+
+        public ICommand AddCommand => new DelegateCommand(() =>
+        {
+            ItemStatCollection.Add(new ItemStatViewModel());
         });
     }
 }

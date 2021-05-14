@@ -1,9 +1,7 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
 using VTubeMon.API;
 using VTubeMon.API.Data.Objects;
 using VTubeMon.Data.Commands.QueryCommands.ItemCommands;
@@ -13,19 +11,23 @@ namespace VTubeMon.Wpf.Core.Components.Database.Items
 {
     public class ItemStatViewModel : BindableBase
     {
-        public ItemStatViewModel(IVTubeMonDbConnection vtubeMonDbConnection, IItemStat itemStat = null)
+        public ItemStatViewModel(IVTubeMonDbConnection vTubeMonDbConnection, IItemStat itemStat = null)
         {
+            _vTubeMonDbConnection = vTubeMonDbConnection;
             ItemStat = itemStat;
-            _vTubeMonDbConnection = vtubeMonDbConnection;
-            StatCategories = new List<IStatCategory>();
-            setStatName();
-            initializeCategories();
+            StatValue = itemStat.StatValue.Value;
+            if (itemStat != null)
+                SetName();
         }
 
-        public IItemStat ItemStat { get; set; }
+        public ItemStatViewModel()
+        {
+            ItemStat = new ItemStat();
+        }
+
         private IVTubeMonDbConnection _vTubeMonDbConnection;
+        public IItemStat ItemStat { get; set; }
         public bool HasValue => ItemStat != null;
-        public ICollection<IStatCategory> StatCategories { get; }
         private int _statValue;
         private string _statName;
 
@@ -41,22 +43,12 @@ namespace VTubeMon.Wpf.Core.Components.Database.Items
             set => SetProperty(ref _statName, value);
         }
 
-        public void setStatName()
+        private void SetName()
         {
-            if (HasValue)
+            ICollection<StatCategory> stats = new ObservableCollection<StatCategory>(_vTubeMonDbConnection.ExecuteDbQueryCommand(new SelectStatCategoryCommand(ItemStat.IdStat.Value)));
+            if (stats.Any())
             {
-                var statCategory = _vTubeMonDbConnection.ExecuteDbQueryCommand(new SelectStatCategoryCommand(ItemStat.IdStat.Value));
-                StatValue = ItemStat.StatValue.Value;
-                StatName = statCategory.First().StatName.Value;
-            }
-        }
-
-        public void initializeCategories()
-        {
-            IList<StatCategory> _statCategories = new List<StatCategory>(_vTubeMonDbConnection.ExecuteDbQueryCommand(new SelectStatCategoryCommand()));
-            foreach (var stat in _statCategories)
-            {
-                StatCategories.Add(stat);
+                StatName = stats.Single().StatName.Value;
             }
         }
     }
