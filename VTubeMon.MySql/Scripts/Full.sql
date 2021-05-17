@@ -85,12 +85,11 @@ CREATE TABLE vtube_mon_db.user_settings_details (
     ON UPDATE NO ACTION);
 
 CREATE TABLE vtube_mon_db.user_settings_values (
-  id_user_settings_values INT NOT NULL AUTO_INCREMENT,
   id_user_settings_main INT NOT NULL,
   id_user BIGINT UNSIGNED NOT NULL,
   id_guild BIGINT UNSIGNED NOT NULL,
   value VARCHAR(256) NULL,
-  PRIMARY KEY (id_user_settings_values),
+  PRIMARY KEY (id_user_settings_main, id_user, id_guild),
   INDEX id_user_settings_main_fk_idx (id_user_settings_main ASC) VISIBLE,
   INDEX id_user_fk_idx (id_user ASC) VISIBLE,
   CONSTRAINT fk_user_settings_values_on_id_user_settings_main
@@ -195,11 +194,16 @@ VALUES
 	(1, 'English'),
 	(1, '日本語');
 
+    
+INSERT INTO stat_category(id_stat, stat_name) VALUES (0, 'Health');
+INSERT INTO stat_category(id_stat, stat_name) VALUES (1, 'Speed');
+INSERT INTO stat_category(id_stat, stat_name) VALUES (2, 'Strength');
+INSERT INTO stat_category(id_stat, stat_name) VALUES (3, 'Defense');
+INSERT INTO stat_category(id_stat, stat_name) VALUES (4, 'Magic');
+INSERT INTO stat_category(id_stat, stat_name) VALUES (5, 'Magic Defense');
+
 INSERT INTO item_category(id_category, category_name) VALUES (0, 'Consumable');
 INSERT INTO item_category(id_category, category_name) VALUES (1, 'Headgear');
-INSERT INTO stat_category(id_stat, stat_name) VALUES (0, 'Strength');
-INSERT INTO stat_category(id_stat, stat_name) VALUES (1, 'Speed');
 INSERT INTO item(id_item, item_name, id_category, price) VALUES (0, 'Daimond Tiara', 1, 50);
-INSERT INTO item_stat(id_item, id_stat, stat_value) VALUES (0, 0, 10);
-INSERT INTO item_stat(id_item, id_stat, stat_value) VALUES (0, 1, 5);
+INSERT INTO item_stat(id_item, id_stat, stat_value) VALUES (0, 2, 5);
 INSERT INTO store_item(id_item, item_buy_limit, item_quantity) VALUES (0, 5, 100);
