@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using VTubeMon.API;
 using VTubeMon.API.Data.Objects;
-using VTubeMon.Data.Commands.QueryCommands.ItemCommands;
+using VTubeMon.Data.Commands.QueryCommands;
 using VTubeMon.Data.Objects;
 
 namespace VTubeMon.Wpf.Core.Components.Database.Items

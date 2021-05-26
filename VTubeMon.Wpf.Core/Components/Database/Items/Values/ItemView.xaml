@@ -20,7 +20,6 @@
         </Grid.RowDefinitions>
         <StackPanel
             Orientation="Horizontal">
-            
             <ComboBox
                 HorizontalAlignment="Left"
                 MinWidth="200"

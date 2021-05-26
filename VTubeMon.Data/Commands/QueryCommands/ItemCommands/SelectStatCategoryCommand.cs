@@ -2,7 +2,7 @@
 using VTubeMon.Common;
 using VTubeMon.Data.Objects;
 
-namespace VTubeMon.Data.Commands.QueryCommands.ItemCommands
+namespace VTubeMon.Data.Commands.QueryCommands
 {
     public class SelectStatCategoryCommand : QueryCommand<StatCategory>
     {

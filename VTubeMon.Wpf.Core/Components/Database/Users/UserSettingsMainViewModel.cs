@@ -21,7 +21,6 @@ namespace VTubeMon.Wpf.Core.Components.Database.Users
                 SettingName = UserSettingMain.SettingName.Value;
                 UserSettingsDetailCollection = new ObservableCollection<UserSettingsDetailViewModel>(_vTubeMonDbConnection.ExecuteDbQueryCommand(new SelectUserSettingsDetailsCommand(userSetting)).Select(u => new UserSettingsDetailViewModel(u)));
             }
-
         }
 
         public IUserSettingsMain UserSettingMain { get; }

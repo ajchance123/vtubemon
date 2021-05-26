@@ -8,6 +8,7 @@
     xmlns:users="clr-namespace:VTubeMon.Wpf.Core.Components.Database.Users"
     xmlns:userDetails="clr-namespace:VTubeMon.Wpf.Core.Components.Database.Users.Details"
     xmlns:items="clr-namespace:VTubeMon.Wpf.Core.Components.Database.Items"
+    xmlns:categories="clr-namespace:VTubeMon.Wpf.Core.Components.Database.Category"
     mc:Ignorable="d"
     DataContext="{Binding DatabaseViewModel, Source={StaticResource Locator}}"
     d:DesignHeight="450"
@@ -44,6 +45,10 @@
                 <ListBoxItem
                     IsSelected="{Binding IsItemsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     Items
+                </ListBoxItem>
+                <ListBoxItem
+                    IsSelected="{Binding IsCategorySelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    Categories
                 </ListBoxItem>
                 <ListBoxItem
                     IsSelected="{Binding IsCustomQueriesSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -93,6 +98,21 @@
                     FontSize="16"
                     Text="Items" />
                 <items:ItemView
+                    Grid.Row="1"/>
+            </Grid>
+            <Grid
+                d:Visibility="Collapsed"
+                Visibility="{Binding IsCategorySelected, Converter={StaticResource BooleanToVisibilityConverter}}"
+                Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition
+                        Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    FontSize="16"
+                    Text="Category" />
+                <categories:CategoryView
                     Grid.Row="1"/>
             </Grid>
             <Grid

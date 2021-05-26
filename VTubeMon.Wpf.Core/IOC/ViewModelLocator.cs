@@ -4,6 +4,7 @@ using VTubeMon.Wpf.Core.Components.Database;
 using VTubeMon.Wpf.Core.Components.Database.Users.Details;
 using VTubeMon.Wpf.Core.Components.Database.Users.Values;
 using VTubeMon.Wpf.Core.Components.Database.Items.Values;
+using VTubeMon.Wpf.Core.Components.Database.Category.View;
 using VTubeMon.Wpf.Core.Components.Discord;
 using VTubeMon.Wpf.Core.Components.Settings;
 
@@ -34,5 +35,6 @@ namespace VTubeMon.Wpf.Core.IOC
         public UserViewModel UserViewModel { get { return Container.Resolve<UserViewModel>(); } }
         public UserSettingsDetailCollectionViewModel UserSettingsOptionsViewModel { get { return Container.Resolve<UserSettingsDetailCollectionViewModel>(); } }
         public ItemViewModel ItemViewModel { get { return Container.Resolve<ItemViewModel>(); } }
+        public CategoryViewModel CategoryViewModel { get { return Container.Resolve<CategoryViewModel>(); } }
     }
 }
