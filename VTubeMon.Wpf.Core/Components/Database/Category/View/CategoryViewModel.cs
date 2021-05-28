@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -16,8 +17,10 @@ namespace VTubeMon.Wpf.Core.Components.Database.Category.View
         {
             _stringService = stringService;
             _vTubeMonDbConnection = vTubeMonDbConnection;
-            ItemCategoryCollection = new ObservableCollection<ItemCategoryViewModel>(_vTubeMonDbConnection.ExecuteDbQueryCommand(new SelectItemCategoryCommand()).Select(u => new ItemCategoryViewModel(u)));
-            StatCategoryCollection = new ObservableCollection<StatCategoryViewModel>(_vTubeMonDbConnection.ExecuteDbQueryCommand(new SelectStatCategoryCommand()).Select(u => new StatCategoryViewModel(u)));
+            ItemCategoryCollection = new ObservableCollection<ItemCategoryViewModel>(_vTubeMonDbConnection.ExecuteDbQueryCommand(new SelectItemCategoryCommand()).Select(
+                u => new ItemCategoryViewModel(u, DeleteItem)));
+            StatCategoryCollection = new ObservableCollection<StatCategoryViewModel>(_vTubeMonDbConnection.ExecuteDbQueryCommand(new SelectStatCategoryCommand()).Select(
+                u => new StatCategoryViewModel(u, DeleteStat)));
         }
 
         private StringsService _stringService;
@@ -27,22 +30,22 @@ namespace VTubeMon.Wpf.Core.Components.Database.Category.View
 
         public ICommand AddItemCatCommand => new DelegateCommand(() =>
         {
-            ItemCategoryCollection.Add(new ItemCategoryViewModel());
+            ItemCategoryCollection.Add(new ItemCategoryViewModel(DeleteItem));
         });
 
         public ICommand AddStatCatCommand => new DelegateCommand(() =>
         {
-            StatCategoryCollection.Add(new StatCategoryViewModel());
+            StatCategoryCollection.Add(new StatCategoryViewModel(DeleteStat));
         });
 
-        public ICommand DeleteItemCatCommand => new DelegateCommand<ItemCategoryViewModel>((item) =>
+        public void DeleteItem(ItemCategoryViewModel itemView)
         {
-            ItemCategoryCollection.Remove(item);
-        });
+            ItemCategoryCollection.Remove(itemView);
+        }
 
-        public ICommand DeleteStatCatCommand => new DelegateCommand<StatCategoryViewModel>((stat) =>
+        public void DeleteStat(StatCategoryViewModel statView)
         {
-            StatCategoryCollection.Remove(stat);
-        });
+            StatCategoryCollection.Remove(statView);
+        }
     }
 }
