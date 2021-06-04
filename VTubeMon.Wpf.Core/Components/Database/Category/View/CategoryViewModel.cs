@@ -47,5 +47,15 @@ namespace VTubeMon.Wpf.Core.Components.Database.Category.View
         {
             StatCategoryCollection.Remove(statView);
         }
+
+        public void SaveItem(ItemCategoryViewModel itemView)
+        {
+
+        }
+
+        public void SaveStat(StatCategoryViewModel statView)
+        {
+
+        }
     }
 }

@@ -104,12 +104,12 @@ CREATE TABLE vtube_mon_db.user_settings_values (
     ON UPDATE NO ACTION);
     
 CREATE TABLE vtube_mon_db.item_category(
-	id_category int NOT NULL PRIMARY KEY,
+	id_category int NOT NULL PRIMARY KEY AUTO_INCREMENT,
     category_name varchar(64)
 );
 
 CREATE TABLE vtube_mon_db.item (
-	id_item int NOT NULL PRIMARY KEY,
+	id_item int NOT NULL PRIMARY KEY AUTO_INCREMENT,
     item_name varchar(64) UNIQUE,
     id_category int NOT NULL,
     price int NOT NULL,
@@ -118,7 +118,7 @@ CREATE TABLE vtube_mon_db.item (
 );
 
 CREATE TABLE vtube_mon_db.stat_category(
-	id_stat int NOT NULL PRIMARY KEY,
+	id_stat int NOT NULL PRIMARY KEY AUTO_INCREMENT,
     stat_name varchar(64) UNIQUE
 );
 
@@ -195,15 +195,15 @@ VALUES
 	(1, '日本語');
 
     
-INSERT INTO stat_category(id_stat, stat_name) VALUES (0, 'Health');
-INSERT INTO stat_category(id_stat, stat_name) VALUES (1, 'Speed');
-INSERT INTO stat_category(id_stat, stat_name) VALUES (2, 'Strength');
-INSERT INTO stat_category(id_stat, stat_name) VALUES (3, 'Defense');
-INSERT INTO stat_category(id_stat, stat_name) VALUES (4, 'Magic');
-INSERT INTO stat_category(id_stat, stat_name) VALUES (5, 'Magic Defense');
+INSERT INTO stat_category(stat_name) VALUES ('Health');
+INSERT INTO stat_category(stat_name) VALUES ('Speed');
+INSERT INTO stat_category(stat_name) VALUES ('Strength');
+INSERT INTO stat_category(stat_name) VALUES ('Defense');
+INSERT INTO stat_category(stat_name) VALUES ('Magic');
+INSERT INTO stat_category(stat_name) VALUES ('Magic Defense');
 
-INSERT INTO item_category(id_category, category_name) VALUES (0, 'Consumable');
-INSERT INTO item_category(id_category, category_name) VALUES (1, 'Headgear');
-INSERT INTO item(id_item, item_name, id_category, price) VALUES (0, 'Daimond Tiara', 1, 50);
-INSERT INTO item_stat(id_item, id_stat, stat_value) VALUES (0, 2, 5);
-INSERT INTO store_item(id_item, item_buy_limit, item_quantity) VALUES (0, 5, 100);
+INSERT INTO item_category(category_name) VALUES ('Consumable');
+INSERT INTO item_category(category_name) VALUES ('Headgear');
+INSERT INTO item(item_name, id_category, price) VALUES ('Daimond Tiara', 1, 50);
+INSERT INTO item_stat(id_item, id_stat, stat_value) VALUES (1, 2, 5);
+INSERT INTO store_item(id_item, item_buy_limit, item_quantity) VALUES (1, 5, 100);
